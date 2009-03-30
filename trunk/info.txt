@@ -1,0 +1,11 @@
+"AddonInfo"
+{
+	"name"			"WTiberium"
+	"version"		"SVN"
+	"up_date"		""
+	"author_name"	"Warrior xXx - kevkev | Models by Lynix"
+	"author_email"	"kevkevm@gmail.com"
+	"author_url"	""
+	"info"			"A tiberium addon that adds tiberium and harvesting tools."
+	"override"		"0"
+}

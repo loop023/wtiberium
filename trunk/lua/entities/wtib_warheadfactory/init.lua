@@ -1,0 +1,104 @@
+AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+include('shared.lua')
+
+function ENT:Initialize()
+	self:SetModel("models/props_wasteland/laundry_dryer002.mdl")
+	self:PhysicsInit(SOLID_VPHYSICS)
+	self:SetMoveType(MOVETYPE_VPHYSICS)
+	self:SetSolid(SOLID_VPHYSICS)
+	self:SetUseType(SIMPLE_USE)
+	local phys = self:GetPhysicsObject()
+	if phys:IsValid() then
+		phys:Wake()
+	end
+	self.NextRefine = 0
+	self.CurWarhead = 1
+	self.Inputs = Wire_CreateInputs(self,{"Create"})
+	self.Outputs = Wire_CreateOutputs(self,{"Tiberium","Energy"})
+	WTib_AddResource(self,"RefinedTiberium",0)
+	WTib_AddResource(self,"energy",0)
+	LS_RegisterEnt(self,"Generator")
+end
+
+function ENT:SpawnFunction(p,t)
+	if !t.Hit then return end
+	local e = ents.Create("wtib_warheadfactory")
+	e:SetPos(t.HitPos+t.HitNormal*54)
+	e.WDSO = p
+	e:Spawn()
+	e:Activate()
+	return e
+end
+
+function ENT:Think()
+	Wire_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
+	Wire_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
+end
+
+function ENT:TriggerInput(name,val)
+	if name == "Create" then
+		if val != 0 then
+			self:CreateWarhead()
+		end
+	end
+end
+
+function ENT:Use(ply)
+	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
+	umsg.Start("WTib_OpenWarheadMenu",ply)
+		umsg.Entity(self)
+	umsg.End() 
+end
+
+function WTib_ReceiveWarhead(ply,com,args)
+	print("Received the command.")
+	for _,v in pairs(ents.FindByClass("wtib_warheadfactory")) do
+		if tostring(v) == args[1] then
+			print("Found the factory! : "..args[1].." set to "..args[2].."!")
+			v:SetWarhead(args[2])
+			return
+		end
+	end
+	print("Factory "..tostring(args[1]).." not found!")
+end
+concommand.Add("wtib_setwarhead",WTib_ReceiveWarhead)
+
+function ENT:SetWarhead(war)
+	self.CurWarhead = math.Clamp(tonumber(war),1,table.Count(self.Warheads))
+end
+
+function ENT:CreateWarhead()
+	local EnergyR = self.Warheads[self.CurWarhead].EnergyRequired or 100
+	local TiberiumR = self.Warheads[self.CurWarhead].RefinedTiberiumRequired or 200
+	if WTib_GetResourceAmount(self,"RefinedTiberium") < TiberiumR or WTib_GetResourceAmount(self,"energy") < EnergyR then
+		self:EmitSound("buttons/button10.wav",100,100)
+		return false
+	end
+	WTib_ConsumeResource(self,"energy",EnergyR)
+	WTib_ConsumeResource(self,"Tiberium",TiberiumR)
+	local e = ents.Create(self.Warheads[self.CurWarhead].Class)
+	e:SetPos(self:LocalToWorld(self.Warheads[self.CurWarhead].Pos or Vector(70,0,20)))
+	e:SetAngles(self:GetAngles())
+	e:Spawn()
+	e:Activate()
+	self:EmitSound("buttons/button9.wav",100,100)
+	return e
+end
+
+function ENT:PreEntityCopy()
+	WTib_BuildDupeInfo(self)
+	if WireAddon != nil then
+		local DupeInfo = WireLib.BuildDupeInfo(self)
+		if DupeInfo then
+			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
+		end
+	end
+end
+
+function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
+	WTib_ApplyDupeInfo(Ent,CreatedEntities)
+	if WireAddon != nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
+	end
+end

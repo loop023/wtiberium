@@ -1,0 +1,10 @@
+ENT.Type			= "anim"
+ENT.PrintName		= "Base Tiberium"
+ENT.Author			= "kevkev/Warrior xXx"
+ENT.Contact			= ""
+ENT.Purpose			= ""
+ENT.Instructions	= ""
+ENT.Spawnable		= false
+ENT.AdminSpawnable	= false
+ENT.Category		= "Tiberium"
+ENT.IsTiberium		= true

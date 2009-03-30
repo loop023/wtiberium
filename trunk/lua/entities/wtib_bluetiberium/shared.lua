@@ -1,0 +1,11 @@
+ENT.Type			= "anim"
+ENT.Base			= "wtib_tiberiumbase"
+ENT.PrintName		= "Blue Tiberium"
+ENT.Author			= "kevkev/Warrior xXx"
+ENT.Contact			= ""
+ENT.Purpose			= ""
+ENT.Instructions	= ""
+ENT.Spawnable		= true
+ENT.AdminSpawnable	= true
+ENT.Category		= "Tiberium"
+ENT.IsTiberium		= true

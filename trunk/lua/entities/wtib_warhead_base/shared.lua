@@ -1,0 +1,10 @@
+ENT.Type			= "anim"
+ENT.PrintName		= "Warhead base"
+ENT.Author			= "kevkev/Warrior xXx"
+ENT.Contact			= ""
+ENT.Purpose			= ""
+ENT.Instructions	= ""
+ENT.Spawnable		= false
+ENT.AdminSpawnable	= false
+ENT.IsWarhead		= true
+ENT.Category		= "Tiberum Warheads"
