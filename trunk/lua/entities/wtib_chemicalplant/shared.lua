@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Tiberium Refinery"
+ENT.PrintName		= "Tiberium Chemical Plant"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
