@@ -27,6 +27,10 @@ Changelog :
 	The tiberium entities will no longer collide with the player,
 	The missile now gives more arguments to the warhead,
 	Added a sonic grenade (No effect yet),
+	Changed the range of the harvester from 200 units to 300 units,
+	Added a spark effect for the harvester,
+	Added a tiberium chemical plant,
+	Fixed the refinery not draining resources,
 
 	1.12 :
 	Better spawn heights for the entities,

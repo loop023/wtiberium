@@ -41,7 +41,7 @@ end
 
 function ENT:Harvest()
 	local a = 0
-	for _,v in pairs(ents.FindInSphere(self:GetPos(),200)) do
+	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
 		if a >= self.MaxTiberiumEntsPerRun then return end
 		if v.IsTiberium then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.random(v.MinTiberiumGain or 15,MaxTiberiumGain or 50))
@@ -52,9 +52,31 @@ function ENT:Harvest()
 			WTib_ConsumeResource(self,"energy",am*1.5)
 			v:DrainTiberiumAmount(am)
 			WTib_SupplyResource(self,"Tiberium",am)
+			self:DoSparkEffect(v,(am/1.3)-35)
 		end
 		a = a+1
 	end
+end
+
+function ENT:DoSparkEffect(te,size)
+	local e = ents.Create("point_tesla")
+	e:SetKeyValue("targetname","teslab")
+	e:SetKeyValue("m_SoundName","DoSpark")
+	e:SetKeyValue("texture","sprites/physbeam.spr")
+	e:SetKeyValue("m_Color","200 200 255")
+	e:SetKeyValue("m_flRadius",tostring(size*80))
+	e:SetKeyValue("beamcount_min",tostring(math.ceil(size+4)))
+	e:SetKeyValue("beamcount_max",tostring(math.ceil(size+12)))
+	e:SetKeyValue("thick_min",tostring(size))
+	e:SetKeyValue("thick_max",tostring(size*8))
+	e:SetKeyValue("lifetime_min","0.1")
+	e:SetKeyValue("lifetime_max","0.2")
+	e:SetKeyValue("interval_min","0.05")
+	e:SetKeyValue("interval_max","0.08")
+	e:SetPos(te.Entity:GetPos())
+	e:Spawn()
+	e:Fire("DoSpark","",0)
+	e:Fire("kill","",1)
 end
 
 function ENT:Think()

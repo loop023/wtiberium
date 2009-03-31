@@ -14,7 +14,7 @@ function ENT:Initialize()
 	self.NextRefine = 0
 	self.Inputs = Wire_CreateInputs(self,{"On"})
 	self.Outputs = Wire_CreateOutputs(self,{"Online"})
-	WTib_AddResource(self,"RefinedTiberium",0)
+	WTib_AddResource(self,"TiberiumChemicals",0)
 	WTib_AddResource(self,"Tiberium",0)
 	WTib_AddResource(self,"energy",0)
 	LS_RegisterEnt(self,"Generator")
@@ -22,7 +22,7 @@ end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_tibrefinery")
+	local e = ents.Create("wtib_chemicalplant")
 	e:SetPos(t.HitPos+t.HitNormal*60)
 	e.WDSO = p
 	e:Spawn()
@@ -37,7 +37,7 @@ function ENT:Think()
 		if WTib_GetResourceAmount(self,"Tiberium") >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)
-				WTib_SupplyResource(self,"RefinedTiberium",rand/math.random(1,1.8))
+				WTib_SupplyResource(self,"TiberiumChemicals",rand/math.random(1.3,2))
 				self:EmitSound("wtiberium/refinery/ref.wav",200,40)
 				self.NextRefine = CurTime()+2
 			end

@@ -15,8 +15,9 @@ function ENT:Initialize()
 	self.NextRefine = 0
 	self.CurWarhead = 1
 	self.Inputs = Wire_CreateInputs(self,{"Create"})
-	self.Outputs = Wire_CreateOutputs(self,{"Tiberium","Energy"})
+	self.Outputs = Wire_CreateOutputs(self,{"Refined Tiberium","Energy","Tiberium Chemicals"})
 	WTib_AddResource(self,"RefinedTiberium",0)
+	WTib_AddResource(self,"TiberiumChemicals",0)
 	WTib_AddResource(self,"energy",0)
 	LS_RegisterEnt(self,"Generator")
 end
@@ -33,7 +34,8 @@ end
 
 function ENT:Think()
 	Wire_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
-	Wire_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
+	Wire_TriggerOutput(self,"Refined Tiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
+	Wire_TriggerOutput(self,"Tiberium Chemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
 end
 
 function ENT:TriggerInput(name,val)
@@ -71,12 +73,14 @@ end
 function ENT:CreateWarhead()
 	local EnergyR = self.Warheads[self.CurWarhead].EnergyRequired or 100
 	local TiberiumR = self.Warheads[self.CurWarhead].RefinedTiberiumRequired or 200
-	if WTib_GetResourceAmount(self,"RefinedTiberium") < TiberiumR or WTib_GetResourceAmount(self,"energy") < EnergyR then
+	local TiberiumChemR = self.Warheads[self.CurWarhead].TiberiumChemicalsRequired or 0
+	if WTib_GetResourceAmount(self,"RefinedTiberium") < TiberiumR or WTib_GetResourceAmount(self,"energy") < EnergyR or WTib_GetResourceAmount(self,"TiberiumChemicals") < TiberiumChemR then
 		self:EmitSound("buttons/button10.wav",100,100)
 		return false
 	end
 	WTib_ConsumeResource(self,"energy",EnergyR)
 	WTib_ConsumeResource(self,"Tiberium",TiberiumR)
+	WTib_ConsumeResource(self,"TiberiumChemicals",TiberiumChemR)
 	local e = ents.Create(self.Warheads[self.CurWarhead].Class)
 	e:SetPos(self:LocalToWorld(self.Warheads[self.CurWarhead].Pos or Vector(70,0,20)))
 	e:SetAngles(self:GetAngles())
