@@ -32,7 +32,7 @@ end
 
 function ENT:Think()
 	local a = 0
-	local rand = math.random(100,300)
+	local rand = math.random(200,400)
 	if self.Active and WTib_GetResourceAmount(self,"energy") >= rand*1.5 then
 		if WTib_GetResourceAmount(self,"Tiberium") >= rand then
 			if self.NextRefine <= CurTime() then
