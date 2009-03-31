@@ -36,7 +36,9 @@ function ENT:Think()
 	if self.Active and WTib_GetResourceAmount(self,"energy") >= rand*1.5 then
 		if WTib_GetResourceAmount(self,"Tiberium") >= rand then
 			if self.NextRefine <= CurTime() then
-				self:Refine(rand)
+				WTib_ConsumeResource(self,"Tiberium",am)
+				WTib_SupplyResource(self,"RefinedTiberium",am/math.random(1,1.8))
+				self:EmitSound("wtiberium/refinery/ref.wav",200,40)
 				self.NextRefine = CurTime()+2
 			end
 			WTib_ConsumeResource(self,"energy",rand*1.5)
@@ -46,12 +48,6 @@ function ENT:Think()
 		self:TurnOff()
 	end
 	Wire_TriggerOutput(self,"Online",a)
-end
-
-function ENT:Refine(am)
-	WTib_ConsumeResource(self,"Tiberium",am)
-	WTib_SupplyResource(self,"RefinedTiberium",am/math.random(1,1.8))
-	self:EmitSound("wtiberium/refinery/ref.wav",200,40)
 end
 
 function ENT:TriggerInput(name,val)

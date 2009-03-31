@@ -23,9 +23,10 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:Explode(ent)
+function ENT:Explode(ent,data)
+	local tr = util.QuickTrace(ent:GetPos(),data.HitPos,{ent})
 	local e = ents.Create("wtib_greentiberium")
-	e:SetPos(ent:GetPos())
+	e:SetPos(data.HitPos or ent:GetPos())
 	e.WDSO = self.WDSO
 	e:Spawn()
 	e:Activate()

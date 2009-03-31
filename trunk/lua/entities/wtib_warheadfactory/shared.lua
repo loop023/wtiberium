@@ -16,5 +16,5 @@ ENT.Warheads =	{
 					EnergyRequired=150,RefinedTiberiumRequired=300,Class="wtib_warhead_advanced",Pos=Vector(65,0,0)},
 
 					{name="Seeder Warhead",Discription="A powerfull warhead that seeds the battlefield with green tiberium.",
-					EnergyRequired=600,RefinedTiberiumRequired=2000,Class="wtib_warhead_advanced",Pos=Vector(65,0,0)}
+					EnergyRequired=600,RefinedTiberiumRequired=2000,Class="wtib_warhead_seeder",Pos=Vector(65,0,0)}
 				}

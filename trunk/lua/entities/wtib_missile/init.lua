@@ -31,7 +31,7 @@ function ENT:PhysicsCollide(data,phys)
 			self.Explode = ent.Explode or self.Explode
 			ent:Remove()
 		elseif self.Armed and ent != self.MissileL then
-			self:Explode(self)
+			self:Explode(self,data)
 		end
 	end
 end
@@ -77,12 +77,12 @@ function ENT:PhysicsUpdate(phys)
 			self:SetAngles(ang)
 		end
 		if Dist < 5 then
-			self:Explode()
+			self:Explode(self)
 		end
 	end
 end
 
-function ENT:Explode(ent)
+function ENT:Explode(ent,data)
 	util.BlastDamage(ent,ent.WDSO,ent:GetPos(),math.random(200,300),math.random(300,400))
 	local ed = EffectData()
 	ed:SetOrigin(ent:GetPos())

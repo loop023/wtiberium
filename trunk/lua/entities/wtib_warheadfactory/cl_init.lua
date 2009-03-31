@@ -25,6 +25,7 @@ function WTib_OpenWarheadMenu(um)
 	DList:SetPos(25,50)
 	DList:SetSize(350,375)
 	DList:SetMultiSelect(false)
+	/*
 	local CustomWarhead = vgui.Create("DButton")
 	CustomWarhead:SetParent(Frame)
 	CustomWarhead:SetPos(25,400)
@@ -34,6 +35,7 @@ function WTib_OpenWarheadMenu(um)
 		WTib_OpenCustomWarheadMenu(ent)
 		Frame:Close()
 	end
+	*/
 	local a = DList:AddColumn("Warhead :")
 	a:SetWidth(40)
 	DList:AddColumn("Discription :")

@@ -11,7 +11,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	timer.Simple(5,function self:Explode() end)
+	timer.Simple(5,function() self:Explode() end)
 end
 
 function ENT:SpawnFunction(p,t)
@@ -25,7 +25,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(ent)
-	for _,v in pairs(ents.FindInSphere(self:GetPos(),300) do
+	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
 		if v.IsTiberium then
 			v:DrainTiberiumAmount(math.Rand(500,1500))
 		end

@@ -25,6 +25,8 @@ Changelog :
 	Tiberium now emits gas when spawned,
 	Added a tiberium seeder warhead,
 	The tiberium entities will no longer collide with the player,
+	The missile now gives more arguments to the warhead,
+	Added a sonic grenade (No effect yet),
 
 	1.12 :
 	Better spawn heights for the entities,
