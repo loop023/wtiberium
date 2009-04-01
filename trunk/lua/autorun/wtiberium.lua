@@ -14,6 +14,8 @@ if SERVER then
 	WTib_MaxProductionAmount = 3
 	WTib_MinProductionRate = 30
 	WTib_MaxProductionRate = 60
+	WTib_MaxTotalTiberium = 0
+	WTib_TiberiumEntitiesCount = 0
 	local WTib_RD3 = false
 
 	function WTib_MaxProductionRateConsole(ply,com,args)
@@ -27,7 +29,7 @@ if SERVER then
 		end
 	end
 	concommand.Add("WTiberium_MaxProductionRate",WTib_MaxProductionRateConsole)
-	
+
 	function WTib_MinProductionRateConsole(ply,com,args)
 		if !ply:IsAdmin() then
 			ply:ChatPrint("This command is admin only "..ply:Nick())
@@ -39,7 +41,7 @@ if SERVER then
 		end
 	end
 	concommand.Add("WTiberium_MinProductionRate",WTib_MinProductionRateConsole)
-	
+
 	function WTib_MaxProductionsConsole(ply,com,args)
 		if !ply:IsAdmin() then
 			ply:ChatPrint("This command is admin only "..ply:Nick())
@@ -51,6 +53,18 @@ if SERVER then
 		end
 	end
 	concommand.Add("WTiberium_MaxProductions",WTib_MaxProductionsConsole)
+
+	function WTib_MaxTotalTiberiumConsole(ply,com,args)
+		if !ply:IsAdmin() then
+			ply:ChatPrint("This command is admin only "..ply:Nick())
+			return
+		end
+		WTib_MaxTotalTiberium = args[1]
+		for _,v in pairs(player.GetAll()) do
+			v:ChatPrint("Maximum tiberium entities has changed to "..WTib_MaxTotalTiberium)
+		end
+	end
+	concommand.Add("WTiberium_MaxTotalTiberium",WTib_MaxTotalTiberiumConsole)
 
 	function WTib_GetAllTiberium()
 		local a = {}
