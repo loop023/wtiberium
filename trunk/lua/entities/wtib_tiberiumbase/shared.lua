@@ -19,7 +19,6 @@ ENT.TiberiumAdd = true -- Should tiberium be added every 3 seconds?
 ENT.MaxTiberium = 4000 -- The maximum amount of tiberium this entity can have.
 ENT.Reproduce = true -- Should this entity reproduce when ready?
 ENT.DynLight = true
---ENT.Divider = 16
 ENT.Gas = true -- Should this entity emit gas?
 ENT.r = 255 -- The red color.
 ENT.g = 0 -- The green color.

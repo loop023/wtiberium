@@ -24,7 +24,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(ent,data)
-	for _,v in pairs(ents.FindInSphere(data.HitPos,500) do
+	for _,v in pairs(ents.FindInSphere(data.HitPos,500)) do
 		if v:IsNPC() or v:IsPlayer() then
 			-- Something will come in here.
 		else

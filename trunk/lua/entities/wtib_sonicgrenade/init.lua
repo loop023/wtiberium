@@ -14,26 +14,23 @@ function ENT:Initialize()
 	timer.Simple(5,function() self:Explode() end)
 end
 
-function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_sonicgrenade")
-	e:SetPos(t.HitPos+t.HitNormal)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
-end
-
-function ENT:Explode(ent)
-	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
-		if v.IsTiberium then
-			v:DrainTiberiumAmount(math.Rand(500,1500))
-		end
+function ENT:Explode()
+	local fl = {}
+	local pos = self:GetPos()
+	for i=1,10 do
+		timer.Simple(i/3.3,function()
+			for _,v in pairs(ents.FindInSphere(pos,i*20)) do
+				if v.IsTiberium and !table.HasValue(fl,v) then
+					v:DrainTiberiumAmount(math.Rand(500,1500))
+				end
+			end
+		end)
 	end
+	self:EmitSound("wtiberium/sonicexplosion/explode.wav",100,255)
 	local ed = EffectData()
-	ed:SetOrigin(ent:GetPos())
-	ed:SetStart(ent:GetPos())
+	ed:SetOrigin(pos)
+	ed:SetStart(pos)
 	ed:SetScale(3)
 	util.Effect("SonicExplosion",ed)
-	ent:Remove()
+	self:Remove()
 end

@@ -5,11 +5,23 @@ function EFFECT:Init(data)
 	self.Position = data:GetOrigin()
 	self.Created = CurTime()
 	self.LifeTime = 3
+	self.Size = 0
+	self.Refract = 0.5
+	self.DeltaRefract = 0.06
+	self.MaxSize = 4000
+	if render.GetDXLevel() <= 81 then
+		matRefraction = Material( "effects/strider_pinch_dudv" )
+		self.Refract = 0.3
+		self.DeltaRefract = 0.03
+		self.MaxSize = 200
+	end
 end
 
 function EFFECT:Think()
-	self.Size = self.Size+2e4*FrameTime()
-	return (CurTime() - self.Created < self.LifeTime)
+	local fTime = FrameTime()
+	self.Refract = self.Refract-self.DeltaRefract*fTime
+	self.Size = self.Size+200*fTime
+	return (CurTime()-self.Created < self.LifeTime)
 end
 
 function EFFECT:Render()

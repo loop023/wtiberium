@@ -19,7 +19,6 @@ ENT.MaxTiberium = 500
 ENT.TiberiumAdd = true
 ENT.Reproduce = false
 ENT.DynLight = false
---ENT.Divider = 2
 ENT.Gas = false
 ENT.r = 0
 ENT.g = 255

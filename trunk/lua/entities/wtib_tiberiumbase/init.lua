@@ -20,7 +20,6 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self:CreateCDevider()
 	self.NextProduce = CurTime()+math.random(30,60)
 	self.NextGas = CurTime()+math.random(5,60)
 	self:Think()
@@ -55,7 +54,8 @@ function ENT:CreateCDevider()
 end
 
 function ENT:Think()
-	self.a = math.Clamp((self:GetTiberiumAmount()/self.Divider or 16)+5,20,255)
+	if !self.Divider then self:CreateCDevider() end
+	self.a = self:GetTiberiumAmount()/(self.Divider or 16)+5
 	if self.NextTiberiumAdd <= CurTime() and self.TiberiumAdd then
 		self:AddTiberiumAmount(math.random(self.MinTiberiumGain,self.MaxTiberiumGain))
 		self.NextTiberiumAdd = CurTime()+3
@@ -72,7 +72,7 @@ end
 
 function ENT:SetTiberiumAmount(am)
 	self:SetNWInt("TiberiumAmount",math.Clamp(am,-10,self.MaxTiberium))
-	self:SetColor(self.r,self.g,self.b,self.a)
+	self:SetColor(self.r,self.g,self.b,math.Clamp(self.a,30,255))
 	if self:GetNWInt("TiberiumAmount") <= 0 then
 		self:Die()
 	end
