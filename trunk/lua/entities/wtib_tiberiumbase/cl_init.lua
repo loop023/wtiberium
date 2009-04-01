@@ -11,7 +11,7 @@ function ENT:Think()
 end
 
 function ENT:CreateDLight()
-	if WTIBERIUM_NODYNAMICLIGHT then return end
+	if WTIBERIUM_NODYNAMICLIGHT or !self.DynLight then return end
 	local dlight = DynamicLight(self:EntIndex())
 	if dlight then
 		local size = (self:GetNWInt("TiberiumAmount")/7)+100

@@ -3,9 +3,8 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 function ENT:Initialize()
-	self:SetModel("models/props_gammarays/tiberium.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
-	self:SetMoveType(MOVETYPE_NONE)
+	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	self:SetColor(self.r,self.g,self.b,150)
@@ -17,18 +16,7 @@ function ENT:Initialize()
 	self.NextProduce = CurTime()+math.random(30,60)
 	self.NextGas = CurTime()+math.random(5,60)
 	self:Think()
-	self:SetTiberiumAmount(math.random(200,500))
+	self:SetTiberiumAmount(math.random(20,50))
 end
 
-function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_bluetiberium")
-	local ang = t.HitNormal:Angle()+Angle(90,0,0)
-	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
-	e:SetAngles(ang)
-	e:SetPos(t.HitPos)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
-end
+function ENT:SpawnFunction(p,t) end

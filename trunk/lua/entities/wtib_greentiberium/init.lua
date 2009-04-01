@@ -2,12 +2,6 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-ENT.MaxTiberium = 2000
-ENT.Divider = 8
-ENT.r = 0
-ENT.g = 255
-ENT.b = 0
-
 function ENT:Initialize()
 	self:SetModel("models/props_gammarays/tiberium.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)

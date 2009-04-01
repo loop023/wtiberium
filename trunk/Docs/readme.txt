@@ -31,6 +31,10 @@ Changelog :
 	Added a spark effect for the harvester,
 	Added a tiberium chemical plant,
 	Fixed the refinery not draining resources,
+	Moved all the variables for using the tiberium base to the shared file,
+	Added more variables to the tiberium base,
+	Added a tiberium prop (Only spawnable with Lua),
+	Added the thermonium warhead,
 
 	1.12 :
 	Better spawn heights for the entities,

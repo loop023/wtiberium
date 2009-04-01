@@ -2,19 +2,11 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-ENT.MinTiberiumGain = 15
-ENT.MaxTiberiumGain = 50
 ENT.NextTiberiumAdd = 0
 ENT.TiberiumAmount = 0
-ENT.MaxTiberium = 4000
 ENT.NextProduce = 0
 ENT.Produces = {}
 ENT.NextGas = 0
-ENT.Divider = 16
-ENT.r = 255
-ENT.g = 0
-ENT.b = 0
-ENT.a = 150
 
 function ENT:Initialize()
 	self:SetModel("models/props_gammarays/tiberium.mdl")
@@ -28,6 +20,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
+	self:CreateCDevider()
 	self.NextProduce = CurTime()+math.random(30,60)
 	self.NextGas = CurTime()+math.random(5,60)
 	self:Think()
@@ -50,16 +43,27 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
+function ENT:CreateCDevider()
+	local CDiv = 2
+	for i=2,100 do
+		if (self.MaxTiberium/i) == 250 then
+			self.Divider = i
+			return i
+		end
+		CDiv = CDiv+1
+	end
+end
+
 function ENT:Think()
-	self.a = math.Clamp((self:GetTiberiumAmount()/self.Divider or 8)+5,20,255)
-	if self.NextTiberiumAdd <= CurTime() then
+	self.a = math.Clamp((self:GetTiberiumAmount()/self.Divider or 16)+5,20,255)
+	if self.NextTiberiumAdd <= CurTime() and self.TiberiumAdd then
 		self:AddTiberiumAmount(math.random(self.MinTiberiumGain,self.MaxTiberiumGain))
 		self.NextTiberiumAdd = CurTime()+3
 	end
-	if self.NextGas <= CurTime() then
+	if self.NextGas <= CurTime() and self.Gas then
 		self:EmitGas()
 	end
-	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= self.MaxTiberium-700 then
+	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) and self.Reproduce then
 		self:Reproduce()
 	end
 	self:NextThink(CurTime()+1)
@@ -111,7 +115,7 @@ end
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition())
 	if self.NextProduce-CurTime() < 60 then
-		self.NextProduce = CurTime()+60
+		self.NextProduce = CurTime()+(self.ReproduceDelay or 60)
 	end
 	self.NextTiberiumAdd = CurTime()+10
 	self:DrainTiberiumAmount(di:GetDamage()/1.5)
@@ -154,7 +158,7 @@ function ENT:Reproduce()
 			local dist = t.HitPos:Distance(self:GetPos())
 			if dist >= 150 and dist <= 700 and save then
 				self.NextProduce = CurTime()+math.random(WTib_MinProductionRate or 30,WTib_MaxProductionRate or 60)
-				self:DrainTiberiumAmount(700)
+				self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 				local e = self:SpawnFunction(self.WDSO,t)
 				table.insert(self.Produces,e)
 				return e
