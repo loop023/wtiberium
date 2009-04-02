@@ -10,6 +10,7 @@ if SERVER then
 	resource.AddFile("materials/killicons/wtib_missile_killicon.vmt")
 	--Sounds
 	resource.AddFile("sound/wtiberium/refinery/ref.wav")
+	resource.AddFile("sound/wtiberium/sonicexplosion/explode.wav")
 
 	WTib_MaxProductionAmount = 3
 	WTib_MinProductionRate = 30
