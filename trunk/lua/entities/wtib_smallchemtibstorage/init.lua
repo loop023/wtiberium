@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 function ENT:Initialize()
-	self:SetModel("models/props_wasteland/horizontalcoolingtank04.mdl")
+	self:SetModel("models/props/de_train/Barrel.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -13,15 +13,15 @@ function ENT:Initialize()
 	end
 	self.MaxHealth = 500
 	self.aHealth = self.MaxHealth
-	self.Outputs = Wire_CreateOutputs(self,{"Tiberium"})
-	WTib_AddResource(self,"Tiberium",10000)
+	self.Outputs = Wire_CreateOutputs(self,{"TiberiumChemicals"})
+	WTib_AddResource(self,"TiberiumChemicals",3300)
 	LS_RegisterEnt(self,"Storage")
 end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_medtibstorage")
-	e:SetPos(t.HitPos+t.HitNormal*60)
+	local e = ents.Create("wtib_smallchemtibstorage")
+	e:SetPos(t.HitPos+t.HitNormal)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -29,8 +29,8 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self:SetNWInt("Tib",WTib_GetResourceAmount(self,"Tiberium"))
-	Wire_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
+	self:SetNWInt("ChemTib",WTib_GetResourceAmount(self,"TiberiumChemicals"))
+	Wire_TriggerOutput(self,"TiberiumChemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
 end
 
 function ENT:OnTakeDamage(di)

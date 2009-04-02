@@ -5,7 +5,7 @@ function ENT:Draw()
 	Wire_Render(self)
 	local tr = LocalPlayer():GetEyeTrace()
 	if tr.Hit and tr.Entity and tr.Entity == self then
-		AddWorldTip(self:EntIndex(),"Tiberium Chemicals : "..tostring(self:GetNWInt("ChemTib",0)),0.5,tr.HitPos,self)
+		AddWorldTip(self:EntIndex(),"Tiberium Chemicals : "..math.Round(tostring(self:GetNWInt("ChemTib",0))),0.5,tr.HitPos,self)
 	end
 end
 
@@ -15,4 +15,4 @@ function ENT:Think()
 		Wire_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_medchemtibstorage","Medium Refined Tiberium Tank")
+language.Add("wtib_smallchemtibstorage","Small Tiberium Chemicals Tank")
