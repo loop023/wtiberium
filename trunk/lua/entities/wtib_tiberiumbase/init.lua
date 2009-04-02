@@ -129,7 +129,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Reproduce()
-	if (WTib_MaxTotalTiberium or 0) > 0 and WTib_TiberiumEntitiesCount >= WTib_MaxTotalTiberium then return false end
+	if tonumber(WTib_MaxTotalTiberium) > 0 and table.Count(WTib_GetAllTiberium()) >= tonumber(WTib_MaxTotalTiberium) then return false end
 	local a = {}
 	for _,v in pairs(self.Produces) do
 		if v and v:IsValid() then
@@ -166,6 +166,5 @@ function ENT:Reproduce()
 			end
 		end
 	end
-	WTib_TiberiumEntitiesCount = WTib_TiberiumEntitiesCount+1
 	self.NextProduce = CurTime()+1
 end

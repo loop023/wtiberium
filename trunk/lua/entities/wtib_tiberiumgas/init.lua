@@ -36,6 +36,7 @@ function ENT:Initialize()
 	e:SetKeyValue("opacity",".3")
 	e:Spawn()
 	e:Activate()
+	self.Gas = e
 	self.NextDamage = CurTime()
 end
 
@@ -64,6 +65,11 @@ function ENT:SetEndColor(c)
 	self.EGreen = c.g
 	self.EBlue = c.b
 end
+
+function ENT:OnRemove()
+	if self.Gas and self.Gas:IsValid() then
+		self.Gas:Remove()
+	end
 
 function ENT:SetDamage(a)
 	self.Damage = math.Clamp(a,3,9999999)

@@ -15,7 +15,6 @@ if SERVER then
 	WTib_MinProductionRate = 30
 	WTib_MaxProductionRate = 60
 	WTib_MaxTotalTiberium = 0
-	WTib_TiberiumEntitiesCount = 0
 	local WTib_RD3 = false
 
 	function WTib_MaxProductionRateConsole(ply,com,args)
