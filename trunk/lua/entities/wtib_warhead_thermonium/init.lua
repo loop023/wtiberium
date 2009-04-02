@@ -36,7 +36,7 @@ function ENT:Explode(missile,data)
 			e:SetAngles(v:GetAngles())
 			e:SetColor(Color(0,200,20,230))
 			e:SetSkin(v:GetSkin())
-			e:SetCollisionGroup(v:GetCollisionGroup() or COLLISION_GROUP_WEAPON)
+			e:SetCollisionGroup(v:GetCollisionGroup())
 			e.Class = e:GetClass()
 			if v.ZatMode == 1 then -- Zat compatability
 				e.ZatMode = 2
