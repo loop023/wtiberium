@@ -37,11 +37,11 @@ function ENT:Think()
 		if WTib_GetResourceAmount(self,"Tiberium") >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)
+				WTib_ConsumeResource(self,"energy",rand*1.5)
 				WTib_SupplyResource(self,"RefinedTiberium",rand/math.random(1,1.8))
 				self:EmitSound("wtiberium/refinery/ref.wav",200,40)
 				self.NextRefine = CurTime()+2
 			end
-			WTib_ConsumeResource(self,"energy",rand*1.5)
 			a = 1
 		end
 	else
