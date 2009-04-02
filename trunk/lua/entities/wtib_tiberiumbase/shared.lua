@@ -12,6 +12,7 @@ ENT.IsTiberium		= true
 -- Take over the following variables when making your own tiberium ent.
 ENT.TiberiumDraimOnReproduction = 3000 -- The amount of tiberium drained when it replicates.
 ENT.MinReprodutionTibRequired = 3800 -- The minimum amount of tiberium required before it attempts to replicate.
+ENT.RemoveOnNoTiberium = true
 ENT.MinTiberiumGain = 15 -- The minimum amount of tiberium added per turn.
 ENT.MaxTiberiumGain = 50 -- The maximum amount of tiberium added per turn.
 ENT.ReproduceDelay = 60 -- The delay between reproductions.

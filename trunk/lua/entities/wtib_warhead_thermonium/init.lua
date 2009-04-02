@@ -24,19 +24,21 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(ent,data)
-	for _,v in pairs(ents.FindInSphere(data.HitPos,500)) do
+	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v:IsNPC() or v:IsPlayer() then
 			-- Something will come in here.
-		else
+		elseif v != ent and v:IsValid() then
+			print(v:GetClass())
 			local e = ents.Create("wtib_tiberiumprop")
 			e:SetPos(v:GetPos())
 			e:SetModel(v:GetModel())
 			e:SetAngles(v:GetAngles())
 			e:SetColor(v:GetColor())
 			e:SetSkin(v:GetSkin())
+			e.Class = e:GetClass()
 			if v.ZatMode == 1 then -- Zat compatability
 				e.ZatMode = 2
-				e.LastZat = CurTime()
+				e.LastZat = v.LastZat or CurTime()
 			end
 			e:Spawn()
 			e:Activate()

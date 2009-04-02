@@ -66,6 +66,7 @@ function ENT:Think()
 	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) and self.Reproduce then
 		self:Reproduce()
 	end
+	if self.SecThink then self:SecThink() end
 	self:NextThink(CurTime()+1)
 	return true
 end

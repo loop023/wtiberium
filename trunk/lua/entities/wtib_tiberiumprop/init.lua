@@ -19,4 +19,22 @@ function ENT:Initialize()
 	self:SetTiberiumAmount(math.random(20,50))
 end
 
-function ENT:SpawnFunction(p,t) end
+function ENT:SecThink()
+	if self:GetTiberiumAmount() <= 0 then
+		local e = ents.Create(self.Class)
+		if !e and !e:IsValid() then self:Remove() return end
+		e:SetPos(self:GetPos())
+		e:SetModel(self:GetModel())
+		e:SetAngles(self:GetAngles())
+		e:SetColor(self:GetColor())
+		e:SetSkin(self:GetSkin())
+		e.Class = e:GetClass()
+		if self.ZatMode == 1 then -- Zat compatability
+			e.ZatMode = 2
+			e.LastZat = self.LastZat or CurTime()
+		end
+		e:Spawn()
+		e:Activate()
+		self:Remove()
+	end
+end

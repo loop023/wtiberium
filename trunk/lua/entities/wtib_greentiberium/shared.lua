@@ -12,6 +12,7 @@ ENT.IsTiberium		= true
 
 ENT.TiberiumDraimOnReproduction = 1200
 ENT.MinReprodutionTibRequired = 1500
+ENT.RemoveOnNoTiberium = true
 ENT.MinTiberiumGain = 15
 ENT.MaxTiberiumGain = 50
 ENT.ReproduceDelay = 60
