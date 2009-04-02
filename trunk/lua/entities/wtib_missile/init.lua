@@ -53,12 +53,13 @@ function ENT:Shoot()
 		phys:SetMass(30)
         phys:Wake()
 	end
-	local Trail = ents.Create("env_fire_trail")
-	Trail:SetAngles(self:GetAngles())
-	Trail:SetPos(self:LocalToWorld(Vector(-70,0,7)))
-	Trail:SetParent(self)
-	Trail:Spawn()
-	Trail:Activate()
+	local e = ents.Create("env_fire_trail")
+	e:SetAngles(self:GetAngles())
+	e:SetPos(self:LocalToWorld(Vector(-70,0,7)))
+	e:SetParent(self)
+	e:Spawn()
+	e:Activate()
+	self.FTrail = e
 	self.Armed = true
 end
 

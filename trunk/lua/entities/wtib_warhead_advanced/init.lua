@@ -23,12 +23,12 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:Explode(ent)
-	util.BlastDamage(ent,ent.WDSO,ent:GetPos(),math.random(300,400),math.random(370,480))
+function ENT:Explode(missile,data)
+	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),math.random(300,400),math.random(370,480))
 	local ed = EffectData()
-	ed:SetOrigin(ent:GetPos())
-	ed:SetStart(ent:GetPos())
+	ed:SetOrigin(data.HitPos or missile:GetPos())
+	ed:SetStart(data.HitPos or missile:GetPos())
 	ed:SetScale(4)
 	util.Effect("Explosion",ed)
-	ent:Remove()
+	missile:Remove()
 end

@@ -60,7 +60,7 @@ function ENT:Think()
 		self:AddTiberiumAmount(math.random(self.MinTiberiumGain,self.MaxTiberiumGain))
 		self.NextTiberiumAdd = CurTime()+3
 	end
-	if self.NextGas <= CurTime() and self.Gas then
+	if self.NextGas <= CurTime() then
 		self:EmitGas()
 	end
 	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) and self.ShouldReproduce then
@@ -99,6 +99,7 @@ function ENT:Die()
 end
 
 function ENT:EmitGas(pos)
+	if !self.Gas then return end
 	local e = ents.Create("wtib_tiberiumgas")
 	e:SetPos(pos or self:GetPos()+Vector(math.random(-30,30),math.random(-30,30),math.random(30,50)))
 	e:SetAngles(self:GetAngles())

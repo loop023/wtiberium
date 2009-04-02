@@ -23,16 +23,23 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:Explode(ent,data)
-	local tr = util.QuickTrace(ent:GetPos(),data.HitPos,{ent})
+function ENT:Explode(missile,data)
+	local tr = util.QuickTrace(missile:GetPos(),data.HitPos,{missile,missile.FTrail})
+	if !tr.Hit then return end
 	local e = ents.Create("wtib_greentiberium")
-	e:SetPos(data.HitPos or ent:GetPos())
-	e.WDSO = self.WDSO
+	local ang = tr.HitNormal:Angle()+Angle(90,0,0)
+	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
+	e:SetAngles(ang)
+	e:SetPos(tr.HitPos)
 	e:Spawn()
 	e:Activate()
+	for i=1,3 do
+		e:EmitGas()
+	end
 	for i=1,6 do
 		e:SetTiberiumAmount(3000)
 		e:Reproduce()
 	end
-	ent:Remove()
+	e:SetTiberiumAmount(math.random(200,500))
+	missile:Remove()
 end

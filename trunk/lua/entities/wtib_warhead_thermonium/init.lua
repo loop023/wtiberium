@@ -23,18 +23,20 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:Explode(ent,data)
+function ENT:Explode(missile,data)
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v:IsNPC() or v:IsPlayer() then
 			-- Something will come in here.
-		elseif v != ent and v:IsValid() then
+		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and missile:GetPhysicsObject():IsValid() and string.find(missile:GetClass(), "func_") != 1 then
 			print(v:GetClass())
 			local e = ents.Create("wtib_tiberiumprop")
 			e:SetPos(v:GetPos())
 			e:SetModel(v:GetModel())
+			e:SetMaterial(v:GetMaterial())
 			e:SetAngles(v:GetAngles())
-			e:SetColor(v:GetColor())
+			e:SetColor(Color(0,200,20,230))
 			e:SetSkin(v:GetSkin())
+			e:SetCollisionGroup(v:GetCollisionGroup() or COLLISION_GROUP_WEAPON)
 			e.Class = e:GetClass()
 			if v.ZatMode == 1 then -- Zat compatability
 				e.ZatMode = 2
@@ -45,5 +47,5 @@ function ENT:Explode(ent,data)
 			v:Remove()
 		end
 	end
-	ent:Remove()
+	missile:Remove()
 end
