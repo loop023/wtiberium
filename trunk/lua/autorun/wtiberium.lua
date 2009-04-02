@@ -79,7 +79,7 @@ if SERVER then
 
 	function WTib_IsRD3()
 		if WTib_RD3 then return WTib_RD3 end
-		if CAF and CAF.GetAddon("Resource Distribution") and RD then
+		if CAF and CAF.GetAddon("Resource Distribution") and type(RD) == "table" then
 			WTib_RD3 = true
 			return true
 		end
@@ -88,6 +88,7 @@ if SERVER then
 	end
 
 	function WTib_IsRD2()
+		if WTib_IsRD3 then return false end
 		return Dev_Unlink_All != nil
 	end
 
