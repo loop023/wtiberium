@@ -63,7 +63,7 @@ function ENT:Think()
 	if self.NextGas <= CurTime() and self.Gas then
 		self:EmitGas()
 	end
-	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) and self.Reproduce then
+	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) and self.ShouldReproduce then
 		self:Reproduce()
 	end
 	if self.SecThink then self:SecThink() end
