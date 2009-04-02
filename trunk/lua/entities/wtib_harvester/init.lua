@@ -14,13 +14,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.MaxTiberiumEntsPerRun = 5
 	self.NextHarvest = 0
-	self.DamageLeak = 0
-	self.ForceLeak = 0
-	self.MaxHealth = 500
-	self.NextLeak = 0
-	self.aHealth = self.MaxHealth
 	self.Outputs = Wire_CreateOutputs(self,{"Online"})
 	self.Inputs = Wire_CreateInputs(self,{"On"})
 	self.Active = false
@@ -42,7 +36,7 @@ end
 function ENT:Harvest()
 	local a = 0
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
-		if a >= self.MaxTiberiumEntsPerRun then return end
+		if a >= 5 then return end
 		if v.IsTiberium then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.random(v.MinTiberiumGain or 15,MaxTiberiumGain or 50))
 			if WTib_GetResourceAmount(self,"energy") < am*1.5 then
@@ -73,7 +67,7 @@ function ENT:DoSparkEffect(te,size)
 	e:SetKeyValue("lifetime_max","0.2")
 	e:SetKeyValue("interval_min","0.05")
 	e:SetKeyValue("interval_max","0.08")
-	e:SetPos(te.Entity:GetPos())
+	e:SetPos(te:GetPos())
 	e:Spawn()
 	e:Fire("DoSpark","",0)
 	e:Fire("kill","",1)
@@ -110,7 +104,9 @@ function ENT:TurnOff()
 end
 
 function ENT:TurnOn()
-	self.Entity:EmitSound("apc_engine_start")
+	if !self.Active then
+		self.Entity:EmitSound("apc_engine_start")
+	end
 	self.Active = true
 end
 

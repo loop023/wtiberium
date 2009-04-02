@@ -19,7 +19,7 @@ function ENT:Explode()
 	local pos = self:GetPos()
 	for i=1,10 do
 		timer.Simple(i/3.3,function()
-			for _,v in pairs(ents.FindInSphere(pos,i*20)) do
+			for _,v in pairs(ents.FindInSphere(pos,i*19)) do
 				if v.IsTiberium and !table.HasValue(fl,v) then
 					v:DrainTiberiumAmount(math.Rand(500,1500))
 				end
