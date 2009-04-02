@@ -35,7 +35,7 @@ Changelog :
 	Added more variables to the tiberium base,
 	Added a tiberium prop (Only spawnable with Lua),
 	Added the thermonium warhead,
-	Added a medium tiberium chemical tank,
+	Added a small, medium and large storage tank of every resource in the tiberium addon,
 
 	1.12 :
 	Better spawn heights for the entities,
