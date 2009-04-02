@@ -27,7 +27,7 @@ function ENT:Explode(missile,data)
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v:IsNPC() or v:IsPlayer() then
 			-- Something will come in here.
-		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and missile:GetPhysicsObject():IsValid() and string.find(missile:GetClass(), "func_") != 1 then
+		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then
 			print(v:GetClass())
 			local e = ents.Create("wtib_tiberiumprop")
 			e:SetPos(v:GetPos())
