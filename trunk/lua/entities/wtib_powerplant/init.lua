@@ -53,16 +53,33 @@ function ENT:TriggerInput(name,val)
 end
 
 function ENT:TurnOff()
-	self.Entity:StopSound("apc_engine_start")
+	self:StopSound("apc_engine_start")
 	if self.Active then
-		self.Entity:EmitSound("apc_engine_stop")
+		self:EmitSound("apc_engine_stop")
 	end
 	self.Active = false
 end
 
 function ENT:TurnOn()
-	self.Entity:EmitSound("apc_engine_start")
+	self:EmitSound("apc_engine_start")
 	self.Active = true
+end
+
+function ENT:OnRemove(self)
+	if WTib_IsRD3() then
+		RD.RemoveRDEntity(self)
+	elseif Dev_Unlink_All and self.resources2links then
+		Dev_Unlink_All(self)
+	end
+	if WireAddon and (self.Outputs or self.Inputs) then
+		Wire_Remove(self)
+	end
+end
+
+function ENT:OnRestore(self)
+	if WireAddon then
+		Wire_Restored(self)
+	end
 end
 
 function ENT:PreEntityCopy()

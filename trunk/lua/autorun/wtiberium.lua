@@ -76,19 +76,24 @@ if SERVER then
 		return a
 	end
 
-
+	local RD
 	function WTib_IsRD3()
-		if WTib_RD3 then return WTib_RD3 end
-		if CAF and CAF.GetAddon("Resource Distribution") and type(RD) == "table" then
+		if WTib_RD3 ~= nil then return WTib_RD3 end
+		if CAF and CAF.GetAddon("Resource Distribution") and WTib_HasRD() then
 			WTib_RD3 = true
+			RD = CAF.GetAddon("Resource Distribution")
 			return true
 		end
 		WTib_RD3 = false
 		return false
 	end
 
+	function WTib_HasRD()
+		return (Dev_Link or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
+	end
+
 	function WTib_IsRD2()
-		if WTib_IsRD3 then return false end
+		if WTib_IsRD3() then return false end
 		return Dev_Unlink_All != nil
 	end
 
