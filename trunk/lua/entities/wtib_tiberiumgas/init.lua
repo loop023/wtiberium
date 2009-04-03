@@ -70,6 +70,7 @@ function ENT:OnRemove()
 	if self.Gas and self.Gas:IsValid() then
 		self.Gas:Remove()
 	end
+end
 
 function ENT:SetDamage(a)
 	self.Damage = math.Clamp(a,3,9999999)
