@@ -110,7 +110,7 @@ function ENT:TurnOn()
 	self.Active = true
 end
 
-function ENT:OnRemove(self)
+function ENT:OnRemove()
 	if WTib_IsRD3() then
 		RD.RemoveRDEntity(self)
 	elseif Dev_Unlink_All and self.resources2links then
@@ -121,7 +121,7 @@ function ENT:OnRemove(self)
 	end
 end
 
-function ENT:OnRestore(self)
+function ENT:OnRestore()
 	if WireAddon then
 		Wire_Restored(self)
 	end
