@@ -17,6 +17,7 @@ if SERVER then
 	WTib_MaxProductionRate = 60
 	WTib_MaxTotalTiberium = 0
 	local WTib_RD3 = false
+	local RD = {}
 
 	function WTib_MaxProductionRateConsole(ply,com,args)
 		if !ply:IsAdmin() then
@@ -76,15 +77,11 @@ if SERVER then
 		return a
 	end
 
-	local RD
 	function WTib_IsRD3()
-		if WTib_RD3 ~= nil then return WTib_RD3 end
-		if CAF and CAF.GetAddon("Resource Distribution") and WTib_HasRD() then
-			WTib_RD3 = true
+		if (CAF and CAF.GetAddon("Resource Distribution") and WTib_HasRD()) then
 			RD = CAF.GetAddon("Resource Distribution")
 			return true
 		end
-		WTib_RD3 = false
 		return false
 	end
 
@@ -126,6 +123,14 @@ if SERVER then
 			return RD.GetResourceAmount(a,b,c)
 		elseif WTib_IsRD2 then
 			return RD_GetResourceAmount(a,b,c)
+		end
+	end
+
+	function WTib_RemoveRDEnt(e)
+		if WTib_IsRD3() then
+			RD.RemoveRDEntity(e)
+		elseif Dev_Unlink_All and e.resources2links then
+			Dev_Unlink_All(e)
 		end
 	end
 
