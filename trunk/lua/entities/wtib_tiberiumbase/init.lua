@@ -27,7 +27,7 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
+	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC())) then return end
 	local e = ents.Create("wtib_tiberiumbase")
 	local ang = t.HitNormal:Angle()+Angle(90,0,0)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
@@ -36,6 +36,9 @@ function ENT:SpawnFunction(p,t)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
+	if t.Entity and !t.Entity:IsWorld() then
+		e:SetMoveType(MOVETYPE_VPHYSICS)
+	end
 	for i=1,3 do
 		e:EmitGas()
 	end
@@ -43,13 +46,11 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:CreateCDevider()
-	local CDiv = 2
 	for i=2,100 do
 		if (self.MaxTiberium/i) == 250 then
 			self.Divider = i
 			return i
 		end
-		CDiv = CDiv+1
 	end
 end
 
@@ -116,6 +117,12 @@ end
 
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition())
+	if di:IsExplosionDamage() or di:IsDamageType(DMG_BURN) then
+		self:AddTiberiumAmount(di:GetDamage()/2)
+		self:Reproduce()
+		self.NextTiberiumAdd = 0
+		return
+	end
 	if self.NextProduce-CurTime() < 60 then
 		self.NextProduce = CurTime()+(self.ReproduceDelay or 60)
 	end
