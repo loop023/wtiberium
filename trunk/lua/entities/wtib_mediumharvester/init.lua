@@ -25,7 +25,7 @@ end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_harvester")
+	local e = ents.Create("wtib_mediumharvester")
 	e:SetPos(t.HitPos+t.HitNormal)
 	e.WDSO = p
 	e:Spawn()
@@ -38,17 +38,17 @@ function ENT:Harvest()
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
 		if a >= 5 then return end
 		if v.IsTiberium then
-			local am = math.Clamp(v:GetTiberiumAmount(),0,math.random(v.MinTiberiumGain or 15,MaxTiberiumGain or 50))
-			if WTib_GetResourceAmount(self,"energy") < am*1.5 then
+			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 50,MaxTiberiumGain or 150))
+			if WTib_GetResourceAmount(self,"energy") < am*2 then
 				self:TurnOff()
 				return
 			end
-			WTib_ConsumeResource(self,"energy",am*1.5)
+			WTib_ConsumeResource(self,"energy",am*2)
 			v:DrainTiberiumAmount(am)
 			WTib_SupplyResource(self,"Tiberium",am)
-			self:DoSparkEffect(v,(am/1.3)-35)
+			self:DoSparkEffect(v,math.Clamp((am/10)-35,5,15))
+			a = a+1
 		end
-		a = a+1
 	end
 end
 
@@ -67,7 +67,7 @@ function ENT:DoSparkEffect(te,size)
 	e:SetKeyValue("lifetime_max","0.2")
 	e:SetKeyValue("interval_min","0.05")
 	e:SetKeyValue("interval_max","0.08")
-	e:SetPos(te:GetPos())
+	e:SetPos(te:GetPos()+Vector(math.Rand(-10,10),math.Rand(-10,10),math.Rand(0,20)))
 	e:Spawn()
 	e:Fire("DoSpark","",0)
 	e:Fire("kill","",1)

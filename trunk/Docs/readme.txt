@@ -26,7 +26,7 @@ Changelog :
 	Added a tiberium seeder warhead,
 	The tiberium entities will no longer collide with the player,
 	The missile now gives more arguments to the warhead,
-	Added a sonic grenade (No effect yet),
+	Added a sonic grenade,
 	Changed the range of the harvester from 200 units to 300 units,
 	Added a spark effect for the harvester,
 	Added a tiberium chemical plant,
@@ -36,6 +36,8 @@ Changelog :
 	Added a tiberium prop (Only spawnable with Lua),
 	Added the thermonium warhead,
 	Added a small, medium and large storage tank of every resource in the tiberium addon,
+	Tiberium now properly spawns on props,
+	Added a small harvester,
 
 	1.12 :
 	Better spawn heights for the entities,

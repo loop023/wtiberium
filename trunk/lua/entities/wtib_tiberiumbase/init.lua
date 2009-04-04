@@ -38,6 +38,7 @@ function ENT:SpawnFunction(p,t)
 	e:Activate()
 	if t.Entity and !t.Entity:IsWorld() then
 		e:SetMoveType(MOVETYPE_VPHYSICS)
+		e:SetParent(t.Entity)
 	end
 	for i=1,3 do
 		e:EmitGas()

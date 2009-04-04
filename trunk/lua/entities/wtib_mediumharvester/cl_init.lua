@@ -11,4 +11,4 @@ function ENT:Think()
 		Wire_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_harvester","Tiberium Harvester")
+language.Add("wtib_mediumharvester","Medium Tiberium Harvester")

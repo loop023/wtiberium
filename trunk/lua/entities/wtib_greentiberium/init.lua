@@ -21,7 +21,7 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
+	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC())) then return end
 	local e = ents.Create("wtib_greentiberium")
 	local ang = t.HitNormal:Angle()+Angle(90,0,0)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
@@ -30,5 +30,12 @@ function ENT:SpawnFunction(p,t)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
+	if t.Entity and !t.Entity:IsWorld() then
+		e:SetMoveType(MOVETYPE_VPHYSICS)
+		e:SetParent(t.Entity)
+	end
+	for i=1,3 do
+		e:EmitGas()
+	end
 	return e
 end
