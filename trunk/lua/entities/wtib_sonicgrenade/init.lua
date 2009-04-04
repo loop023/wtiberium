@@ -11,7 +11,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	timer.Simple(5,function() self:Explode() end)
+	timer.Simple(5,function() if self and self:IsValid() then self:Explode() end end)
 end
 
 function ENT:Explode()
