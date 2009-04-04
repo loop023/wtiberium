@@ -26,8 +26,8 @@ SWEP.Secondary.DefaultClip	= -1
 SWEP.Secondary.Automatic	= true
 SWEP.Secondary.Ammo			= "none"
 SWEP.NextFire				= 0
-
-SWEP.Tiberium = 1000
+SWEP.NextSound				= 0
+SWEP.Tiberium				= 1000
 
 function SWEP:PrimaryAttack()
 	if self.NextFire > CurTime() then return end
@@ -50,8 +50,19 @@ function SWEP:PrimaryAttack()
 			e:GetPhysicsObject():SetVelocity(self:GetOwner():GetAimVector()*math.random(150,250))
 			e:Fire("kill","",2)
 		end
+		if self.NextSound <= CurTime() then
+			self:EmitSound("ambient.steam01")
+			self.NextSound = CurTime()+1
+		end
 	end
 	self.NextFire = CurTime()+0.1
+end
+
+function SWEP:Think()
+	if !self.Owner:KeyDown(IN_ATTACK) then
+		self:StopSound("ambient.steam01")
+		self.NextSound = 0
+	end
 end
 
 function SWEP:SecondaryAttack()
