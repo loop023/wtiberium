@@ -16,8 +16,7 @@ if SERVER then
 	WTib_MinProductionRate = 30
 	WTib_MaxProductionRate = 60
 	WTib_MaxTotalTiberium = 0
-	local WTib_RD3 = false
-	local RD = {}
+	local RD
 
 	function WTib_MaxProductionRateConsole(ply,com,args)
 		if !ply:IsAdmin() then
@@ -78,6 +77,7 @@ if SERVER then
 	end
 
 	function WTib_IsRD3()
+		if RD != nil then return true end
 		if (CAF and CAF.GetAddon("Resource Distribution") and WTib_HasRD()) then
 			RD = CAF.GetAddon("Resource Distribution")
 			return true
@@ -91,7 +91,7 @@ if SERVER then
 
 	function WTib_IsRD2()
 		if WTib_IsRD3() then return false end
-		return Dev_Unlink_All != nil
+		return (Dev_Unlink_All != nil)
 	end
 
 	function WTib_SupplyResource(a,b,c)
@@ -147,6 +147,12 @@ if SERVER then
 			return RD.ApplyDupeInfo(a,b)
 		elseif WTib_IsRD2 then
 			return RD_ApplyDupeInfo(a,b)
+		end
+	end
+
+	function WTib_RegisterEnt(a,b)
+		if LS_RegisterEnt then
+			LS_RegisterEnt(a,b)
 		end
 	end
 

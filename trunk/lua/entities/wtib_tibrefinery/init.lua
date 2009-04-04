@@ -17,7 +17,7 @@ function ENT:Initialize()
 	WTib_AddResource(self,"RefinedTiberium",0)
 	WTib_AddResource(self,"Tiberium",0)
 	WTib_AddResource(self,"energy",0)
-	LS_RegisterEnt(self,"Generator")
+	WTib_RegisterEnt(self,"Generator")
 end
 
 function ENT:SpawnFunction(p,t)

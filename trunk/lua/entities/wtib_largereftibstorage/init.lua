@@ -15,7 +15,7 @@ function ENT:Initialize()
 	self.aHealth = self.MaxHealth
 	self.Outputs = Wire_CreateOutputs(self,{"RefinedTiberium"})
 	WTib_AddResource(self,"RefinedTiberium",8000)
-	LS_RegisterEnt(self,"Storage")
+	WTib_RegisterEnt(self,"Storage")
 end
 
 function ENT:SpawnFunction(p,t)
