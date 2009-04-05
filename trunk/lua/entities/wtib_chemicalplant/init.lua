@@ -23,7 +23,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_chemicalplant")
-	e:SetPos(t.HitPos+t.HitNormal*60)
+	e:SetPos(t.HitPos+t.HitNormal*100)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()

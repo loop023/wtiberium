@@ -7,6 +7,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetColor(20,220,20,255)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -42,4 +43,9 @@ function ENT:Explode(missile,data)
 	end
 	e:SetTiberiumAmount(math.random(200,500))
 	missile:Remove()
+end
+
+function ENT:OnWarheadConnect(missile)
+	missile:SetColor(20,220,20,255)
+	return true
 end

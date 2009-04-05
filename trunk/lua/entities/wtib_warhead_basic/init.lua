@@ -7,6 +7,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetColor(255,255,255,255)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -15,7 +16,7 @@ end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_warhead_base")
+	local e = ents.Create("wtib_warhead_basic")
 	e:SetPos(t.HitPos+t.HitNormal*60)
 	e.WDSO = p
 	e:Spawn()
@@ -31,4 +32,9 @@ function ENT:Explode(missile,data)
 	ed:SetScale(3)
 	util.Effect("Explosion",ed)
 	missile:Remove()
+end
+
+function ENT:OnWarheadConnect(missile)
+	missile:SetColor(255,255,255,255)
+	return true
 end

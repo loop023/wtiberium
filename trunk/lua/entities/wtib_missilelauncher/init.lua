@@ -67,17 +67,6 @@ function ENT:Touch(ent)
 	end
 end
 
-function ENT:OnRemove(self)
-	if WTib_IsRD3() then
-		RD.RemoveRDEntity(self)
-	elseif Dev_Unlink_All and self.resources2links then
-		Dev_Unlink_All(self)
-	end
-	if WireAddon and (self.Outputs or self.Inputs) then
-		Wire_Remove(self)
-	end
-end
-
 function ENT:OnRestore(self)
 	if WireAddon then
 		Wire_Restored(self)

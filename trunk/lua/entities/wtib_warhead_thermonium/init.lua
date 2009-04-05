@@ -7,6 +7,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetColor(150,150,20,255)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -24,9 +25,14 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(missile,data)
+	local ed = EffectData()
+	ed:SetOrigin(data.HitPos or missile:GetPos())
+	ed:SetStart(data.HitPos or missile:GetPos())
+	util.Effect("TermoniumExplosion",ed)
+	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),math.random(500,600),math.random(650,750))
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v:IsNPC() or v:IsPlayer() then
-			-- Something will come in here.
+			WTib_InfectLiving(v)
 		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then
 			print(v:GetClass())
 			local e = ents.Create("wtib_tiberiumprop")
@@ -48,4 +54,9 @@ function ENT:Explode(missile,data)
 		end
 	end
 	missile:Remove()
+end
+
+function ENT:OnWarheadConnect(missile)
+	missile:SetColor(150,150,20,255)
+	return true
 end

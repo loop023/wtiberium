@@ -18,7 +18,7 @@ function WTib_OpenWarheadMenu(um)
 	local Frame = vgui.Create("DFrame")
 	Frame:SetSize(400,500)
 	local w,h = 400,500
-	Frame:SetPos(ScrW()-(w/2),ScrH()-(h/2))
+	Frame:SetPos((ScrW()/2)-(w/2),(ScrH()/2)-(h/2))
 	Frame:SetTitle("Warhead selection menu")
 	Frame:SetSizable(true)
 	Frame:SetDeleteOnClose(true)
@@ -40,7 +40,7 @@ function WTib_OpenWarheadMenu(um)
 	end
 	*/
 	local a = DList:AddColumn("Warhead :")
-	a:SetWidth(40)
+	a:SetWidth(30)
 	DList:AddColumn("Discription :")
 	for _,v in pairs(ent.Warheads) do
 		DList:AddLine(v.name,v.Discription)
@@ -58,7 +58,7 @@ function WTib_OpenCustomWarheadMenu(ent)
 	local Frame = vgui.Create("DFrame")
 	Frame:SetSize(400,500)
 	local w,h = 400,500
-	Frame:SetPos(ScrW()-(w/2),ScrH()-(h/2))
+	Frame:SetPos((ScrW()/2)-(w/2),(ScrH()/2)-(h/2))
 	Frame:SetTitle("Warhead Creation Menu")
 	Frame:MakePopup()
 	local TiberiumSlider = vgui.Create("DNumSlider",Frame)

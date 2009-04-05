@@ -15,7 +15,7 @@ end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_warhead_soniccluster")
+	local e = ents.Create("wtib_warhead_custom")
 	e:SetPos(t.HitPos+t.HitNormal*60)
 	e.WDSO = p
 	e:Spawn()
@@ -24,27 +24,18 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(missile,data)
-	local pos = missile:GetPos()
-	local WDSO = self.WDSO or self
-	local WDSE = self
-	util.BlastDamage(WDSE,WDSO,pos,math.random(100,200),math.random(200,300))
+	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),math.random(300,400),math.random(370,480))
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
-	ed:SetScale(3)
+	ed:SetScale(4)
 	util.Effect("Explosion",ed)
 	missile:Remove()
-	for i=1,8 do
-		local e = ents.Create("wtib_sonicgrenade")
-		e:SetPos(pos)
-		e.WDSO = WDSO or WDSE
-		e.WDSE = WDSE
-		e.DetTime = math.Rand(0.8,1.2)
-		e:Spawn()
-		e:Activate()
-		local phys = e:GetPhysicsObject()
-		if phys:IsValid() then
-			phys:AddVelocity(VectorRand()*800)
-		end
-	end
+end
+
+function ENT:OnWarheadConnect(missile)
+	missile.Damage = self.Damage
+	missile.Radius = self.Radius
+	missile.Effect = self.Effect
+	return true
 end

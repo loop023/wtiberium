@@ -15,6 +15,12 @@ Credits :
 
 Changelog :
 
+	1.14 :
+	Players and NPC's can now get infected by tiberium,
+	Added a cure entitie,
+	Sepperated the server and client files,
+	Better spawn heights for the entities,
+
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,
 	Tiberium will no longer attempt to grow upon another piece of tiberium or a player,

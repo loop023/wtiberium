@@ -106,7 +106,7 @@ function ENT:EmitGas(pos)
 	e:SetPos(pos or self:GetPos()+Vector(math.random(-30,30),math.random(-30,30),math.random(30,50)))
 	e:SetAngles(self:GetAngles())
 	e.WDSE = self
-	e.WDSO = self.WDSO or self
+	e.WDSO = self
 	e:SetSize(50)
 	e:SetStartColor(Color(self.r,self.g,self.b))
 	e:SetStartColor(Color(self.r,self.g,self.b))

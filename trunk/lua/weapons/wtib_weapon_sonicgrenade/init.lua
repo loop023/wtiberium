@@ -5,16 +5,14 @@ include('shared.lua')
 function SWEP:PrimaryAttack()
 	if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
 	self:TakePrimaryAmmo(1)
-	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
+	self:SendWeaponAnim(ACT_VM_THROW)
 	timer.Simple(.7,function()
-		if self and self:IsValid() then
-			self:SendWeaponAnim(ACT_VM_PULLPIN)
-		end
+		self:SendWeaponAnim(ACT_VM_DRAW)
 	end)
 	self:Throw(1000)
-	self:SetNextPrimaryFire(CurTime()+1)
-	self:SetNextSecondaryFire(CurTime()+1)
-	return true;
+	self:SetNextPrimaryFire(CurTime()+1.7)
+	self:SetNextSecondaryFire(CurTime()+1.7)
+	return true
 end
 
 function SWEP:Throw(vel)
@@ -38,11 +36,11 @@ function SWEP:SecondaryAttack()
 	self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
 	timer.Simple(.7,function()
 		if self and self:IsValid() then
-			self:SendWeaponAnim(ACT_VM_PULLPIN)
+			self:SendWeaponAnim(ACT_VM_DRAW)
 		end
 	end)
 	self:Throw(400)
 	self:SetNextPrimaryFire(CurTime()+1)
 	self:SetNextSecondaryFire(CurTime()+1)
-	return true;
+	return true
 end

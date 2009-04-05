@@ -54,6 +54,9 @@ function SWEP:PrimaryAttack()
 			self:EmitSound("ambient.steam01")
 			self.NextSound = CurTime()+1
 		end
+	else
+		self:StopSound("ambient.steam01")
+		self.NextSound = 0
 	end
 	self.NextFire = CurTime()+0.1
 end
@@ -63,6 +66,7 @@ function SWEP:Think()
 		self:StopSound("ambient.steam01")
 		self.NextSound = 0
 	end
+	self:NextThink(CurTime()+0.1)
 end
 
 function SWEP:SecondaryAttack()
