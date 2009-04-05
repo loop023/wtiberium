@@ -27,7 +27,7 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC())) then return end
+	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC())) and !t.HitSky then return end
 	local e = ents.Create("wtib_tiberiumbase")
 	local ang = t.HitNormal:Angle()+Angle(90,0,0)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
