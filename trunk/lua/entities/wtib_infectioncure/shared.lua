@@ -1,6 +1,5 @@
 ENT.Type			= "anim"
-ENT.Base			= "wtib_tiberiumbase"
-ENT.PrintName		= "Tiberium infected prop"
+ENT.PrintName		= "Tiberium Infection Cure"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

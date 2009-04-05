@@ -81,15 +81,13 @@ function ENT:Think()
 		for _,v in pairs(ents.FindInSphere(self:GetPos(),self.Size or 250)) do
 			if (v:IsPlayer() or v:IsNPC()) and !v.IsTiberiumResistant then
 				v:TakeDamage(math.Rand(self.Damage-2,self.Damage+2),self.WDSO or self,self.WDSE or self)
-				if v.WTib_LastTiberiumGasDamage then
-					if v.WTib_LastTiberiumGasDamage <= CurTime()+5 then
-						v.WTib_InfectLevel = (v.WTib_InfectLevel or 0)+1
-					else
-						v.WTib_InfectLevel = 1
-					end
-					if v.WTib_InfectLevel >= 20 then
-						WTib_InfectLiving(ply)
-					end
+				if (v.WTib_LastTiberiumGasDamage or 0) <= CurTime()+5 then
+					v.WTib_InfectLevel = (v.WTib_InfectLevel or 0)+1
+				else
+					v.WTib_InfectLevel = 1
+				end
+				if v.WTib_InfectLevel >= 10 then
+					WTib_InfectLiving(ply)
 				end
 				v.WTib_LastTiberiumGasDamage = CurTime()
 			end
