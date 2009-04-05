@@ -19,5 +19,8 @@ ENT.Warheads =	{
 					EnergyRequired=600,RefinedTiberiumRequired=200,TiberiumChemicalsRequired=500,Class="wtib_warhead_seeder",Pos=Vector(65,0,-55)},
 
 					{name="Thermonium Warhead",Discription="A very powerfull anti personel warhead that will turn any living creature into tiberium.",
-					EnergyRequired=2000,RefinedTiberiumRequired=200,TiberiumChemicalsRequired=2000,Class="wtib_warhead_thermonium",Pos=Vector(65,0,-55)}
+					EnergyRequired=2000,RefinedTiberiumRequired=200,TiberiumChemicalsRequired=2000,Class="wtib_warhead_thermonium",Pos=Vector(65,0,-55)},
+
+					{name="Sonic Cluster Warhead",Discription="A warhead that launches 8 different shells on hit that will disintegrate tiberium.",
+					EnergyRequired=1000,RefinedTiberiumRequired=600,TiberiumChemicalsRequired=0,Class="wtib_warhead_soniccluster",Pos=Vector(65,0,-55)}
 				}
