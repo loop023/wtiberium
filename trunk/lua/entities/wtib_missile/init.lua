@@ -34,7 +34,7 @@ function ENT:PhysicsCollide(data,phys)
 				ent:Remove()
 			end
 		elseif self.Armed and ent != self.MissileL then
-			self:Explode()
+			self:Explode(self,data)
 		end
 	end
 end

@@ -39,7 +39,7 @@ function ENT:Explode(missile,data)
 		e:SetPos(pos)
 		e.WDSO = WDSO or WDSE
 		e.WDSE = WDSE
-		e.DetTime = math.Rand(0.8,1.2)
+		e.DetTime = math.Rand(1.8,2.2)
 		e:Spawn()
 		e:Activate()
 		local phys = e:GetPhysicsObject()
