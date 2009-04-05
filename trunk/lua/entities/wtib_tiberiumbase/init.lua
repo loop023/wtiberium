@@ -150,7 +150,7 @@ function ENT:Reproduce()
 	for i=1,5 do
 		local fl = WTib_GetAllTiberium()
 		table.Add(fl,player.GetAll())
-		local t = util.QuickTrace(self:GetPos()+Vector(0,0,60),VectorRand()*50000,fl)
+		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
 		if t.Hit then
 			local save = true
 			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do
