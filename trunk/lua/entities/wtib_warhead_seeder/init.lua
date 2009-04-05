@@ -25,7 +25,7 @@ end
 
 function ENT:Explode(missile,data)
 	local tr = util.QuickTrace(missile:GetPos(),data.HitPos,{missile,missile.FTrail})
-	if !tr.Hit then return end
+	if !tr.Hit or tr.HitSky then missile:Remove() return end
 	local e = ents.Create("wtib_greentiberium")
 	local ang = tr.HitNormal:Angle()+Angle(90,0,0)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))

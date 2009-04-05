@@ -27,7 +27,7 @@ end
 function ENT:PhysicsCollide(data,phys)
 	local ent = data.HitEntity
 	if ent then
-		if ent:IsValid() and ent.IsWarhead then
+		if ent:IsValid() and ent.IsWarhead and ent.Explode and ent.Explode != self.Explode then
 			self.Explode = ent.Explode or self.Explode
 			ent:Remove()
 		elseif self.Armed and ent != self.MissileL then
