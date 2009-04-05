@@ -65,7 +65,7 @@ end
 
 function ENT:PhysicsUpdate(phys)
 	if !self.Armed then return end
-	phys:ApplyForceCenter((self:GetForward()*15000))
+	phys:ApplyForceCenter(self:GetForward()*15000)
 	if self.Target and self.Target != Vector(0,0,0) and (self.LockDelay or 0) <= CurTime() then
 		local Dist = math.min((self.Target - self:GetPos()):Length(), 5000)
 		local Mod = math.Clamp(math.abs(Dist-5000)/3000,0.5,70)
@@ -83,12 +83,12 @@ function ENT:PhysicsUpdate(phys)
 	end
 end
 
-function ENT:Explode(ent,data)
-	util.BlastDamage(ent,ent.WDSO,ent:GetPos(),math.random(200,300),math.random(300,400))
+function ENT:Explode(missile,data)
+	util.BlastDamage(missile,missile.WDSO,missile:GetPos(),math.random(200,300),math.random(300,400))
 	local ed = EffectData()
-	ed:SetOrigin(ent:GetPos())
-	ed:SetStart(ent:GetPos())
+	ed:SetOrigin(data.HitPos or missile:GetPos())
+	ed:SetStart(data.HitPos or missile:GetPos())
 	ed:SetScale(3)
 	util.Effect("Explosion",ed)
-	self:Remove()
+	missile:Remove()
 end

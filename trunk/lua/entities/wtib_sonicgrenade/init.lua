@@ -11,16 +11,18 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	timer.Simple(5,function() if self and self:IsValid() then self:Explode() end end)
+	self.DetTime = self.DetTime or 5
+	timer.Simple(self.DetTime,function() if self and self:IsValid() then self:Explode() end end)
 	local e = ents.Create("ai_sound")
 	e:SetPos(self:GetPos())
 	e:SetParent(self)
 	e:SetKeyValue("soundtype","8")
 	e:SetKeyValue("volume","250")
-	e:SetKeyValue("duration","5")
+	e:SetKeyValue("duration",tostring(self.DetTime+3 or 8))
 	e:Spawn()
 	e:Activate()
 	e:Fire("EmitAISound","","")
+	e:Fire("kill","",tostring(self.DetTime+3 or 8))
 end
 
 function ENT:Explode()
