@@ -42,6 +42,6 @@ function ENT:Explode()
 	ed:SetOrigin(pos)
 	ed:SetStart(pos)
 	ed:SetScale(3)
-	util.Effect("SonicExplosion",ed)
+	util.Effect("WTib_SonicExplosion",ed)
 	self:Remove()
 end

@@ -6,12 +6,13 @@ function SWEP:PrimaryAttack()
 	if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
 	self:TakePrimaryAmmo(1)
 	self:SendWeaponAnim(ACT_VM_THROW)
+	self.Owner:SetAnimation(PLAYER_ATTACK1)
 	timer.Simple(.7,function()
 		self:SendWeaponAnim(ACT_VM_DRAW)
 	end)
 	self:Throw(1000)
-	self:SetNextPrimaryFire(CurTime()+1.7)
-	self:SetNextSecondaryFire(CurTime()+1.7)
+	self:SetNextPrimaryFire(CurTime()+1.8)
+	self:SetNextSecondaryFire(CurTime()+1.8)
 	return true
 end
 
@@ -34,13 +35,14 @@ function SWEP:SecondaryAttack()
 	if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
 	self:TakePrimaryAmmo(1)
 	self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)
+	self.Owner:SetAnimation(PLAYER_ATTACK1)
 	timer.Simple(.7,function()
 		if self and self:IsValid() then
 			self:SendWeaponAnim(ACT_VM_DRAW)
 		end
 	end)
 	self:Throw(400)
-	self:SetNextPrimaryFire(CurTime()+1)
-	self:SetNextSecondaryFire(CurTime()+1)
+	self:SetNextPrimaryFire(CurTime()+1.8)
+	self:SetNextSecondaryFire(CurTime()+1.8)
 	return true
 end
