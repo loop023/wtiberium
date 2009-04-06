@@ -25,6 +25,10 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(missile,data)
+	local ed = EffectData()
+	ed:SetOrigin(data.HitPos or missile:GetPos())
+	ed:SetStart(data.HitPos or missile:GetPos())
+	util.Effect("SeederExplosion",ed)
 	local tr = util.QuickTrace(missile:GetPos(),data.HitPos,{missile,missile.FTrail})
 	if !tr.Hit or tr.HitSky then missile:Remove() return end
 	local e = ents.Create("wtib_greentiberium")
