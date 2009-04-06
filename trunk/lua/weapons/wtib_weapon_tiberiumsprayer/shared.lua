@@ -28,7 +28,6 @@ SWEP.Secondary.Ammo			= "none"
 SWEP.NextFire				= 0
 SWEP.IsEmittingSound		= false
 SWEP.Tiberium				= 1000
-SWEP.SprayLoop				= Sound("ambient.steam01")
 
 function SWEP:PrimaryAttack()
 	if self.NextFire > CurTime() then return end
@@ -52,20 +51,20 @@ function SWEP:PrimaryAttack()
 			e:Fire("kill","",2)
 		end
 		if !self.IsEmittingSound then
-			self:EmitSound(self.SprayLoop)
+			self:EmitSound("ambient.steam01")
 			self.IsEmittingSound = true
 		end
 	elseif self.IsEmittingSound then
-		self:StopSound(self.SprayLoop)
+		self:StopSound("ambient.steam01")
 		self.IsEmittingSound = false
 	end
 	self.NextFire = CurTime()+0.1
 end
 
 function SWEP:Think()
-	if !self.Owner:KeyDown(IN_ATTACK) then
-		self:StopSound(self.SprayLoop)
-		self.IsEmittingSound = true
+	if !self.Owner:KeyDown(IN_ATTACK) and self.IsEmittingSound then
+		self:StopSound("ambient.steam01")
+		self.IsEmittingSound = false
 	end
 	self:NextThink(CurTime()+0.1)
 end

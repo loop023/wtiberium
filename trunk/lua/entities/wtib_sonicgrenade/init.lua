@@ -41,7 +41,7 @@ function ENT:Explode()
 	local ed = EffectData()
 	ed:SetOrigin(pos)
 	ed:SetStart(pos)
-	ed:SetScale(3)
+	ed:SetScale(1)
 	util.Effect("WTib_SonicExplosion",ed)
 	self:Remove()
 end
