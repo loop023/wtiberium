@@ -13,6 +13,7 @@ ENT.IsTiberium		= true
 ENT.TiberiumDraimOnReproduction	= 1200
 ENT.MinReprodutionTibRequired	= 1500
 ENT.RemoveOnNoTiberium			= true
+ENT.DisableAntiPickup			= false
 ENT.ReproductionRate			= 0
 ENT.MinTiberiumGain				= 15
 ENT.MaxTiberiumGain				= 50

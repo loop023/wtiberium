@@ -115,6 +115,124 @@ function WTib_IsInfected(ply)
 	return table.HasValue(WTib_InfectedLifeForms,ply)
 end
 
+function WTib_RagdollToTiberium(rag)
+	print("RagdollToTib starting")
+	if !rag or !rag:GetClass() == "prop_ragdoll" then return NULL end
+	print("It is a valid ragdoll, setting functions now")
+	rag.IsTiberium = true
+	rag.SetTiberiumAmount = function(self,am)
+		self:SetNWInt("TiberiumAmount",math.Clamp(am,-10,self.MaxTiberium))
+		if self:GetNWInt("TiberiumAmount") <= 0 then
+			WTib_TiberiumRagdollToRagdoll(self)
+			return
+		end
+	end
+	print("1 done")
+	rag.AddTiberiumAmount = function(self,am)
+		self:SetTiberiumAmount(math.Clamp(self:GetTiberiumAmount()+am,-10,self.MaxTiberium))
+	end
+	print("2 done")
+	rag.DrainTiberiumAmount = function(self,am)
+		self:SetTiberiumAmount(math.Clamp(self:GetTiberiumAmount()-am,-10,self.MaxTiberium))
+	end
+	print("3 done")
+	rag.GetTiberiumAmount = function(self)
+		return self:GetNWInt("TiberiumAmount")
+	end
+	print("4 done")
+	rag:SetTiberiumAmount(700)
+	rag.TiberiumDraimOnReproduction	= 0
+	rag.MinReprodutionTibRequired	= 0
+	rag.RemoveOnNoTiberium			= false
+	rag.DisableAntiPickup			= true
+	rag.ReproductionRate			= 0
+	rag.MinTiberiumGain				= 0
+	rag.MaxTiberiumGain				= 0
+	rag.ShouldReproduce				= false
+	rag.ReproduceDelay				= 0
+	rag.TiberiumAdd					= false
+	rag.MaxTiberium					= 700
+	rag.DynLight					= false
+	rag.Gas							= false
+	rag.r							= 0
+	rag.g							= 255
+	rag.b							= 0
+	rag.a							= 150
+	print("Vars set")
+	rag:SetColor(rag.r,rag.g,rag.b,rag.a)
+	rag:GetTable().StatueInfo = {}
+	rag:GetTable().StatueInfo.Welds = {}
+	print("Color and weld tables set")
+	local bones = rag:GetPhysicsObjectCount()
+	print("Bones : "..tostring(bones))
+	for bone=1, bones do
+		print("\tBone : "..bone)
+		local bone1 = bone-1
+		local bone2 = bones-bone
+		if (!rag:GetTable().StatueInfo.Welds[bone2]) then
+			local constraint1 = constraint.Weld(rag,rag,bone1,bone2,0)
+			if (constraint1) then
+			rag:GetTable().StatueInfo.Welds[bone1] = constraint1
+			end
+		end
+		local constraint2 = constraint.Weld(rag,rag,bone1,0,0)
+		if (constraint2) then
+			rag:GetTable().StatueInfo.Welds[bone1+bones] = constraint2
+		end
+		local ed = EffectData()
+		ed:SetOrigin(rag:GetPhysicsObjectNum(bone1):GetPos())
+		ed:SetScale(1)
+		ed:SetMagnitude(1)
+		util.Effect("GlassImpact",ed,true,true)
+		print("\tBone : "..bone.." is done.")
+	end
+	print("RagdollToTib done!")
+	return rag
+end
+
+function WTib_TiberiumRagdollToRagdoll(rag)
+	print("TibToRagdoll starting")
+	if !rag or !rag:GetClass() == "prop_ragdoll" or !rag.IsTiberium then return NULL end
+	print("It is a valid ragdoll, removing functions now")
+	rag.IsTiberium = nil
+	rag.SetTiberiumAmount = nil
+	print("1 done")
+	rag.AddTiberiumAmount = nil
+	print("2 done")
+	rag.DrainTiberiumAmount = nil
+	print("3 done")
+	rag.GetTiberiumAmount = nil
+	print("4 done")
+	rag.TiberiumDraimOnReproduction	= nil
+	rag.MinReprodutionTibRequired	= nil
+	rag.RemoveOnNoTiberium			= nil
+	rag.DisableAntiPickup			= nil
+	rag.ReproductionRate			= nil
+	rag.MinTiberiumGain				= nil
+	rag.MaxTiberiumGain				= nil
+	rag.ShouldReproduce				= nil
+	rag.ReproduceDelay				= nil
+	rag.TiberiumAdd					= nil
+	rag.MaxTiberium					= nil
+	rag.DynLight					= nil
+	rag.Gas							= nil
+	rag.r							= nil
+	rag.g							= nil
+	rag.b							= nil
+	rag.a							= nil
+	print("Vars set")
+	rag:SetColor(255,255,255,255)
+	rag:GetTable().StatueInfo = {}
+	rag:GetTable().StatueInfo.Welds = {}
+	print("Color and weld tables set")
+	local bones = rag:GetPhysicsObjectCount()
+	print("Removing bone welds")
+	constraint.RemoveAll(rag)
+	rag:GetTable().StatueInfo = nil
+	print("RagdollToTib done!")
+	return rag
+end
+
 /*
 	***************************************************
 	*  RD3 and RD2 shit down here, these are all placeholders   *
