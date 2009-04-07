@@ -116,9 +116,8 @@ function WTib_IsInfected(ply)
 end
 
 function WTib_RagdollToTiberium(rag)
-	print("RagdollToTib starting")
 	if !rag or !rag:GetClass() == "prop_ragdoll" then return NULL end
-	print("It is a valid ragdoll, setting functions now")
+	print("1")
 	rag.IsTiberium = true
 	rag.SetTiberiumAmount = function(self,am)
 		self:SetNWInt("TiberiumAmount",math.Clamp(am,-10,self.MaxTiberium))
@@ -127,20 +126,19 @@ function WTib_RagdollToTiberium(rag)
 			return
 		end
 	end
-	print("1 done")
+	print("2")
 	rag.AddTiberiumAmount = function(self,am)
 		self:SetTiberiumAmount(math.Clamp(self:GetTiberiumAmount()+am,-10,self.MaxTiberium))
 	end
-	print("2 done")
+	print("3")
 	rag.DrainTiberiumAmount = function(self,am)
 		self:SetTiberiumAmount(math.Clamp(self:GetTiberiumAmount()-am,-10,self.MaxTiberium))
 	end
-	print("3 done")
+	print("4")
 	rag.GetTiberiumAmount = function(self)
 		return self:GetNWInt("TiberiumAmount")
 	end
-	print("4 done")
-	rag:SetTiberiumAmount(700)
+	print("5")
 	rag.TiberiumDraimOnReproduction	= 0
 	rag.MinReprodutionTibRequired	= 0
 	rag.RemoveOnNoTiberium			= false
@@ -158,51 +156,54 @@ function WTib_RagdollToTiberium(rag)
 	rag.g							= 255
 	rag.b							= 0
 	rag.a							= 150
-	print("Vars set")
+	print("5.1!")
+	rag:SetTiberiumAmount(700)
+	print("5.2?")
 	rag:SetColor(rag.r,rag.g,rag.b,rag.a)
-	rag:GetTable().StatueInfo = {}
-	rag:GetTable().StatueInfo.Welds = {}
-	print("Color and weld tables set")
+	print("5.3 :D")
+	rag:GetTable().WTib_StatueInfo = {}
+	rag:GetTable().WTib_StatueInfo.Welds = {}
+	rag:GetTable().WTib_StatueInfo.NoCollides = {}
+	print("6")
 	local bones = rag:GetPhysicsObjectCount()
-	print("Bones : "..tostring(bones))
 	for bone=1, bones do
-		print("\tBone : "..bone)
 		local bone1 = bone-1
 		local bone2 = bones-bone
-		if (!rag:GetTable().StatueInfo.Welds[bone2]) then
-			local constraint1 = constraint.Weld(rag,rag,bone1,bone2,0)
-			if (constraint1) then
-			rag:GetTable().StatueInfo.Welds[bone1] = constraint1
+		if (!rag:GetTable().WTib_StatueInfo.Welds[bone2]) then
+			local weld1 = constraint.Weld(rag,rag,bone1,bone2,0)
+			local nocollide1 = constraint.NoCollide(rag,rag,bone1,bone2)
+			if (weld1) then
+				rag:GetTable().WTib_StatueInfo.Welds[bone1] = weld1
+			end
+			if (nocollide1) then
+				rag:GetTable().WTib_StatueInfo.NoCollides[bone1] = nocollide1
 			end
 		end
-		local constraint2 = constraint.Weld(rag,rag,bone1,0,0)
-		if (constraint2) then
-			rag:GetTable().StatueInfo.Welds[bone1+bones] = constraint2
+		local weld2 = constraint.Weld(rag,rag,bone1,0,0)
+		local nocollide2 = constraint.NoCollide(rag,rag,bone1,0)
+		if (weld2) then
+			rag:GetTable().WTib_StatueInfo.Welds[bone1+bones] = weld2
+		end
+		if (nocollide2) then
+			rag:GetTable().WTib_StatueInfo.NoCollides[bone1+bones] = nocollide2
 		end
 		local ed = EffectData()
 		ed:SetOrigin(rag:GetPhysicsObjectNum(bone1):GetPos())
 		ed:SetScale(1)
 		ed:SetMagnitude(1)
 		util.Effect("GlassImpact",ed,true,true)
-		print("\tBone : "..bone.." is done.")
 	end
-	print("RagdollToTib done!")
+	print("7")
 	return rag
 end
 
 function WTib_TiberiumRagdollToRagdoll(rag)
-	print("TibToRagdoll starting")
 	if !rag or !rag:GetClass() == "prop_ragdoll" or !rag.IsTiberium then return NULL end
-	print("It is a valid ragdoll, removing functions now")
-	rag.IsTiberium = nil
-	rag.SetTiberiumAmount = nil
-	print("1 done")
-	rag.AddTiberiumAmount = nil
-	print("2 done")
-	rag.DrainTiberiumAmount = nil
-	print("3 done")
-	rag.GetTiberiumAmount = nil
-	print("4 done")
+	rag.IsTiberium					= nil
+	rag.SetTiberiumAmount			= nil
+	rag.AddTiberiumAmount			= nil
+	rag.DrainTiberiumAmount			= nil
+	rag.GetTiberiumAmount			= nil
 	rag.TiberiumDraimOnReproduction	= nil
 	rag.MinReprodutionTibRequired	= nil
 	rag.RemoveOnNoTiberium			= nil
@@ -220,16 +221,18 @@ function WTib_TiberiumRagdollToRagdoll(rag)
 	rag.g							= nil
 	rag.b							= nil
 	rag.a							= nil
-	print("Vars set")
 	rag:SetColor(255,255,255,255)
-	rag:GetTable().StatueInfo = {}
-	rag:GetTable().StatueInfo.Welds = {}
-	print("Color and weld tables set")
-	local bones = rag:GetPhysicsObjectCount()
-	print("Removing bone welds")
-	constraint.RemoveAll(rag)
-	rag:GetTable().StatueInfo = nil
-	print("RagdollToTib done!")
+	for _,v in pairs(rag:GetTable().WTib_StatueInfo.Welds) do
+		if v and v:IsValid() then
+			v:Remove()
+		end
+	end
+	for _,v in pairs(rag:GetTable().WTib_StatueInfo.NoCollides) do
+		if v and v:IsValid() then
+			v:Remove()
+		end
+	end
+	rag:GetTable().WTib_StatueInfo = nil
 	return rag
 end
 
