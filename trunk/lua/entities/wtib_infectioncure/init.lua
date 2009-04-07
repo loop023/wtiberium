@@ -25,7 +25,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:PhysicsCollide(data,ply)
-	
+	self:Heal(ply)
 end
 
 function ENT:Heal(ply)
@@ -40,9 +40,5 @@ function ENT:Heal(ply)
 end
 
 function ENT:Use(ent)
-	if ply and ply:IsValid() and ply:IsPlayer() then
-		WTib_CureInfection(ply)
-		ply:EmitSound("sound/items/medshot4.wav")
-		self:Remove()
-	end
+	self:Heal(ply)
 end
