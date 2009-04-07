@@ -7,6 +7,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetColor(170,255,170,255)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -23,9 +24,25 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:Touch(ent)
-	if WTib_IsInfected(ply) then
+function ENT:PhysicsCollide(data,ply)
+	
+end
+
+function ENT:Heal(ply)
+	if ply and ply:IsValid() and ply:IsPlayer() then
 		WTib_CureInfection(ply)
+		ply:EmitSound("sound/items/medshot4.wav")
+		if ply:Health() < 100 then
+			ply:SetHealth(math.Clamp(ply:Health()+20,1,100))
+		end
+		self:Remove()
+	end
+end
+
+function ENT:Use(ent)
+	if ply and ply:IsValid() and ply:IsPlayer() then
+		WTib_CureInfection(ply)
+		ply:EmitSound("sound/items/medshot4.wav")
 		self:Remove()
 	end
 end
