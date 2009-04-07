@@ -117,7 +117,8 @@ end
 
 function WTib_RagdollToTiberium(rag)
 	if !rag or !rag:GetClass() == "prop_ragdoll" then return NULL end
-	print("1")
+	rag.WTib_OldCollisionGroup = rag:GetCollisionGroup()
+	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	rag.IsTiberium = true
 	rag.SetTiberiumAmount = function(self,am)
 		self:SetNWInt("TiberiumAmount",math.Clamp(am,-10,self.MaxTiberium))
@@ -126,19 +127,16 @@ function WTib_RagdollToTiberium(rag)
 			return
 		end
 	end
-	print("2")
 	rag.AddTiberiumAmount = function(self,am)
 		self:SetTiberiumAmount(math.Clamp(self:GetTiberiumAmount()+am,-10,self.MaxTiberium))
 	end
-	print("3")
 	rag.DrainTiberiumAmount = function(self,am)
 		self:SetTiberiumAmount(math.Clamp(self:GetTiberiumAmount()-am,-10,self.MaxTiberium))
 	end
-	print("4")
 	rag.GetTiberiumAmount = function(self)
 		return self:GetNWInt("TiberiumAmount")
 	end
-	print("5")
+	rag.FunctionToRunOnNormal		= func
 	rag.TiberiumDraimOnReproduction	= 0
 	rag.MinReprodutionTibRequired	= 0
 	rag.RemoveOnNoTiberium			= false
@@ -156,36 +154,23 @@ function WTib_RagdollToTiberium(rag)
 	rag.g							= 255
 	rag.b							= 0
 	rag.a							= 150
-	print("5.1!")
 	rag:SetTiberiumAmount(700)
-	print("5.2?")
 	rag:SetColor(rag.r,rag.g,rag.b,rag.a)
-	print("5.3 :D")
 	rag:GetTable().WTib_StatueInfo = {}
 	rag:GetTable().WTib_StatueInfo.Welds = {}
-	rag:GetTable().WTib_StatueInfo.NoCollides = {}
-	print("6")
 	local bones = rag:GetPhysicsObjectCount()
 	for bone=1, bones do
 		local bone1 = bone-1
 		local bone2 = bones-bone
 		if (!rag:GetTable().WTib_StatueInfo.Welds[bone2]) then
 			local weld1 = constraint.Weld(rag,rag,bone1,bone2,0)
-			local nocollide1 = constraint.NoCollide(rag,rag,bone1,bone2)
 			if (weld1) then
 				rag:GetTable().WTib_StatueInfo.Welds[bone1] = weld1
 			end
-			if (nocollide1) then
-				rag:GetTable().WTib_StatueInfo.NoCollides[bone1] = nocollide1
-			end
 		end
 		local weld2 = constraint.Weld(rag,rag,bone1,0,0)
-		local nocollide2 = constraint.NoCollide(rag,rag,bone1,0)
 		if (weld2) then
 			rag:GetTable().WTib_StatueInfo.Welds[bone1+bones] = weld2
-		end
-		if (nocollide2) then
-			rag:GetTable().WTib_StatueInfo.NoCollides[bone1+bones] = nocollide2
 		end
 		local ed = EffectData()
 		ed:SetOrigin(rag:GetPhysicsObjectNum(bone1):GetPos())
@@ -193,21 +178,21 @@ function WTib_RagdollToTiberium(rag)
 		ed:SetMagnitude(1)
 		util.Effect("GlassImpact",ed,true,true)
 	end
-	print("7")
 	return rag
 end
 
-function WTib_TiberiumRagdollToRagdoll(rag)
+function WTib_TiberiumRagdollToRagdoll(rag,func)
 	if !rag or !rag:GetClass() == "prop_ragdoll" or !rag.IsTiberium then return NULL end
-	rag.IsTiberium					= nil
-	rag.SetTiberiumAmount			= nil
-	rag.AddTiberiumAmount			= nil
-	rag.DrainTiberiumAmount			= nil
-	rag.GetTiberiumAmount			= nil
+	rag:SetCollisionGroup(rag.WTib_OldCollisionGroup)
 	rag.TiberiumDraimOnReproduction	= nil
 	rag.MinReprodutionTibRequired	= nil
+	rag.WTib_OldCollisionGroup		= nil
+	rag.DrainTiberiumAmount			= nil
 	rag.RemoveOnNoTiberium			= nil
+	rag.SetTiberiumAmount			= nil
+	rag.AddTiberiumAmount			= nil
 	rag.DisableAntiPickup			= nil
+	rag.GetTiberiumAmount			= nil
 	rag.ReproductionRate			= nil
 	rag.MinTiberiumGain				= nil
 	rag.MaxTiberiumGain				= nil
@@ -215,6 +200,7 @@ function WTib_TiberiumRagdollToRagdoll(rag)
 	rag.ReproduceDelay				= nil
 	rag.TiberiumAdd					= nil
 	rag.MaxTiberium					= nil
+	rag.IsTiberium					= nil
 	rag.DynLight					= nil
 	rag.Gas							= nil
 	rag.r							= nil
@@ -227,12 +213,10 @@ function WTib_TiberiumRagdollToRagdoll(rag)
 			v:Remove()
 		end
 	end
-	for _,v in pairs(rag:GetTable().WTib_StatueInfo.NoCollides) do
-		if v and v:IsValid() then
-			v:Remove()
-		end
-	end
 	rag:GetTable().WTib_StatueInfo = nil
+	if rag.FunctionToRunOnNormal and type(rag.FunctionToRunOnNormal) == "function" then
+		rag.FunctionToRunOnNormal(rag)
+	end
 	return rag
 end
 
