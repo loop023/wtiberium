@@ -65,7 +65,7 @@ function ENT:Think()
 	if self.NextGas <= CurTime() then
 		self:EmitGas()
 	end
-	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) and self.ShouldReproduce then
+	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) then
 		self:Reproduce()
 	end
 	if self.SecThink then self:SecThink() end
@@ -119,8 +119,8 @@ end
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition())
 	if di:IsExplosionDamage() or di:IsDamageType(DMG_BURN) then
-		self:AddTiberiumAmount(di:GetDamage()/2)
-		self:Reproduce()
+		self:AddTiberiumAmount(di:GetDamage()/math.Rand(0.5,3))
+		self.NextProduce = 0
 		self.NextTiberiumAdd = 0
 		return
 	end
@@ -138,6 +138,7 @@ function ENT:OnRemove()
 end
 
 function ENT:Reproduce()
+	if !self.ShouldReproduce then return end
 	if tonumber(WTib_MaxTotalTiberium) > 0 and table.Count(WTib_GetAllTiberium()) >= tonumber(WTib_MaxTotalTiberium) then return false end
 	local a = {}
 	for _,v in pairs(self.Produces) do
@@ -167,7 +168,7 @@ function ENT:Reproduce()
 			end
 			local dist = t.HitPos:Distance(self:GetPos())
 			if dist >= 150 and dist <= 700 and save then
-				self.NextProduce = CurTime()+math.random(WTib_MinProductionRate or 30,WTib_MaxProductionRate or 60)
+				self.NextProduce = CurTime()+math.random(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
 				self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 				local e = self:SpawnFunction(self.WDSO,t)
 				table.insert(self.Produces,e)
