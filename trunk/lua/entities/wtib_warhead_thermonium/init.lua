@@ -24,15 +24,21 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
+function ENT:OnTakeDamage()
+	self:Explode(self,{HitPos=self:GetPos()}
+end
+
 function ENT:Explode(missile,data)
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
 	util.Effect("TermoniumExplosion",ed)
-	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),math.random(500,600),math.random(650,750))
+	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),math.random(450,550),math.random(200,300))
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v:IsNPC() or v:IsPlayer() then
 			WTib_InfectLiving(v)
+		elseif v:GetClass() == "prop_ragdoll" then
+			WTib_RagdollToTiberium(v)
 		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then
 			print(v:GetClass())
 			local e = ents.Create("wtib_tiberiumprop")
