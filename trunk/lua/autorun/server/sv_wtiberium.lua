@@ -17,6 +17,14 @@ WTib_MaxProductionRate = 60
 WTib_MaxTotalTiberium = 0
 local RD
 
+if WDS then
+	WDS.AddProtectionFunction(function(ent)
+		if ent.IsTiberium then
+			return false
+		end
+	end)
+end
+
 function WTib_MaxProductionRateConsole(ply,com,args)
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())

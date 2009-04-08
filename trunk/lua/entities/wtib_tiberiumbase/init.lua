@@ -27,7 +27,7 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC())) and !t.HitSky then return end
+	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC() or t.Entity.IsTiberium)) or t.HitSky then return end
 	local e = ents.Create("wtib_tiberiumbase")
 	local ang = t.HitNormal:Angle()+Angle(90,0,0)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
@@ -119,7 +119,7 @@ end
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition())
 	if di:IsExplosionDamage() or di:IsDamageType(DMG_BURN) then
-		self:AddTiberiumAmount(math.Clamp(di:GetDamage()*math.Rand(0.8,3),2,self.MaxTiberium))
+		self:AddTiberiumAmount(math.Clamp(di:GetDamage()*math.Rand(0.8,2),2,self.MaxTiberium))
 		self.NextProduce = 0
 		self.NextTiberiumAdd = 0
 		return
