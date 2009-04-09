@@ -29,7 +29,7 @@ function ENT:Touch(data,ply)
 end
 
 function ENT:Heal(ply)
-	if ply and ply:IsValid() and ply:IsPlayer() then
+	if ply and ply:IsValid() then
 		WTib_CureInfection(ply)
 		ply:EmitSound("sound/items/medshot4.wav")
 		if ply:Health() < 100 then
