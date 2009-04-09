@@ -2,7 +2,7 @@
 Q/A :
 
 	Q: Those dynamic lights lag my PC, how do i remove it?
-	A: Open up your console and type in "WTiberium_NoDynamicLights 1" (Without the quotation marks).
+	A: Open up your console and type in "WTiberium_NoDynamicLights 1" (Without the quotation marks), you can also change the size by using "WTiberium_DynamicLightsSize" (Default 1).
 
 	Q: The tiberium grows to fast/slow!
 	A: you can use the commands "WTiberium_MaxProductionRate" and "WTiberium_MinProductionRate" to set the spawn rate of the tiberium,
@@ -20,6 +20,12 @@ Changelog :
 	Added a cure entitie,
 	Sepperated the server and client files,
 	Better spawn heights for the entities,
+	Added WTiberium_DynamicLightsSize,
+	Better dynamic lights calculation,
+	The Devider is now a NW value,
+	GCombat will no longer destroy tiberium entities,
+	The SWeps are now working as they should,
+	Added a sonic cluster warhead,
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,

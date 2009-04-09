@@ -49,15 +49,15 @@ end
 function ENT:CreateCDevider()
 	for i=2,100 do
 		if (self.MaxTiberium/i) == 250 then
-			self.Divider = i
+			self:SetNWInt("CDevider",i)
 			return i
 		end
 	end
 end
 
 function ENT:Think()
-	if !self.Divider then self:CreateCDevider() end
-	self.a = self:GetTiberiumAmount()/(self.Divider or 16)+5
+	if !self:GetNWInt("CDevider") or self:GetNWInt("CDevider") == 0 or self:GetNWInt("CDevider") == "" then self:CreateCDevider() end
+	self.a = self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5
 	if self.NextTiberiumAdd <= CurTime() and self.TiberiumAdd then
 		self:AddTiberiumAmount(math.random(self.MinTiberiumGain,self.MaxTiberiumGain))
 		self.NextTiberiumAdd = CurTime()+3
