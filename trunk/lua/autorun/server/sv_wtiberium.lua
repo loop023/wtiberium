@@ -15,6 +15,7 @@ WTib_InfectedLifeForms = {}
 WTib_MinProductionRate = 30
 WTib_MaxProductionRate = 60
 WTib_MaxTotalTiberium = 0
+local RD3
 local RD
 
 if WDS then
@@ -236,78 +237,92 @@ end
 */
 
 function WTib_IsRD3()
-	if CAF and CAF.GetAddon("Resource Distribution") then
+	if(RD3 ~= nil) then return RD3 end
+	if(CAF and CAF.GetAddon("Resource Distribution")) then
+		RD3 = true
 		RD = CAF.GetAddon("Resource Distribution")
 		return true
 	end
+	RD3 = false
 	return false
 end
 
+function WTib_HasRD()
+	return (Dev_Link or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
+end
+
 function WTib_IsRD2()
+	if WTib_IsRD3() then return false end
 	return (Dev_Unlink_All != nil)
 end
 
 function WTib_SupplyResource(a,b,c)
-	if WTib_IsRD3() then
-		return RD.SupplyResource(a,b,c)
-	elseif WTib_IsRD2 then
-		return RD_SupplyResource(a,b,c)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.SupplyResource(a,b,c)
+		elseif WTib_IsRD2 then
+			return RD_SupplyResource(a,b,c)
+		end
 	end
 end
 
 function WTib_ConsumeResource(a,b,c)
-	if WTib_IsRD3() then
-		return RD.ConsumeResource(a,b,c)
-	elseif WTib_IsRD2 then
-		return RD_ConsumeResource(a,b,c)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.ConsumeResource(a,b,c)
+		elseif WTib_IsRD2 then
+			return RD_ConsumeResource(a,b,c)
+		end
 	end
 end
 
 function WTib_AddResource(a,b,c)
-	if WTib_IsRD3() then
-		return RD.AddResource(a,b,c)
-	elseif WTib_IsRD2 then
-		return RD_AddResource(a,b,c)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.AddResource(a,b,c)
+		elseif WTib_IsRD2 then
+			return RD_AddResource(a,b,c)
+		end
 	end
 end
 
 function WTib_GetResourceAmount(a,b,c)
-	if WTib_IsRD3() then
-		return RD.GetResourceAmount(a,b,c)
-	elseif WTib_IsRD2 then
-		return RD_GetResourceAmount(a,b,c)
-	end
-end
-
-function WTib_GetNetworkCapacity(a,b)
-	if WTib_IsRD3 then
-		return RD.GetNetworkCapacity(a,b)
-	elseif WTib_IsRD2 then
-		return RD_GetNetworkCapacity(a,b)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.GetResourceAmount(a,b,c)
+		elseif WTib_IsRD2 then
+			return RD_GetResourceAmount(a,b,c)
+		end
 	end
 end
 
 function WTib_RemoveRDEnt(e)
-	if WTib_IsRD3() then
-		RD.RemoveRDEntity(e)
-	elseif Dev_Unlink_All and e.resources2links then
-		Dev_Unlink_All(e)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			RD.RemoveRDEntity(e)
+		elseif Dev_Unlink_All and e.resources2links then
+			Dev_Unlink_All(e)
+		end
 	end
 end
 
 function WTib_BuildDupeInfo(a)
-	if WTib_IsRD3() then
-		return RD.BuildDupeInfo(a)
-	elseif WTib_IsRD2 then
-		return RD_BuildDupeInfo(a)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.BuildDupeInfo(a)
+		elseif WTib_IsRD2 then
+			return RD_BuildDupeInfo(a)
+		end
 	end
 end
 
 function WTib_ApplyDupeInfo(a,b)
-	if WTib_IsRD3() then
-		return RD.ApplyDupeInfo(a,b)
-	elseif WTib_IsRD2 then
-		return RD_ApplyDupeInfo(a,b)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.ApplyDupeInfo(a,b)
+		elseif WTib_IsRD2 then
+			return RD_ApplyDupeInfo(a,b)
+		end
 	end
 end
 
