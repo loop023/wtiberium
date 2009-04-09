@@ -27,6 +27,8 @@ Changelog :
 	The SWeps are now working as they should,
 	Added a sonic cluster warhead,
 	Added a MaxResource output for wire to each storage ent,
+	Missiles can no longer be picked up,
+	Added WTiberium_ClearAllTiberium that will remove all tiberium entities,
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,

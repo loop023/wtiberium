@@ -74,6 +74,24 @@ function WTib_MaxTotalTiberiumConsole(ply,com,args)
 end
 concommand.Add("WTiberium_MaxTotalTiberium",WTib_MaxTotalTiberiumConsole)
 
+function WTib_ClearAllTiberiumConsole(ply,com,args)
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	local a = 0
+	for _,v in pairs(WTib_GetAllTiberium()) do
+		if v and v:IsValid() then
+			v:Remove()
+			a = a+1
+		end
+	end
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Removed all "..tostring(a).." tiberium entities!")
+	end
+end
+concommand.Add("WTiberium_ClearAllTiberium",WTib_ClearAllTiberiumConsole)
+
 function WTib_PlayerSpawn(ply)
 	if WTib_IsInfected(ply) then
 		WTib_CureInfection(ply)
