@@ -43,7 +43,7 @@ function WTib_MinProductionRateConsole(ply,com,args)
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MinProductionRate = math.Clamp(tonumber(args[1]),20,tonumber(WTib_MaxProductionRate)-1)
+	WTib_MinProductionRate = math.Clamp(tonumber(args[1]),1,tonumber(WTib_MaxProductionRate)-1)
 	for _,v in pairs(player.GetAll()) do
 		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MinProductionRate)
 	end
