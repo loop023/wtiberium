@@ -5,7 +5,7 @@ function ENT:Draw()
 	Wire_Render(self)
 	local tr = LocalPlayer():GetEyeTrace()
 	if tr.Hit and tr.Entity and tr.Entity == self then
-		AddWorldTip(self:EntIndex(),"Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0))),0.5,tr.HitPos,self)
+		AddWorldTip(self:EntIndex(),"Refined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0))),0.5,tr.HitPos,self)
 	end
 end
 
