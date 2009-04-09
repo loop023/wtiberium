@@ -26,6 +26,7 @@ Changelog :
 	GCombat will no longer destroy tiberium entities,
 	The SWeps are now working as they should,
 	Added a sonic cluster warhead,
+	Added a MaxResource output for wire to each storage ent,
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,

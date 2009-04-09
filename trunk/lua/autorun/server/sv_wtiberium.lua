@@ -248,7 +248,7 @@ function WTib_IsRD3()
 end
 
 function WTib_HasRD()
-	return (Dev_Link or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
+	return (Dev_Link != nil or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
 end
 
 function WTib_IsRD2()
@@ -296,12 +296,22 @@ function WTib_GetResourceAmount(a,b,c)
 	end
 end
 
-function WTib_RemoveRDEnt(e)
+function WTib_RemoveRDEnt(a)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			RD.RemoveRDEntity(e)
-		elseif Dev_Unlink_All and e.resources2links then
-			Dev_Unlink_All(e)
+			return RD.RemoveRDEntity(a)
+		elseif Dev_Unlink_All and a.resources2links then
+			return Dev_Unlink_All(a)
+		end
+	end
+end
+
+function WTib_GetNetworkCapacity(a,b)
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.GetNetworkCapacity(a,b)
+		elseif WTib_IsRD2 then
+			return RD_GetNetworkCapacity(a,b)
 		end
 	end
 end
@@ -328,6 +338,6 @@ end
 
 function WTib_RegisterEnt(a,b)
 	if LS_RegisterEnt then
-		LS_RegisterEnt(a,b)
+		return LS_RegisterEnt(a,b)
 	end
 end

@@ -25,7 +25,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:OnTakeDamage()
-	self:Explode(self,{HitPos=self:GetPos()}
+	--self:Explode(self,{HitPos=self:GetPos()})
 end
 
 function ENT:Explode(missile,data)
@@ -33,9 +33,11 @@ function ENT:Explode(missile,data)
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
 	util.Effect("TermoniumExplosion",ed)
-	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),math.random(450,550),math.random(200,300))
+	util.BlastDamage(missile,(missile.WDSO or missile),data.HitPos or missile:GetPos(),math.random(450,550),math.random(200,300))
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
-		if v:IsNPC() or v:IsPlayer() then
+		if v.IsTiberium then
+			v:AddTiberium(math.Rand(50,100))
+		elseif v:IsNPC() or v:IsPlayer() then
 			WTib_InfectLiving(v)
 		elseif v:GetClass() == "prop_ragdoll" then
 			WTib_RagdollToTiberium(v)
