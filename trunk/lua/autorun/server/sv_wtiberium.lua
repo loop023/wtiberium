@@ -236,20 +236,14 @@ end
 */
 
 function WTib_IsRD3()
-	if RD != nil then return true end
-	if (CAF and CAF.GetAddon("Resource Distribution") and WTib_HasRD()) then
+	if CAF and CAF.GetAddon("Resource Distribution") then
 		RD = CAF.GetAddon("Resource Distribution")
 		return true
 	end
 	return false
 end
 
-function WTib_HasRD()
-	return (Dev_Link or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
-end
-
 function WTib_IsRD2()
-	if WTib_IsRD3() then return false end
 	return (Dev_Unlink_All != nil)
 end
 
@@ -282,6 +276,14 @@ function WTib_GetResourceAmount(a,b,c)
 		return RD.GetResourceAmount(a,b,c)
 	elseif WTib_IsRD2 then
 		return RD_GetResourceAmount(a,b,c)
+	end
+end
+
+function WTib_GetNetworkCapacity(a,b)
+	if WTib_IsRD3 then
+		return RD.GetNetworkCapacity(a,b)
+	elseif WTib_IsRD2 then
+		return RD_GetNetworkCapacity(a,b)
 	end
 end
 

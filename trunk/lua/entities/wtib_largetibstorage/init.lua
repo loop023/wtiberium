@@ -13,7 +13,7 @@ function ENT:Initialize()
 	end
 	self.MaxHealth = 500
 	self.aHealth = self.MaxHealth
-	self.Outputs = Wire_CreateOutputs(self,{"Tiberium"})
+	self.Outputs = Wire_CreateOutputs(self,{"Tiberium","MaxTiberium"})
 	WTib_AddResource(self,"Tiberium",10000)
 	WTib_RegisterEnt(self,"Storage")
 end
@@ -31,6 +31,7 @@ end
 function ENT:Think()
 	self:SetNWInt("Tib",WTib_GetResourceAmount(self,"Tiberium"))
 	Wire_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
+	Wire_TriggerOutput(self,"MaxTiberium",WTib_GetNetworkCapacity(self,"Tiberium"))
 end
 
 function ENT:OnTakeDamage(di)
