@@ -12,10 +12,10 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.NextProduce = CurTime()+math.random(30,60)
-	self.NextGas = CurTime()+math.random(5,60)
+	self.NextProduce = CurTime()+math.Rand(30,60)
+	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
-	self:SetTiberiumAmount(math.random(20,50))
+	self:SetTiberiumAmount(math.Rand(20,50))
 end
 
 function ENT:SecThink()

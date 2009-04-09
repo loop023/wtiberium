@@ -27,7 +27,7 @@ function SWEP:Throw(vel)
 	local phys = e:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:SetVelocity(self.Owner:GetAimVector()*vel)
-		phys:AddAngleVelocity(Vector(math.random(-1000,1000),math.random(-1000,1000),math.random(-1000,1000)))
+		phys:AddAngleVelocity(Vector(math.Rand(-1000,1000),math.Rand(-1000,1000),math.Rand(-1000,1000)))
 	end
 end
 

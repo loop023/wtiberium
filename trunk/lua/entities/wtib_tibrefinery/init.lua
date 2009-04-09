@@ -32,13 +32,13 @@ end
 
 function ENT:Think()
 	local a = 0
-	local rand = math.random(100,300)
+	local rand = math.Rand(100,300)
 	if self.Active and WTib_GetResourceAmount(self,"energy") >= rand*1.5 then
 		if WTib_GetResourceAmount(self,"Tiberium") >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)
 				WTib_ConsumeResource(self,"energy",rand*1.5)
-				WTib_SupplyResource(self,"RefinedTiberium",rand/math.random(1,1.8))
+				WTib_SupplyResource(self,"RefinedTiberium",rand/math.Rand(1,1.8))
 				self:EmitSound("wtiberium/refinery/ref.wav",200,40)
 				self.NextRefine = CurTime()+2
 			end

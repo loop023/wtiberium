@@ -47,7 +47,7 @@ function SWEP:PrimaryAttack()
 			e:Spawn()
 			e:Activate()
 			e:GetPhysicsObject():EnableDrag(true)
-			e:GetPhysicsObject():SetVelocity(self:GetOwner():GetAimVector()*math.random(150,250))
+			e:GetPhysicsObject():SetVelocity(self:GetOwner():GetAimVector()*math.Rand(150,250))
 			e:Fire("kill","",2)
 		end
 		if !self.IsEmittingSound then

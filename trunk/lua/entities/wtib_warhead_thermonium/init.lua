@@ -33,7 +33,7 @@ function ENT:Explode(missile,data)
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
 	util.Effect("TermoniumExplosion",ed)
-	util.BlastDamage(missile,(missile.WDSO or missile),data.HitPos or missile:GetPos(),math.random(450,550),math.random(200,300))
+	util.BlastDamage(missile,(missile.WDSO or missile),data.HitPos or missile:GetPos(),math.Rand(450,550),math.Rand(200,300))
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v.IsTiberium then
 			v:AddTiberium(math.Rand(50,100))

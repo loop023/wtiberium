@@ -20,10 +20,10 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.NextProduce = CurTime()+math.random(30,60)
-	self.NextGas = CurTime()+math.random(5,60)
+	self.NextProduce = CurTime()+math.Rand(30,60)
+	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
-	self:SetTiberiumAmount(math.random(200,500))
+	self:SetTiberiumAmount(math.Rand(200,500))
 end
 
 function ENT:SpawnFunction(p,t)
@@ -59,7 +59,7 @@ function ENT:Think()
 	if !self:GetNWInt("CDevider") or self:GetNWInt("CDevider") == 0 or self:GetNWInt("CDevider") == "" then self:CreateCDevider() end
 	self.a = self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5
 	if self.NextTiberiumAdd <= CurTime() and self.TiberiumAdd then
-		self:AddTiberiumAmount(math.random(self.MinTiberiumGain,self.MaxTiberiumGain))
+		self:AddTiberiumAmount(math.Rand(self.MinTiberiumGain,self.MaxTiberiumGain))
 		self.NextTiberiumAdd = CurTime()+3
 	end
 	if self.NextGas <= CurTime() then
@@ -103,7 +103,7 @@ end
 function ENT:EmitGas(pos)
 	if !self.Gas then return end
 	local e = ents.Create("wtib_tiberiumgas")
-	e:SetPos(pos or self:GetPos()+Vector(math.random(-30,30),math.random(-30,30),math.random(30,50)))
+	e:SetPos(pos or self:GetPos()+Vector(math.Rand(-30,30),math.Rand(-30,30),math.Rand(30,50)))
 	e:SetAngles(self:GetAngles())
 	e.WDSE = self
 	e.WDSO = self
@@ -113,7 +113,7 @@ function ENT:EmitGas(pos)
 	e:Spawn()
 	e:Activate()
 	e:Fire("kill","",2)
-	self.NextGas = CurTime()+math.random(5,60)
+	self.NextGas = CurTime()+math.Rand(5,60)
 end
 
 function ENT:OnTakeDamage(di)
@@ -168,7 +168,7 @@ function ENT:Reproduce()
 			end
 			local dist = t.HitPos:Distance(self:GetPos())
 			if dist >= 150 and dist <= 700 and save then
-				self.NextProduce = CurTime()+math.random(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
+				self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
 				self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 				local e = self:SpawnFunction(self.WDSO,t)
 				table.insert(self.Produces,e)

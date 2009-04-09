@@ -27,7 +27,7 @@ function ENT:Explode(missile,data)
 	local pos = missile:GetPos()
 	local WDSO = self.WDSO or self
 	local WDSE = self
-	util.BlastDamage(WDSE,WDSO,pos,math.random(100,200),math.random(200,300))
+	util.BlastDamage(WDSE,WDSO,pos,math.Rand(100,200),math.Rand(200,300))
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())

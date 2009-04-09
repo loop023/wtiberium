@@ -45,7 +45,7 @@ function ENT:Explode(missile,data)
 		e:SetTiberiumAmount(3000)
 		e:Reproduce()
 	end
-	e:SetTiberiumAmount(math.random(200,500))
+	e:SetTiberiumAmount(math.Rand(200,500))
 	missile:Remove()
 end
 

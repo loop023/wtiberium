@@ -25,7 +25,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Explode(missile,data)
-	util.BlastDamage(missile,missile.WDSO,missile:GetPos(),math.random(200,300),math.random(300,400))
+	util.BlastDamage(missile,missile.WDSO,missile:GetPos(),math.Rand(200,300),math.Rand(300,400))
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
