@@ -31,7 +31,7 @@ function WTib_MaxProductionRateConsole(ply,com,args)
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MaxProductionRate = math.Clamp(args[1],WTib_MinProductionRate+1,100000)
+	WTib_MaxProductionRate = math.Clamp(args[1],tonumber(WTib_MinProductionRate)+1,100000)
 	for _,v in pairs(player.GetAll()) do
 		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MaxProductionRate)
 	end
@@ -43,7 +43,7 @@ function WTib_MinProductionRateConsole(ply,com,args)
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MinProductionRate = math.Clamp(args[1],20,WTib_MaxProductionRate-1)
+	WTib_MinProductionRate = math.Clamp(args[1],20,tonumber(WTib_MaxProductionRate)-1)
 	for _,v in pairs(player.GetAll()) do
 		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MinProductionRate)
 	end
@@ -55,7 +55,7 @@ function WTib_MaxProductionsConsole(ply,com,args)
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MaxProductionRate = math.Clamp(args[1],1,50)
+	WTib_MaxProductionRate = math.Clamp(tonumber(args[1]),1,50)
 	for _,v in pairs(player.GetAll()) do
 		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MaxProductionRate)
 	end
@@ -67,7 +67,7 @@ function WTib_MaxTotalTiberiumConsole(ply,com,args)
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MaxTotalTiberium = args[1]
+	WTib_MaxTotalTiberium = tonumber(args[1])
 	for _,v in pairs(player.GetAll()) do
 		v:ChatPrint("Maximum tiberium entities has changed to "..WTib_MaxTotalTiberium)
 	end
