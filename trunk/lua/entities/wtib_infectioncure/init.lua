@@ -24,7 +24,7 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:PhysicsCollide(data,ply)
+function ENT:Touch(data,ply)
 	self:Heal(ply)
 end
 
