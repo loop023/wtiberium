@@ -24,14 +24,14 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
-function ENT:Touch(data,ply)
+function ENT:Touch(ply)
 	self:Heal(ply)
 end
 
 function ENT:Heal(ply)
-	if ply and ply:IsValid() then
+	if ply:IsPlayer() and (ply:Health() < 100 or WTib_IsInfected(ply)) then
 		WTib_CureInfection(ply)
-		ply:EmitSound("sound/items/medshot4.wav")
+		ply:EmitSound("items/medshot4.wav")
 		if ply:Health() < 100 then
 			ply:SetHealth(math.Clamp(ply:Health()+20,1,100))
 		end
@@ -39,6 +39,6 @@ function ENT:Heal(ply)
 	end
 end
 
-function ENT:Use(ent)
+function ENT:Use(ply)
 	self:Heal(ply)
 end

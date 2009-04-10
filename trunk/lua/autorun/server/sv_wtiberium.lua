@@ -133,9 +133,12 @@ function WTib_CureInfection(ply)
 			if v == ply then
 				ply:SetColor(255,255,255,255)
 				WTib_InfectedLifeForms[k] = nil
+				return true
 			end
 		end
+		return false
 	end
+	return false
 end
 
 function WTib_IsInfected(ply)
