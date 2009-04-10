@@ -144,7 +144,7 @@ function WTib_PropToTiberium(v)
 end
 
 function WTib_InfectLiving(ply)
-	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) then
+	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) and !WTib_IsInfected(ply) then
 		ply:SetColor(0,200,0,255)
 		table.insert(WTib_InfectedLifeForms,ply)
 	end
