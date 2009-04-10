@@ -42,23 +42,7 @@ function ENT:Explode(missile,data)
 		elseif v:GetClass() == "prop_ragdoll" then
 			WTib_RagdollToTiberium(v)
 		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then
-			print(v:GetClass())
-			local e = ents.Create("wtib_tiberiumprop")
-			e:SetPos(v:GetPos())
-			e:SetModel(v:GetModel())
-			e:SetMaterial(v:GetMaterial())
-			e:SetAngles(v:GetAngles())
-			e:SetColor(Color(0,200,20,230))
-			e:SetSkin(v:GetSkin())
-			e:SetCollisionGroup(v:GetCollisionGroup())
-			e.Class = e:GetClass()
-			if v.ZatMode == 1 then -- Zat compatability
-				e.ZatMode = 2
-				e.LastZat = v.LastZat or CurTime()
-			end
-			e:Spawn()
-			e:Activate()
-			v:Remove()
+			WTib_PropToTiberium(v)
 		end
 	end
 	missile:Remove()

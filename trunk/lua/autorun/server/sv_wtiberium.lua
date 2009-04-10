@@ -120,6 +120,29 @@ function WTib_GetAllTiberium()
 	return a
 end
 
+function WTib_PropToTiberium(v)
+	if v:GetClass() == "prop_ragdoll" then
+		return WTib_RagdollToTiberium(v)
+	end
+	local e = ents.Create("wtib_tiberiumprop")
+	e:SetPos(v:GetPos())
+	e:SetModel(v:GetModel())
+	e:SetMaterial(v:GetMaterial())
+	e:SetAngles(v:GetAngles())
+	e:SetColor(Color(0,200,20,230))
+	e:SetSkin(v:GetSkin())
+	e:SetCollisionGroup(v:GetCollisionGroup())
+	e.Class = e:GetClass()
+	if v.ZatMode == 1 then -- Zat compatability
+		e.ZatMode = 2
+		e.LastZat = v.LastZat or CurTime()
+	end
+	e:Spawn()
+	e:Activate()
+	v:Remove()
+	return e
+end
+
 function WTib_InfectLiving(ply)
 	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) then
 		ply:SetColor(0,200,0,255)
