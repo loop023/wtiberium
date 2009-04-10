@@ -1,5 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Large Refined Tiberium Storage"
+ENT.WireDebugName	= "Large Refined Tiberium Storage"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

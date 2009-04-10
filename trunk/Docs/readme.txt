@@ -29,7 +29,8 @@ Changelog :
 	Added a MaxResource output for wire to each storage ent,
 	Missiles can no longer be picked up,
 	Added WTiberium_ClearAllTiberium that will remove all tiberium entities,
-	Added WTib_PhysgunPickupBlock that will disable/enable the physgun pickup on the tiberium entities,
+	Added a sonic repultion field,
+	Added wire debugger support,
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,

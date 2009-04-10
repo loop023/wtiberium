@@ -154,6 +154,14 @@ function ENT:Reproduce()
 		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
 		if t.Hit then
 			local save = true
+			for _,v in pairs(ents.FindInSphere(t.HitPos,1024)) do
+				if v:GetClass() == "wtib_sonicfieldemitter" then
+					if t.HitPos:Distance(v:GetPos()) <= (v:GetNWInt("Radius") or 512) and (v:GetNWBool("Online") or false) then
+						save = false
+						break
+					end
+				end
+			end
 			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do
 				if v.IsTiberium and v:GetClass() != self:GetClass() then
 					save = false

@@ -1,5 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Tiberium Chemical Plant"
+ENT.WireDebugName	= "Tiberium Chemical Plant"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

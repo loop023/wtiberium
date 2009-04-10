@@ -1,5 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Small Tiberium Harvester"
+ENT.WireDebugName	= "Small Tiberium Harvester"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

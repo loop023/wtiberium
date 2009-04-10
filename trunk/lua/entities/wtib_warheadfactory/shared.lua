@@ -1,5 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Warhead Factory"
+ENT.WireDebugName	= "Warhead Factory"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
