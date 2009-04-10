@@ -7,3 +7,4 @@ ENT.Instructions	= ""
 ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 ENT.Category		= "Tiberium"
+ENT.NoPhysicsPickup	= false

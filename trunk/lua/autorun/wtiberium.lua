@@ -3,12 +3,8 @@ if SERVER then
 	AddCSLuaFile("autorun/client/cl_wtiberium.lua")
 end
 
-WTib_NoPickupClasses =	{
-							"wtib_missile"
-						}
-
 function WTib_PhysPickup(ply,ent)
-	if (ent.IsTiberium or table.HasValue(WTib_NoPickupClasses,ent:GetClass())) and !ent.DisableAntiPickup then
+	if ent.IsTiberium and !ent.DisableAntiPickup or ent.NoPhysicsPickup then
 		return false
 	end
 end

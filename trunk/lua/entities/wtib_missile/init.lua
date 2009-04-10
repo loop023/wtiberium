@@ -47,6 +47,7 @@ function ENT:Think()
 end
 
 function ENT:Shoot()
+	self.NoPhysicsPickup = true
 	constraint.RemoveAll(self)
 	self:SetParent(nil)
 	local phys = self:GetPhysicsObject()

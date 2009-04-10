@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 function ENT:Initialize()
-	self:SetModel("models/Items/HealthKit.mdl")
+	self:SetModel("models/Combine_Helicopter/helicopter_bomb01.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -11,7 +11,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Inputs = Wire_CreateInputs(self,{"On","Radius"})
+	self.Inputs = Wire_CreateInputs(self,{"On","SetRadius"})
 	self.Outputs = Wire_CreateOutputs(self,{"Online","Radius"})
 	WTib_AddResource(self,"energy",0)
 	WTib_RegisterEnt(self,"Generator")
@@ -20,7 +20,7 @@ function ENT:Initialize()
 	Wire_TriggerOutput(self,"Online",0)
 	self:SetNWInt("Radius",512)
 	Wire_TriggerOutput(self,"Radius",512)
-	self.NextEnergyDrain = 0
+	self.NextSonicEmit = 0
 end
 
 function ENT:SpawnFunction(p,t)
@@ -36,10 +36,15 @@ end
 function ENT:Think()
 	local am = (self:GetNWInt("Radius") or 512)/math.Rand(1.5,2.5)
 	if self.ShouldBeActive and WTib_GetResourceAmount(self,"energy") > am then
-		if self.NextEnergyDrain <= CurTime() then
+		if self.NextSonicEmit <= CurTime() then
 			WTib_ConsumeResource(self,"energy",am)
+			for _,v in pairs(ents.FindInSphere(self:GetPos(),self:GetNWInt("Radius") or 512)) do
+				if v.IsTiberium then
+					v:DrainTiberiumAmount(math.Rand(170,300))
+				end
+			end
+			self.NextSonicEmit = CurTime()+1
 		end
-		self.NextEnergyDrain = CurTime()+1
 		self:SetNWBool("Online",true)
 		Wire_TriggerOutput(self,"Online",1)
 	else
@@ -55,7 +60,7 @@ function ENT:TriggerInput(name,val)
 			a = false
 		end
 		self.ShouldBeActive = a
-	elseif name == "Radius" then
+	elseif name == "SetRadius" then
 		local a = math.Clamp(val or 512,10,1024)
 		self:SetNWInt("Radius",a)
 		Wire_TriggerOutput(self,"Radius",a)
