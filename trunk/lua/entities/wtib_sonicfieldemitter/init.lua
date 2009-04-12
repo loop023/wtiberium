@@ -53,16 +53,33 @@ function ENT:Think()
 	end
 end
 
+function ENT:Use(ply)
+	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
+	if self.Active then
+		self:TurnOff()
+	else
+		self:TurnOn()
+	end
+end
+
 function ENT:TriggerInput(name,val)
 	if name == "On" then
-		local a = true
 		if val == 0 then
-			a = false
+			self:TurnOff()
+		else
+			self:TurnOn()
 		end
-		self.ShouldBeActive = a
 	elseif name == "SetRadius" then
 		local a = math.Clamp(val or 512,10,1024)
 		self:SetNWInt("Radius",a)
 		Wire_TriggerOutput(self,"Radius",a)
 	end
+end
+
+function ENT:TurnOn()
+	self.ShouldBeActive = true
+end
+
+function ENT:TurnOff()
+	self.ShouldBeActive = false
 end

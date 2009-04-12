@@ -7,6 +7,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetUseType(SIMPLE_USE)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -48,6 +49,15 @@ function ENT:Think()
 		self:TurnOff()
 	end
 	Wire_TriggerOutput(self,"Online",a)
+end
+
+function ENT:Use(ply)
+	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
+	if self.Active then
+		self:TurnOff()
+	else
+		self:TurnOn()
+	end
 end
 
 function ENT:TriggerInput(name,val)

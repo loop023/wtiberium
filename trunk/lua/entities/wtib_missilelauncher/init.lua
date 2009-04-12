@@ -7,6 +7,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
+	self:SetUseType(SIMPLE_USE)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -25,17 +26,15 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
+function ENT:Use(ply)
+	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
+	self:Shoot()
+end
+
 function ENT:TriggerInput(name,val)
 	if name == "Fire" then
-		if val != 0 and self.Missile and self.Missile:IsValid() then
-			self.Missile:Shoot()
-			self.Missile.LockDelay = CurTime()+(self.LockDelay or 0.5)
-			if self.Locked then
-				self.Missile.Target = Vector(self.CoX or 0,self.CoY or 0,self.CoZ or 0)
-			end
-			self.Missile.NoLauncher = true
-			self.Missile = nil
-			Wire_TriggerOutput(self,"Can Fire",0)
+		if val != 0 then
+			self:Shoot()
 		end
 	elseif name == "Lock" then
 		if val == 1 then
@@ -51,6 +50,19 @@ function ENT:TriggerInput(name,val)
 		self.CoY = val
 	elseif name == "Z" then
 		self.CoZ = val
+	end
+end
+
+function ENT:Shoot()
+	if self.Missile and self.Missile:IsValid() then
+		self.Missile:Shoot()
+		self.Missile.LockDelay = CurTime()+(self.LockDelay or 0.5)
+		if self.Locked then
+			self.Missile.Target = Vector(self.CoX or 0,self.CoY or 0,self.CoZ or 0)
+		end
+		self.Missile.NoLauncher = true
+		self.Missile = nil
+		Wire_TriggerOutput(self,"Can Fire",0)
 	end
 end
 
