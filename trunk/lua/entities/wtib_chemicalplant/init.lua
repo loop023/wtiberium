@@ -33,10 +33,13 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
+	local En = WTib_GetResourceAmount(self,"energy")
+	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
+	local T = WTib_GetResourceAmount(self,"Tiberium")
 	local a = 0
 	local rand = math.Rand(200,400)
-	if self.Active and WTib_GetResourceAmount(self,"energy") >= rand*1.5 then
-		if WTib_GetResourceAmount(self,"Tiberium") >= rand then
+	if self.Active and En >= rand*1.5 then
+		if T >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)
 				WTib_ConsumeResource(self,"energy",rand*1.5)
@@ -53,9 +56,6 @@ function ENT:Think()
 	if a == 1 then
 		o = true
 	end
-	local En = WTib_GetResourceAmount(self,"energy")
-	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
-	local T = WTib_GetResourceAmount(self,"Tiberium")
 	self:SetNWBool("Online",o)
 	self:SetNWInt("energy",En)
 	self:SetNWInt("TibChem",TC)

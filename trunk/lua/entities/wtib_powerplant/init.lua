@@ -33,9 +33,10 @@ end
 
 function ENT:Think()
 	local a = 0
+	local En = WTib_GetResourceAmount(self,"energy")
+	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
 	local rand = math.Rand(50,200)
-	local RTib = WTib_GetResourceAmount(self,"RefinedTiberium")
-	if self.Active and RTib >= rand and self.NextPower <= CurTime() then
+	if self.Active and RT >= rand and self.NextPower <= CurTime() then
 		WTib_ConsumeResource(self,"RefinedTiberium",rand)
 		WTib_SupplyResource(self,"energy",rand*1.5)
 		a = 1
@@ -46,8 +47,6 @@ function ENT:Think()
 	if a == 1 then
 		o = true
 	end
-	local En = WTib_GetResourceAmount(self,"energy")
-	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
 	self:SetNWBool("Online",o)
 	self:SetNWInt("energy",En)
 	self:SetNWInt("RefTib",RT)

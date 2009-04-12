@@ -407,7 +407,7 @@ end
 
 function WTib_TriggerOutput(a,b,c)
 	if WireAddon then
-		return WTib_TriggerOutput(a,b,c)
+		return Wire_TriggerOutput(a,b,c)
 	end
 end
 

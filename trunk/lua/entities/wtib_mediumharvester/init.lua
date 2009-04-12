@@ -37,11 +37,13 @@ end
 
 function ENT:Harvest()
 	local a = 0
+	local En = WTib_GetResourceAmount(self,"energy")
+	local T = WTib_GetResourceAmount(self,"Tiberium")
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
 		if a >= 5 then return end
 		if v.IsTiberium then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 50,MaxTiberiumGain or 150))
-			if WTib_GetResourceAmount(self,"energy") < am*2 then
+			if En < am*2 then
 				self:TurnOff()
 				return
 			end
@@ -56,9 +58,6 @@ function ENT:Harvest()
 	if a == 1 then
 		o = true
 	end
-	local En = WTib_GetResourceAmount(self,"energy")
-	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
-	local T = WTib_GetResourceAmount(self,"Tiberium")
 	self:SetNWBool("Online",o)
 	self:SetNWInt("energy",En)
 	self:SetNWInt("Tib",T)
