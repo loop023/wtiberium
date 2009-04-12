@@ -34,6 +34,8 @@ Changelog :
 	Added more tooltips,
 	Wire should no longer be required,
 	Entities can now be "Used" (Pressed use on),
+	Added WTiberium_UseTooltips (Disabled and enables tooltips on tiberium entities),
+	Added WTiberium_UseOldTooltips (Selects if the tooltips start at the origin of the ent or at the pos you look),
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,

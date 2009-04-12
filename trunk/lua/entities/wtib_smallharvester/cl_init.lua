@@ -10,7 +10,7 @@ function ENT:WTib_GetTooltip()
 	if self:GetNWBool("Online") then
 		on = "On"
 	end
-	return "Small Tiberium Harvester ("..on..")\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0))).."\nTiberium : "..math.Round(tostring(self:GetNWInt("Tib",0)))
+	return "Small Tiberium Harvester ("..on..")\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0)))
 end
 
 function ENT:Think()

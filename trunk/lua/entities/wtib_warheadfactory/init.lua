@@ -33,10 +33,16 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
+	local En = WTib_GetResourceAmount(self,"energy")
+	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
+	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
 	self:SetNWString("Warhead",self.Warheads[self.CurWarhead].name or "N/A")
-	WTib_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
-	WTib_TriggerOutput(self,"Refined Tiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
-	WTib_TriggerOutput(self,"Tiberium Chemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
+	self:SetNWString("energy",En)
+	self:SetNWString("RefTib",RT)
+	self:SetNWString("TibChem",TC)
+	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"Refined Tiberium",RT)
+	WTib_TriggerOutput(self,"Tiberium Chemicals",TC)
 end
 
 function ENT:TriggerInput(name,val)
@@ -55,15 +61,12 @@ function ENT:Use(ply)
 end
 
 function WTib_ReceiveWarhead(ply,com,args)
-	print("Received the command.")
 	for _,v in pairs(ents.FindByClass("wtib_warheadfactory")) do
 		if tostring(v) == args[1] then
-			print("Found the factory! : "..args[1].." set to "..args[2].."!")
 			v:SetWarhead(args[2])
 			return
 		end
 	end
-	print("Factory "..tostring(args[1]).." not found!")
 end
 concommand.Add("wtib_setwarhead",WTib_ReceiveWarhead)
 

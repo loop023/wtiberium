@@ -33,7 +33,6 @@ end
 
 function ENT:Think()
 	local a = 0
-	local En = WTib_GetResourceAmount(self,"energy")
 	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
 	local rand = math.Rand(50,200)
 	if self.Active and RT >= rand and self.NextPower <= CurTime() then
@@ -48,10 +47,9 @@ function ENT:Think()
 		o = true
 	end
 	self:SetNWBool("Online",o)
-	self:SetNWInt("energy",En)
 	self:SetNWInt("RefTib",RT)
 	WTib_TriggerOutput(self,"Online",a)
-	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
 	WTib_TriggerOutput(self,"Refined Tiberium",TC)
 end
 

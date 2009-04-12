@@ -37,11 +37,12 @@ end
 
 function ENT:Harvest()
 	local a = 0
+	local En = WTib_GetResourceAmount(self,"energy")
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),100)) do
 		if a >= 5 then return end
 		if v.IsTiberium then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 15,MaxTiberiumGain or 50))
-			if WTib_GetResourceAmount(self,"energy") < am*1.5 then
+			if En < am*1.5 then
 				self:TurnOff()
 				return
 			end
@@ -52,6 +53,15 @@ function ENT:Harvest()
 			a = a+1
 		end
 	end
+	local o = false
+	if a == 1 then
+		o = true
+	end
+	self:SetNWBool("Online",o)
+	self:SetNWInt("energy",En)
+	WTib_TriggerOutput(self,"Online",a)
+	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
 end
 
 function ENT:DoSparkEffect(te,size)
@@ -80,23 +90,6 @@ function ENT:Think()
 		self:Harvest()
 		self.NextHarvest = CurTime()+1
 	end
-	local a = 0
-	if self.Active then
-		a = 1
-	end
-	local o = false
-	if a == 1 then
-		o = true
-	end
-	local En = WTib_GetResourceAmount(self,"energy")
-	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
-	local T = WTib_GetResourceAmount(self,"Tiberium")
-	self:SetNWBool("Online",o)
-	self:SetNWInt("energy",En)
-	self:SetNWInt("Tib",T)
-	WTib_TriggerOutput(self,"Online",a)
-	WTib_TriggerOutput(self,"Energy",En)
-	WTib_TriggerOutput(self,"Tiberium",T)
 end
 
 function ENT:Use(ply)

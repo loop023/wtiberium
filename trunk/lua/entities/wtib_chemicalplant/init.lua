@@ -34,7 +34,6 @@ end
 
 function ENT:Think()
 	local En = WTib_GetResourceAmount(self,"energy")
-	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
 	local T = WTib_GetResourceAmount(self,"Tiberium")
 	local a = 0
 	local rand = math.Rand(200,400)
@@ -58,11 +57,10 @@ function ENT:Think()
 	end
 	self:SetNWBool("Online",o)
 	self:SetNWInt("energy",En)
-	self:SetNWInt("TibChem",TC)
 	self:SetNWInt("Tib",T)
 	WTib_TriggerOutput(self,"Online",a)
 	WTib_TriggerOutput(self,"Energy",En)
-	WTib_TriggerOutput(self,"TiberiumChemicals",TC)
+	WTib_TriggerOutput(self,"TiberiumChemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
 	WTib_TriggerOutput(self,"Tiberium",T)
 end
 

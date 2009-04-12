@@ -16,7 +16,7 @@ function ENT:CreateDLight()
 	if ((WTib_DynamicLight and !WTib_DynamicLight:GetBool()) or false) or !self.DynLight then return end
 	local dlight = DynamicLight(self:EntIndex())
 	if dlight then
-		local size = math.Clamp((((self:GetNWInt("TiberiumAmount")/self:GetNWInt("CDevider")) or 100)+5)*WTib_DynamicLightSize:GetInt(),100,255)
+		local size = math.Clamp((((self:GetNWInt("TiberiumAmount")/self:GetNWInt("CDevider")) or 100)+5)*WTib_DynamicLightSize:GetInt(),100,1000)
 		local r,g,b,a = self:GetColor()
 		dlight.Pos = self:GetPos()+self:GetUp()*30
 		dlight.r = r
