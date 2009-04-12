@@ -50,7 +50,6 @@ function WTib_OpenWarheadMenu(um)
 		DList:AddLine(v.name,v.Discription)
 	end
 	DList.OnRowSelected = function(panel,num)
-		print("Sending command : \"wtib_setwarhead \""..tostring(ent).."\" \""..num.."\"\"")
 		RunConsoleCommand("wtib_setwarhead",tostring(ent),num)
 		surface.PlaySound("buttons/button9.wav")
 	end
