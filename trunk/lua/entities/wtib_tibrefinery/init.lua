@@ -14,7 +14,7 @@ function ENT:Initialize()
 	end
 	self.NextRefine = 0
 	self.Inputs = WTib_CreateInputs(self,{"On"})
-	self.Outputs = WTib_CreateOutputs(self,{"Online"})
+	self.Outputs = WTib_CreateOutputs(self,{"Online","Energy","RefinedTiberium","Tiberium"})
 	WTib_AddResource(self,"RefinedTiberium",0)
 	WTib_AddResource(self,"Tiberium",0)
 	WTib_AddResource(self,"energy",0)
@@ -48,7 +48,21 @@ function ENT:Think()
 	else
 		self:TurnOff()
 	end
+	local o = false
+	if a == 1 then
+		o = true
+	end
+	local En = WTib_GetResourceAmount(self,"energy")
+	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
+	local T = WTib_GetResourceAmount(self,"Tiberium")
+	self:SetNWBool("Online",o)
+	self:SetNWInt("energy",En)
+	self:SetNWInt("RefTib",RT)
+	self:SetNWInt("Tib",T)
 	WTib_TriggerOutput(self,"Online",a)
+	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"RefinedTiberium",TC)
+	WTib_TriggerOutput(self,"Tiberium",T)
 end
 
 function ENT:Use(ply)

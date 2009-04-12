@@ -33,6 +33,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
+	self:SetNWString("Warhead",self.Warheads[self.CurWarhead].name or "N/A")
 	WTib_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
 	WTib_TriggerOutput(self,"Refined Tiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
 	WTib_TriggerOutput(self,"Tiberium Chemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))

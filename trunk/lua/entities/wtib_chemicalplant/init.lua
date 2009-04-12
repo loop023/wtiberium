@@ -15,7 +15,7 @@ function ENT:Initialize()
 		phys:Wake()
 	end
 	self.Inputs = WTib_CreateInputs(self,{"On"})
-	self.Outputs = WTib_CreateOutputs(self,{"Online"})
+	self.Outputs = WTib_CreateOutputs(self,{"Online","Energy","TiberiumChemicals","Tiberium"})
 	WTib_AddResource(self,"TiberiumChemicals",0)
 	WTib_AddResource(self,"Tiberium",0)
 	WTib_AddResource(self,"energy",0)
@@ -49,7 +49,21 @@ function ENT:Think()
 	else
 		self:TurnOff()
 	end
+	local o = false
+	if a == 1 then
+		o = true
+	end
+	local En = WTib_GetResourceAmount(self,"energy")
+	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
+	local T = WTib_GetResourceAmount(self,"Tiberium")
+	self:SetNWBool("Online",o)
+	self:SetNWInt("energy",En)
+	self:SetNWInt("TibChem",TC)
+	self:SetNWInt("Tib",T)
 	WTib_TriggerOutput(self,"Online",a)
+	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"TiberiumChemicals",TC)
+	WTib_TriggerOutput(self,"Tiberium",T)
 end
 
 function ENT:Use(ply)

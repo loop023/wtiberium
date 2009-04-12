@@ -38,10 +38,22 @@ function ENT:Think()
 	if self.Active and RTib >= rand and self.NextPower <= CurTime() then
 		WTib_ConsumeResource(self,"RefinedTiberium",rand)
 		WTib_SupplyResource(self,"energy",rand*1.5)
+		a = 1
 	else
 		self:TurnOff()
 	end
+	local o = false
+	if a == 1 then
+		o = true
+	end
+	local En = WTib_GetResourceAmount(self,"energy")
+	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
+	self:SetNWBool("Online",o)
+	self:SetNWInt("energy",En)
+	self:SetNWInt("RefTib",RT)
 	WTib_TriggerOutput(self,"Online",a)
+	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"Refined Tiberium",TC)
 end
 
 function ENT:Use(ply)

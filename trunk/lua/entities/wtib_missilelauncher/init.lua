@@ -28,6 +28,14 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
+function ENT:Think()
+	if self.Missile and self.Missile:IsValid() then
+		self:SetNWBool("Loaded",true)
+	else
+		self:SetNWBool("Loaded",false)
+	end
+end
+
 function ENT:Use(ply)
 	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
 	self:Shoot()

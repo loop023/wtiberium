@@ -18,8 +18,8 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Outputs = WTib_CreateOutputs(self,{"Online"})
 	self.Inputs = WTib_CreateInputs(self,{"On"})
+	self.Outputs = WTib_CreateOutputs(self,{"Online","Energy","Tiberium"})
 	WTib_AddResource(self,"Tiberium",0)
 	WTib_AddResource(self,"energy",0)
 	WTib_RegisterEnt(self,"Generator")
@@ -52,6 +52,19 @@ function ENT:Harvest()
 			a = a+1
 		end
 	end
+	local o = false
+	if a == 1 then
+		o = true
+	end
+	local En = WTib_GetResourceAmount(self,"energy")
+	local TC = WTib_GetResourceAmount(self,"TiberiumChemicals")
+	local T = WTib_GetResourceAmount(self,"Tiberium")
+	self:SetNWBool("Online",o)
+	self:SetNWInt("energy",En)
+	self:SetNWInt("Tib",T)
+	WTib_TriggerOutput(self,"Online",a)
+	WTib_TriggerOutput(self,"Energy",En)
+	WTib_TriggerOutput(self,"Tiberium",T)
 end
 
 function ENT:DoSparkEffect(te,size)
