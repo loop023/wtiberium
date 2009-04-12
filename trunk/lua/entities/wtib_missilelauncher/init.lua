@@ -2,6 +2,8 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+ENT.Locked = false
+
 function ENT:Initialize()
 	self:SetModel("models/props_phx/box_amraam.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -12,8 +14,8 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Inputs = Wire_CreateInputs(self,{"Fire","Lock","LockDelay","X","Y","Z"})
-	self.Outputs = Wire_CreateOutputs(self,{"Can Fire"})
+	self.Inputs = WTib_CreateInputs(self,{"Fire","Lock","LockDelay","X","Y","Z"})
+	self.Outputs = WTib_CreateOutputs(self,{"Can Fire"})
 end
 
 function ENT:SpawnFunction(p,t)
@@ -62,7 +64,7 @@ function ENT:Shoot()
 		end
 		self.Missile.NoLauncher = true
 		self.Missile = nil
-		Wire_TriggerOutput(self,"Can Fire",0)
+		WTib_TriggerOutput(self,"Can Fire",0)
 	end
 end
 
@@ -75,19 +77,17 @@ function ENT:Touch(ent)
 		constraint.NoCollide(self,ent,0,0)
 		ent.MissileL = self
 		self.Missile = ent
-		Wire_TriggerOutput(self,"Can Fire",1)
+		WTib_TriggerOutput(self,"Can Fire",1)
 	end
 end
 
 function ENT:OnRestore(self)
-	if WireAddon then
-		Wire_Restored(self)
-	end
+	WTib_Restored(self)
 end
 
 function ENT:PreEntityCopy()
 	WTib_BuildDupeInfo(self)
-	if WireAddon != nil then
+	if WireAddon then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
 		if DupeInfo then
 			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
@@ -97,7 +97,7 @@ end
 
 function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
 	WTib_ApplyDupeInfo(Ent,CreatedEntities)
-	if WireAddon != nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
 	end
 end

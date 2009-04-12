@@ -2,6 +2,8 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+ENT.Armed = false
+
 function ENT:Initialize()
 	self:SetModel("models/props_phx/amraam.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -11,7 +13,6 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Armed = false
 end
 
 function ENT:SpawnFunction(p,t)

@@ -13,8 +13,8 @@ function ENT:Initialize()
 		phys:Wake()
 	end
 	self.NextRefine = 0
-	self.Inputs = Wire_CreateInputs(self,{"On"})
-	self.Outputs = Wire_CreateOutputs(self,{"Online"})
+	self.Inputs = WTib_CreateInputs(self,{"On"})
+	self.Outputs = WTib_CreateOutputs(self,{"Online"})
 	WTib_AddResource(self,"RefinedTiberium",0)
 	WTib_AddResource(self,"Tiberium",0)
 	WTib_AddResource(self,"energy",0)
@@ -48,7 +48,7 @@ function ENT:Think()
 	else
 		self:TurnOff()
 	end
-	Wire_TriggerOutput(self,"Online",a)
+	WTib_TriggerOutput(self,"Online",a)
 end
 
 function ENT:Use(ply)
@@ -85,20 +85,18 @@ end
 
 function ENT:OnRemove()
 	WTib_RemoveRDEnt(self)
-	if WireAddon and (self.Outputs or self.Inputs) then
-		Wire_Remove(self)
+	if (self.Outputs or self.Inputs) then
+		WTib_Remove(self)
 	end
 end
 
 function ENT:OnRestore()
-	if WireAddon then
-		Wire_Restored(self)
-	end
+	WTib_Restored(self)
 end
 
 function ENT:PreEntityCopy()
 	WTib_BuildDupeInfo(self)
-	if WireAddon != nil then
+	if WireAddon then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
 		if DupeInfo then
 			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
@@ -108,7 +106,7 @@ end
 
 function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
 	WTib_ApplyDupeInfo(Ent,CreatedEntities)
-	if WireAddon != nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
 	end
 end

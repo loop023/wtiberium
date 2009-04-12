@@ -385,3 +385,38 @@ function WTib_RegisterEnt(a,b)
 		return LS_RegisterEnt(a,b)
 	end
 end
+
+/*
+	***************************************************
+	*         Wire shit down here, these are all placeholders          *
+	*     so the check does not have to be done multiple times      *
+	***************************************************
+*/
+
+function WTib_CreateInputs(a,b,c)
+	if WireAddon then
+		return Wire_CreateInputs(a,b,c)
+	end
+end
+
+function WTib_CreateOutputs(a,b)
+	if WireAddon then
+		return Wire_CreateOutputs(a,b)
+	end
+end
+
+function WTib_TriggerOutput(a,b,c)
+	if WireAddon then
+		return WTib_TriggerOutput(a,b,c)
+	end
+end
+
+function WTib_Restored(a)
+	return Wire_Restored(a)
+end
+
+function WTib_Remove(a)
+	if WireAddon then
+		return Wire_Remove(a)
+	end
+end

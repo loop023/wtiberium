@@ -14,8 +14,8 @@ function ENT:Initialize()
 	end
 	self.NextRefine = 0
 	self.CurWarhead = 1
-	self.Inputs = Wire_CreateInputs(self,{"Create"})
-	self.Outputs = Wire_CreateOutputs(self,{"Refined Tiberium","Energy","Tiberium Chemicals"})
+	self.Inputs = WTib_CreateInputs(self,{"Create"})
+	self.Outputs = WTib_CreateOutputs(self,{"Refined Tiberium","Energy","Tiberium Chemicals"})
 	WTib_AddResource(self,"RefinedTiberium",0)
 	WTib_AddResource(self,"TiberiumChemicals",0)
 	WTib_AddResource(self,"energy",0)
@@ -33,9 +33,9 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	Wire_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
-	Wire_TriggerOutput(self,"Refined Tiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
-	Wire_TriggerOutput(self,"Tiberium Chemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
+	WTib_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
+	WTib_TriggerOutput(self,"Refined Tiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
+	WTib_TriggerOutput(self,"Tiberium Chemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
 end
 
 function ENT:TriggerInput(name,val)
@@ -92,20 +92,18 @@ end
 
 function ENT:OnRemove()
 	WTib_RemoveRDEnt(self)
-	if WireAddon and (self.Outputs or self.Inputs) then
-		Wire_Remove(self)
+	if (self.Outputs or self.Inputs) then
+		WTib_Remove(self)
 	end
 end
 
 function ENT:OnRestore()
-	if WireAddon then
-		Wire_Restored(self)
-	end
+	WTib_Restored(self)
 end
 
 function ENT:PreEntityCopy()
 	WTib_BuildDupeInfo(self)
-	if WireAddon != nil then
+	if WireAddon then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
 		if DupeInfo then
 			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
@@ -115,7 +113,7 @@ end
 
 function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
 	WTib_ApplyDupeInfo(Ent,CreatedEntities)
-	if WireAddon != nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
 	end
 end

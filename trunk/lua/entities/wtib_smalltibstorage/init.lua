@@ -2,6 +2,9 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+ENT.MaxHealth = 500
+ENT.aHealth = 500
+
 function ENT:Initialize()
 	self:SetModel("models/props_c17/oildrum001.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -11,9 +14,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.MaxHealth = 500
-	self.aHealth = self.MaxHealth
-	self.Outputs = Wire_CreateOutputs(self,{"Tiberium","MaxTiberium"})
+	self.Outputs = WTib_CreateOutputs(self,{"Tiberium","MaxTiberium"})
 	WTib_AddResource(self,"Tiberium",3300)
 	WTib_RegisterEnt(self,"Storage")
 end
@@ -30,8 +31,8 @@ end
 
 function ENT:Think()
 	self:SetNWInt("Tib",WTib_GetResourceAmount(self,"Tiberium"))
-	Wire_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
-	Wire_TriggerOutput(self,"MaxTiberium",WTib_GetNetworkCapacity(self,"Tiberium"))
+	WTib_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
+	WTib_TriggerOutput(self,"MaxTiberium",WTib_GetNetworkCapacity(self,"Tiberium"))
 end
 
 function ENT:OnTakeDamage(di)
@@ -52,20 +53,18 @@ end
 
 function ENT:OnRemove()
 	WTib_RemoveRDEnt(self)
-	if WireAddon and (self.Outputs or self.Inputs) then
-		Wire_Remove(self)
+	if (self.Outputs or self.Inputs) then
+		WTib_Remove(self)
 	end
 end
 
 function ENT:OnRestore()
-	if WireAddon then
-		Wire_Restored(self)
-	end
+	WTib_Restored(self)
 end
 
 function ENT:PreEntityCopy()
 	WTib_BuildDupeInfo(self)
-	if WireAddon != nil then
+	if WireAddon then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
 		if DupeInfo then
 			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
@@ -75,7 +74,7 @@ end
 
 function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
 	WTib_ApplyDupeInfo(Ent,CreatedEntities)
-	if WireAddon != nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
 	end
 end

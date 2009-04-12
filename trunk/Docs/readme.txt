@@ -31,6 +31,9 @@ Changelog :
 	Added WTiberium_ClearAllTiberium that will remove all tiberium entities,
 	Added a sonic repultion field,
 	Added wire debugger support,
+	Added more tooltips,
+	Wire should no longer be required,
+	Entities can now be "Used" (Pressed use on),
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,

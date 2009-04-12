@@ -2,6 +2,9 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+ENT.ShouldBeActive = false
+ENT.NextSonicEmit = 0
+
 function ENT:Initialize()
 	self:SetModel("models/Combine_Helicopter/helicopter_bomb01.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -11,16 +14,14 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Inputs = Wire_CreateInputs(self,{"On","SetRadius"})
-	self.Outputs = Wire_CreateOutputs(self,{"Online","Radius"})
+	self.Inputs = WTib_CreateInputs(self,{"On","SetRadius"})
+	self.Outputs = WTib_CreateOutputs(self,{"Online","Radius"})
+	self:SetNWBool("Online",false)
+	WTib_TriggerOutput(self,"Online",0)
+	self:SetNWInt("Radius",512)
+	WTib_TriggerOutput(self,"Radius",512)
 	WTib_AddResource(self,"energy",0)
 	WTib_RegisterEnt(self,"Generator")
-	self.ShouldBeActive = false
-	self:SetNWBool("Online",false)
-	Wire_TriggerOutput(self,"Online",0)
-	self:SetNWInt("Radius",512)
-	Wire_TriggerOutput(self,"Radius",512)
-	self.NextSonicEmit = 0
 end
 
 function ENT:SpawnFunction(p,t)
@@ -35,6 +36,7 @@ end
 
 function ENT:Think()
 	local am = (self:GetNWInt("Radius") or 512)/math.Rand(1.5,2.5)
+	local a = 0
 	if self.ShouldBeActive and WTib_GetResourceAmount(self,"energy") > am then
 		if self.NextSonicEmit <= CurTime() then
 			WTib_ConsumeResource(self,"energy",am)
@@ -46,11 +48,12 @@ function ENT:Think()
 			self.NextSonicEmit = CurTime()+1
 		end
 		self:SetNWBool("Online",true)
-		Wire_TriggerOutput(self,"Online",1)
+		a = 1
 	else
 		self:SetNWBool("Online",false)
-		Wire_TriggerOutput(self,"Online",0)
+		a = 0
 	end
+	WTib_TriggerOutput(self,"Online",a)
 end
 
 function ENT:Use(ply)
@@ -72,7 +75,7 @@ function ENT:TriggerInput(name,val)
 	elseif name == "SetRadius" then
 		local a = math.Clamp(val or 512,10,1024)
 		self:SetNWInt("Radius",a)
-		Wire_TriggerOutput(self,"Radius",a)
+		WTib_TriggerOutput(self,"Radius",a)
 	end
 end
 
@@ -82,4 +85,25 @@ end
 
 function ENT:TurnOff()
 	self.ShouldBeActive = false
+end
+
+function ENT:OnRestore()
+	WTib_Restored(self)
+end
+
+function ENT:PreEntityCopy()
+	WTib_BuildDupeInfo(self)
+	if WireAddon then
+		local DupeInfo = WireLib.BuildDupeInfo(self)
+		if DupeInfo then
+			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
+		end
+	end
+end
+
+function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
+	WTib_ApplyDupeInfo(Ent,CreatedEntities)
+	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
+	end
 end

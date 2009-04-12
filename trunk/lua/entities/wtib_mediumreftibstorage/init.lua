@@ -13,7 +13,7 @@ function ENT:Initialize()
 	end
 	self.MaxHealth = 500
 	self.aHealth = self.MaxHealth
-	self.Outputs = Wire_CreateOutputs(self,{"RefinedTiberium","MaxRefinedTiberium"})
+	self.Outputs = WTib_CreateOutputs(self,{"RefinedTiberium","MaxRefinedTiberium"})
 	WTib_AddResource(self,"RefinedTiberium",3000)
 	WTib_RegisterEnt(self,"Storage")
 end
@@ -30,8 +30,8 @@ end
 
 function ENT:Think()
 	self:SetNWInt("RefTib",WTib_GetResourceAmount(self,"RefinedTiberium"))
-	Wire_TriggerOutput(self,"RefinedTiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
-	Wire_TriggerOutput(self,"MaxRefinedTiberium",WTib_GetNetworkCapacity(self,"RefinedTiberium"))
+	WTib_TriggerOutput(self,"RefinedTiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
+	WTib_TriggerOutput(self,"MaxRefinedTiberium",WTib_GetNetworkCapacity(self,"RefinedTiberium"))
 end
 
 function ENT:OnTakeDamage(di)
@@ -52,20 +52,18 @@ end
 
 function ENT:OnRemove()
 	WTib_RemoveRDEnt(self)
-	if WireAddon and (self.Outputs or self.Inputs) then
-		Wire_Remove(self)
+	if (self.Outputs or self.Inputs) then
+		WTib_Remove(self)
 	end
 end
 
 function ENT:OnRestore()
-	if WireAddon then
-		Wire_Restored(self)
-	end
+	WTib_Restored(self)
 end
 
 function ENT:PreEntityCopy()
 	WTib_BuildDupeInfo(self)
-	if WireAddon != nil then
+	if WireAddon then
 		local DupeInfo = WireLib.BuildDupeInfo(self)
 		if DupeInfo then
 			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
@@ -75,7 +73,7 @@ end
 
 function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
 	WTib_ApplyDupeInfo(Ent,CreatedEntities)
-	if WireAddon != nil and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
+	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
 		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
 	end
 end
