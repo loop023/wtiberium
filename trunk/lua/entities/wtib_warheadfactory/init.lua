@@ -70,6 +70,16 @@ function WTib_ReceiveWarhead(ply,com,args)
 end
 concommand.Add("wtib_setwarhead",WTib_ReceiveWarhead)
 
+function WTib_ReceiveSpawnWarhead(ply,com,args)
+	for _,v in pairs(ents.FindByClass("wtib_warheadfactory")) do
+		if tostring(v) == args[1] then
+			v:CreateWarhead()
+			return
+		end
+	end
+end
+concommand.Add("wtib_spawnwarhead",WTib_ReceiveSpawnWarhead)
+
 function ENT:SetWarhead(war)
 	self.CurWarhead = math.Clamp(tonumber(war),1,table.Count(self.Warheads))
 end
