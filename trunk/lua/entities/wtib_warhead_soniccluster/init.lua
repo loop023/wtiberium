@@ -23,6 +23,19 @@ function ENT:SpawnFunction(p,t)
 	return e
 end
 
+function ENT:DuringFlight(missile)
+	if missile.Target and missile.Target != Vector(0,0,0) then
+		if missile:GetPos():Distance(missile.Target) <= 500 then
+			missile:Explode()
+		end
+	else
+		local tr = util.QuickTrace(missile:GetPos(),missile:GetForward()*500,{missile,missile.FTrail})
+		if tr.Hit then
+			missile:Explode()
+		end
+	end
+end
+
 function ENT:Explode(missile,data)
 	local pos = missile:GetPos()
 	local WDSO = self.WDSO or self
@@ -44,7 +57,7 @@ function ENT:Explode(missile,data)
 		e:Activate()
 		local phys = e:GetPhysicsObject()
 		if phys:IsValid() then
-			phys:AddVelocity(VectorRand()*800)
+			phys:AddVelocity(missile:GetVelocity()+(VectorRand()*100))
 		end
 	end
 end

@@ -13,7 +13,10 @@ function WTib_ToolTipDraw()
 		if WTib_UseOldToolTips:GetBool() then
 			p = tr.Entity:GetPos()
 		end
-		AddWorldTip(tr.Entity:EntIndex(),tr.Entity:WTib_GetTooltip(),0.5,p,self)
+		local tip = tr.Entity:WTib_GetTooltip()
+		if tip and tip != "" then
+			AddWorldTip(tr.Entity:EntIndex(),tip,0.5,p,self)
+		end
 	end
 end
 hook.Add("Think","WTib_ToolTipDraw",WTib_ToolTipDraw)

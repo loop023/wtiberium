@@ -46,6 +46,7 @@ function ENT:Think()
 	if phys:IsValid() and self.Armed then
 		phys:AddVelocity(self:GetForward()*10000)
 	end
+	if self.DuringFlight then self:DuringFlight(self) end
 end
 
 function ENT:Shoot()
