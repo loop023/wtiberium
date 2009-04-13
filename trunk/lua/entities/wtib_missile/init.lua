@@ -29,9 +29,13 @@ function ENT:PhysicsCollide(data,phys)
 	local ent = data.HitEntity
 	if ent then
 		if !self.Armed and ent:IsValid() and ent.IsWarhead and ent.Explode != self.Explode then
-			local a = ent:OnWarheadConnect(self)
+			local a = true
+			if ent.OnWarheadConnect then
+				a = ent:OnWarheadConnect(self)
+			end
 			if a == true or a == nil then
 				self.Explode = ent.Explode or self.Explode
+				self.DuringFlight = ent.DuringFlight
 				self:SetNWString("Warhead",ent.PrintName or ent:GetClass())
 				ent:Remove()
 			end

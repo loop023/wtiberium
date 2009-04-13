@@ -3,10 +3,6 @@ include('shared.lua')
 function ENT:Draw()
 	self:DrawModel()
 	WTib_Render(self)
-	local tr = LocalPlayer():GetEyeTrace()
-	if tr.Hit and tr.Entity and tr.Entity == self then
-		AddWorldTip(self:EntIndex(),,0.5,tr.HitPos,self)
-	end
 end
 
 function ENT:WTib_GetTooltip()
