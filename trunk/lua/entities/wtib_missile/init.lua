@@ -72,6 +72,7 @@ function ENT:Shoot()
 	e:Activate()
 	self.FTrail = e
 	self.Armed = true
+	self:SetNWBool("Armed",true)
 end
 
 function ENT:PhysicsUpdate(phys)

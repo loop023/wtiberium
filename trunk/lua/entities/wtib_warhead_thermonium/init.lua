@@ -29,6 +29,7 @@ function ENT:OnTakeDamage()
 end
 
 function ENT:Explode(missile,data)
+	data = data or {}
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
