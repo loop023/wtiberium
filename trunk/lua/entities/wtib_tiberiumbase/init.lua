@@ -56,6 +56,7 @@ function ENT:CreateCDevider()
 end
 
 function ENT:Think()
+	if !self.WTib_Field then self.WTib_Field = WTib_CreateNewField(self) end
 	if !self:GetNWInt("CDevider") or self:GetNWInt("CDevider") == 0 or self:GetNWInt("CDevider") == "" then self:CreateCDevider() end
 	self.a = self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5
 	if self.NextTiberiumAdd <= CurTime() and self.TiberiumAdd then
@@ -137,9 +138,11 @@ function ENT:OnRemove()
 	end
 end
 
-function ENT:Reproduce()
-	if !self.ShouldReproduce then return end
-	if tonumber(WTib_MaxTotalTiberium) > 0 and table.Count(WTib_GetAllTiberium()) >= tonumber(WTib_MaxTotalTiberium) then return false end
+function ENT:GetFieldEnts()
+	return WTib_GetFieldEnts(self.WTib_Field)
+end
+
+function ENT:GetAllProduces()
 	local a = {}
 	for _,v in pairs(self.Produces) do
 		if v and v:IsValid() then
@@ -147,7 +150,13 @@ function ENT:Reproduce()
 		end
 	end
 	self.Produces = a
-	if table.Count(self.Produces) >= (WTib_MaxProductionAmount or 3) then return end
+	return a
+end
+
+function ENT:Reproduce()
+	if !self.ShouldReproduce then return end
+	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end
+	if table.Count(self:GetAllProduces()) >= 3 then return end
 	for i=1,5 do
 		local fl = WTib_GetAllTiberium()
 		table.Add(fl,player.GetAll())
@@ -179,6 +188,8 @@ function ENT:Reproduce()
 				self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
 				self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 				local e = self:SpawnFunction(self.WDSO,t)
+				WTib_AddToField(self.WTib_Field,e)
+				e.WTib_Field = self.WTib_Field
 				table.insert(self.Produces,e)
 				return e
 			end

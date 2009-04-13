@@ -10,15 +10,15 @@ resource.AddFile("materials/killicons/wtib_missile_killicon.vmt")
 resource.AddFile("sound/wtiberium/refinery/ref.wav")
 resource.AddFile("sound/wtiberium/sonicexplosion/explode.wav")
 
-WTib_MaxProductionAmount = 3
 WTib_InfectedLifeForms = {}
 WTib_MinProductionRate = 30
 WTib_MaxProductionRate = 60
-WTib_MaxTotalTiberium = 0
+WTib_MaxFieldSize = 0
+local TibFields = {}
 local RD3
 local RD
 
-if WDS then
+if WDS then -- This is for my own damage system.
 	WDS.AddProtectionFunction(function(ent)
 		if ent.IsTiberium then
 			return false
@@ -26,7 +26,28 @@ if WDS then
 	end)
 end
 
+/*
+	***************************************************
+	*                     WTiberium console commands                          *
+	*                                                                                                  *
+	***************************************************
+*/
+
+function WTib_MaxFieldSizeConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	WTib_MaxFieldSize = tonumber(args[1])
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Maximum tiberium field size changed to "..WTib_MaxFieldSize)
+	end
+end
+concommand.Add("WTib_MaxFieldSize",WTib_MaxFieldSizeConsole)
+
 function WTib_MaxProductionRateConsole(ply,com,args)
+	if !args[1] then return end
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
@@ -39,6 +60,7 @@ end
 concommand.Add("WTiberium_MaxProductionRate",WTib_MaxProductionRateConsole)
 
 function WTib_MinProductionRateConsole(ply,com,args)
+	if !args[1] then return end
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
@@ -50,31 +72,8 @@ function WTib_MinProductionRateConsole(ply,com,args)
 end
 concommand.Add("WTiberium_MinProductionRate",WTib_MinProductionRateConsole)
 
-function WTib_MaxProductionsConsole(ply,com,args)
-	if !ply:IsAdmin() then
-		ply:ChatPrint("This command is admin only "..ply:Nick())
-		return
-	end
-	WTib_MaxProductionRate = math.Clamp(tonumber(args[1]),1,50)
-	for _,v in pairs(player.GetAll()) do
-		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MaxProductionRate)
-	end
-end
-concommand.Add("WTiberium_MaxProductions",WTib_MaxProductionsConsole)
-
-function WTib_MaxTotalTiberiumConsole(ply,com,args)
-	if !ply:IsAdmin() then
-		ply:ChatPrint("This command is admin only "..ply:Nick())
-		return
-	end
-	WTib_MaxTotalTiberium = tonumber(args[1])
-	for _,v in pairs(player.GetAll()) do
-		v:ChatPrint("Maximum tiberium entities has changed to "..WTib_MaxTotalTiberium)
-	end
-end
-concommand.Add("WTiberium_MaxTotalTiberium",WTib_MaxTotalTiberiumConsole)
-
 function WTib_ClearAllTiberiumConsole(ply,com,args)
+	if !args[1] then return end
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
@@ -91,6 +90,13 @@ function WTib_ClearAllTiberiumConsole(ply,com,args)
 	end
 end
 concommand.Add("WTiberium_ClearAllTiberium",WTib_ClearAllTiberiumConsole)
+
+/*
+	***************************************************
+	*                               WTiberium Hooks                                     *
+	*                                                                                                   *
+	***************************************************
+*/
 
 function WTib_PlayerSpawn(ply)
 	if WTib_IsInfected(ply) then
@@ -109,6 +115,102 @@ function WTib_Think()
 	end
 end
 hook.Add("Think","WTib_Think",WTib_Think)
+
+/*
+	***************************************************
+	*                       WTiberium field management                         *
+	*                                                                                                   *
+	***************************************************
+*/
+
+function WTib_CreateNewField(e)
+	local num = (table.Count(TibFields) or 0)+1
+	local a = {}
+	a.Leader = e
+	a.Ents = {}
+	TibFields[num] = a
+	return num
+end
+
+function WTib_AddToField(f,e)
+	if !TibFields[f] then return WTib_CreateNewField(e) end
+	WTib_CheckOnField(f)
+	table.insert(TibFields[tonumber(f)].Ents,e)
+	return f
+end
+
+function WTib_GetFieldEnts(f)
+	if !TibFields[f] then return {} end
+	return TibFields[f].Ents or {}
+end
+
+function WTib_GetFieldLeader(f)
+	if !TibFields[f] then return end
+	return TibFields[f].Leader
+end
+
+function WTib_CheckOnField(f)
+	local tab = TibFields[f]
+	if !TibFields[f] then return false end
+	if !TibFields[f].Leader or !TibFields[f].Leader:IsValid() then
+		for k,v in SortedPairs(TibFields[f].Ents) do
+			if v and v:IsValid() then
+				TibFields[f].Leader = v
+				TibFields[f].Ents[k] = nil
+				break
+			end
+		end
+	end
+	local a = {}
+	for _,v in pairs(TibFields[f].Ents) do
+		if v and v:IsValid() then
+			table.insert(a,v)
+		end
+	end
+	TibFields[f].Ents = a
+	return true
+end
+
+/*
+	***************************************************
+	*                    WTiberium infection management                     *
+	*                                                                                                   *
+	***************************************************
+*/
+
+function WTib_InfectLiving(ply)
+	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) and !WTib_IsInfected(ply) then
+		ply:SetColor(0,200,0,255)
+		table.insert(WTib_InfectedLifeForms,ply)
+	end
+end
+
+function WTib_CureInfection(ply)
+	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) then
+		for k,v in pairs(WTib_InfectedLifeForms) do
+			if v == ply then
+				ply:SetColor(255,255,255,255)
+				ply.WTib_LastTiberiumGasDamage = 0
+				ply.WTib_InfectLevel = 0
+				WTib_InfectedLifeForms[k] = nil
+				return true
+			end
+		end
+		return false
+	end
+	return false
+end
+
+function WTib_IsInfected(ply)
+	return table.HasValue(WTib_InfectedLifeForms,ply)
+end
+
+/*
+	***************************************************
+	*                       WTiberium Misc functions                             *
+	*                                                                                                   *
+	***************************************************
+*/
 
 function WTib_GetAllTiberium()
 	local a = {}
@@ -141,31 +243,6 @@ function WTib_PropToTiberium(v)
 	e:Activate()
 	v:Remove()
 	return e
-end
-
-function WTib_InfectLiving(ply)
-	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) and !WTib_IsInfected(ply) then
-		ply:SetColor(0,200,0,255)
-		table.insert(WTib_InfectedLifeForms,ply)
-	end
-end
-
-function WTib_CureInfection(ply)
-	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) then
-		for k,v in pairs(WTib_InfectedLifeForms) do
-			if v == ply then
-				ply:SetColor(255,255,255,255)
-				WTib_InfectedLifeForms[k] = nil
-				return true
-			end
-		end
-		return false
-	end
-	return false
-end
-
-function WTib_IsInfected(ply)
-	return table.HasValue(WTib_InfectedLifeForms,ply)
 end
 
 function WTib_RagdollToTiberium(rag)
