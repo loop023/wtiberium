@@ -37,7 +37,7 @@ function ENT:Explode(missile,data)
 	util.BlastDamage(missile,(missile.WDSO or missile),data.HitPos or missile:GetPos(),math.Rand(450,550),math.Rand(200,300))
 	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
 		if v.IsTiberium then
-			v:AddTiberium(math.Rand(50,100))
+			v:AddTiberiumAmount(math.Rand(50,100))
 		elseif v:IsNPC() or v:IsPlayer() then
 			WTib_InfectLiving(v)
 		elseif v:GetClass() == "prop_ragdoll" then
