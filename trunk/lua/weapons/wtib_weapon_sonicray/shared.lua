@@ -54,7 +54,7 @@ function SWEP:PrimaryAttack()
 			ed:SetRadius(30)
 			util.Effect("WTib_SonicSpike",ed)
 			print("Effect created with data :")
-			PrintTable(ed)
+			print(tostring(ed))
 			local Ents = ents.FindInSphere(self:GetPos(),50)
 			for k,v in pairs(Ents) do
 				print("InSphere")
