@@ -73,7 +73,6 @@ end
 concommand.Add("WTiberium_MinProductionRate",WTib_MinProductionRateConsole)
 
 function WTib_ClearAllTiberiumConsole(ply,com,args)
-	if !args[1] then return end
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
