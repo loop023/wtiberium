@@ -13,6 +13,7 @@ ENT.IsTiberium		= true
 ENT.TiberiumDraimOnReproduction	= 3000 -- The amount of tiberium drained when it replicates.
 ENT.MinReprodutionTibRequired	= 3800 -- The minimum amount of tiberium required before it attempts to replicate.
 ENT.RemoveOnNoTiberium			= true -- Remove the ent when the tiberium amount reaches 0?
+ENT.IgnoreExpBurDamage			= false -- Should we not gain extra tiberium from explosion/burn damage?
 ENT.DisableAntiPickup			= false -- Disable anti physgun on this ent?
 ENT.ReproductionRate			= 30 -- Howmuch seconds are being added to the console command of the respawn rate for this ent.
 ENT.MinTiberiumGain				= 15 -- The minimum amount of tiberium added per turn.

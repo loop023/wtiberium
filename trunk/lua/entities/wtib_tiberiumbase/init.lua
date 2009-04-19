@@ -119,7 +119,7 @@ end
 
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition())
-	if di:IsExplosionDamage() or di:IsDamageType(DMG_BURN) then
+	if di:IsExplosionDamage() or di:IsDamageType(DMG_BURN) and !self.IgnoreExpBurDamage then
 		self:AddTiberiumAmount(math.Clamp(di:GetDamage()*math.Rand(0.8,2),2,self.MaxTiberium))
 		self.NextProduce = 0
 		self.NextTiberiumAdd = 0
