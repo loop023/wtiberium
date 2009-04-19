@@ -29,13 +29,54 @@ SWEP.NextFire				= 0
 
 function SWEP:PrimaryAttack()
 	if self.NextFire > CurTime() then return end
-	local ed = EffectData()
-	ed:SetEntity(self.Owner)
-	ed:SetOrigin(self:GetShootPos())
-	ed:SetAngles(self.Owner:GetAimVector())
-	ed:SetScale(4)
-	util.Effect("wtib_weapon_sonicray",ed)
-	self.NextFire = CurTime()+0.5
+	local Pos = self.Owner:GetPos()
+	local Ang = self.Owner:GetForward()
+	print("Pos "..tostring(Pos)..", Ang "..tostring(Ang))
+	Ang.z = 0
+	print("Ang "..tostring(Ang))
+	local Time = 0
+	Pos = Pos+Ang*10
+	print("Pos "..tostring(Pos))
+	for i = 1,4 do
+		print("Loop "..i)
+		Pos = Pos+Ang*90
+		print("Pos "..tostring(Pos))
+		Time = Time+0.1
+		print("Time "..tostring(Time))
+		timer.Simple(Time,function()
+			print("In timer number "..i)
+			local ed = EffectData()
+			ed:SetOrigin(Pos)
+			ed:SetStart(Pos)
+			print("Pos "..tostring(Pos))
+			ed:SetMagnitude(80)
+			ed:SetScale(10)
+			ed:SetRadius(30)
+			util.Effect("WTib_SonicSpike",ed)
+			print("Effect created with data :")
+			PrintTable(ed)
+			local Ents = ents.FindInSphere(self:GetPos(),50)
+			for k,v in pairs(Ents) do
+				print("InSphere")
+				if v.IsTiberium then
+					print("Tib here")
+					tab[k] = v.IgnoreExpBurDamage
+					v.IgnoreExpBurDamage = true
+				end
+			end
+			print("OutLoop")
+			util.BlastDamage(self,self.Owner,Pos,30,25)
+			for k,v in pairs(Ents) do
+				if v.IsTiberium and tab[k] != nil then
+					v.IgnoreExpBurDamage = tab[k]
+				end
+			end
+			print("End of Timer")
+		end)
+		print("End of Loop")
+	end
+	print("End of Function")
+	self.NextFire = CurTime()+(Time+0.1)
 end
 
 function SWEP:Think()
