@@ -80,6 +80,32 @@ function WTib_ReceiveSpawnWarhead(ply,com,args)
 end
 concommand.Add("wtib_spawnwarhead",WTib_ReceiveSpawnWarhead)
 
+function WTib_ReceiveCustomWarhead(ply,com,args)
+	for _,v in pairs(ents.FindByClass("wtib_warheadfactory")) do
+		if tostring(v) == args[1] then
+			v:MakeCustomWarhead(args[2],args[3],args[4])
+			return
+		end
+	end
+end
+concommand.Add("wtib_spawncustomwarhead",WTib_ReceiveCustomWarhead)
+
+function ENT:MakeCustomWarhead(En,RefTib,TibChem)
+	if WTib_GetResourceAmount(self,"energy") >= tonumber(En) and WTib_GetResourceAmount(self,"RefinedTiberium") >= tonumber(RefTib) and WTib_GetResourceAmount(self,"TiberiumChemicals") >= tonumber(TibChem) then
+		WTib_ConsumeResource(self,"energy",tonumber(En))
+		WTib_ConsumeResource(self,"RefinedTiberium",tonumber(RefTib))
+		WTib_ConsumeResource(self,"TiberiumChemicals",tonumber(TibChem))
+		local e = ents.Create("wtib_warhead_custom")
+		e:SetPos(self:LocalToWorld(Vector(65,0,-55)))
+		e:SetAngles(self:GetAngles())
+		e:Spawn()
+		e:Activate()
+		self:EmitSound("buttons/button9.wav",100,100)
+	else
+		self:EmitSound("buttons/button10.wav",100,100)
+	end
+end
+
 function ENT:SetWarhead(war)
 	self.CurWarhead = math.Clamp(tonumber(war),1,table.Count(self.Warheads))
 end
@@ -93,7 +119,7 @@ function ENT:CreateWarhead()
 		return false
 	end
 	WTib_ConsumeResource(self,"energy",EnergyR)
-	WTib_ConsumeResource(self,"Tiberium",TiberiumR)
+	WTib_ConsumeResource(self,"RefinedTiberium",TiberiumR)
 	WTib_ConsumeResource(self,"TiberiumChemicals",TiberiumChemR)
 	local e = ents.Create(self.Warheads[self.CurWarhead].Class)
 	e:SetPos(self:LocalToWorld(self.Warheads[self.CurWarhead].Pos or Vector(65,0,-55)))
