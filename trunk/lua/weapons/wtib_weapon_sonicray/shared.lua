@@ -31,6 +31,7 @@ function SWEP:PrimaryAttack()
 	if self.NextFire > CurTime() then return end
 	local Pos = self.Owner:GetPos()
 	local Ang = self.Owner:GetForward()
+	local tab = {}
 	print("Pos "..tostring(Pos)..", Ang "..tostring(Ang))
 	Ang.z = 0
 	print("Ang "..tostring(Ang))
