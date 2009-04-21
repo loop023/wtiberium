@@ -185,13 +185,18 @@ function ENT:Reproduce()
 			end
 			local dist = t.HitPos:Distance(self:GetPos())
 			if dist >= 150 and dist <= 700 and save then
-				self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
-				self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 				local e = self:SpawnFunction(self.WDSO,t)
-				WTib_AddToField(self.WTib_Field,e)
-				e.WTib_Field = self.WTib_Field
-				table.insert(self.Produces,e)
-				return e
+				if e and e:IsValid() then
+					self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
+					self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
+					WTib_AddToField(self.WTib_Field,e)
+					e.WTib_Field = self.WTib_Field
+					table.insert(self.Produces,e)
+					return e
+				else
+					self.NextProduce = CurTime()+1
+					return
+				end
 			end
 		end
 	end

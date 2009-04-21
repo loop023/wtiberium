@@ -57,8 +57,8 @@ function ENT:Explode(missile,data)
 end
 
 function ENT:OnWarheadConnect(missile)
-	missile.En = self.En or 50
-	missile.RefTib = self.RefTib or 10
-	missile.TibChem = self.TibChem or 0
+	missile.En = tonumber(self.En or 50)
+	missile.RefTib = tonumber(self.RefTib or 10)
+	missile.TibChem = tonumber(self.TibChem or 0)
 	return true
 end
