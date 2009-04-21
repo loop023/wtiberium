@@ -18,7 +18,7 @@ local TibFields = {}
 local RD3
 local RD
 
-if WDS then -- This is for my own damage system.
+if WDS and WDS.AddProtectionFunction then -- This is for my own damage system.
 	WDS.AddProtectionFunction(function(ent)
 		if ent.IsTiberium then
 			return false
