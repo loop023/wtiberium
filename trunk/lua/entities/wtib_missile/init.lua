@@ -79,8 +79,8 @@ function ENT:PhysicsUpdate(phys)
 	if !self.Armed then return end
 	phys:ApplyForceCenter(self:GetForward()*20000)
 	if self.Target and self.Target != Vector(0,0,0) and (self.LockDelay or 0) <= CurTime() then
-		local Dist = math.min(self.Target-self:LocalToWorld(self:OBBCenter()):Length(),5000)
-		--local Dist = math.min((self.Target-self:GetPos()):Length(), 5000)
+		--local Dist = math.min(self.Target-self:LocalToWorld(self:OBBCenter()):Length(),5000)
+		local Dist = math.min((self.Target-self:GetPos()):Length(), 5000)
 		local Mod = math.Clamp(math.abs(Dist-5000)/3000,0.5,70)
 		local TAng = (self.Target-self:GetPos()):Angle()
 		local ang = self:GetAngles()

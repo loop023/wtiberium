@@ -98,6 +98,9 @@ function ENT:MakeCustomWarhead(En,RefTib,TibChem)
 		local e = ents.Create("wtib_warhead_custom")
 		e:SetPos(self:LocalToWorld(Vector(65,0,-55)))
 		e:SetAngles(self:GetAngles())
+		e.En = En
+		e.RefTib = RefTib
+		e.TibChem = TibChem
 		e:Spawn()
 		e:Activate()
 		self:EmitSound("buttons/button9.wav",100,100)

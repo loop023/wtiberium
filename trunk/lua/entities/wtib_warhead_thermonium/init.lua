@@ -35,7 +35,7 @@ function ENT:Explode(missile,data)
 	ed:SetStart(data.HitPos or missile:GetPos())
 	util.Effect("TermoniumExplosion",ed)
 	util.BlastDamage(missile,(missile.WDSO or missile),data.HitPos or missile:GetPos(),math.Rand(450,550),math.Rand(200,300))
-	for _,v in pairs(ents.FindInSphere(data.HitPos,700)) do
+	for _,v in pairs(ents.FindInSphere(data.HitPos or self:GetPos(),700)) do
 		if v.IsTiberium then
 			v:AddTiberiumAmount(math.Rand(50,100))
 		elseif v:IsNPC() or v:IsPlayer() then

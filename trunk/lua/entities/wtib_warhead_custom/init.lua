@@ -34,18 +34,31 @@ end
 
 function ENT:Explode(missile,data)
 	data = data or {}
-	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),missile.RefTib,missile.En)
+	util.BlastDamage(missile,missile.WDSO,data.HitPos or missile:GetPos(),missile.RefTib or 10,missile.En or 50)
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
-	ed:SetScale(missile.RefTib/10)
+	ed:SetScale((missile.RefTib or 10)/10)
 	util.Effect("Explosion",ed)
+	if missile.TibChem >= 800 then
+		for _,v in pairs(ents.FindInSphere(data.HitPos or missile:GetPos(),missile.RefTib/1.2)) do
+			if v.IsTiberium then
+				v:AddTiberiumAmount(math.Rand(50,100))
+			elseif v:IsNPC() or v:IsPlayer() then
+				WTib_InfectLiving(v)
+			elseif v:GetClass() == "prop_ragdoll" then
+				WTib_RagdollToTiberium(v)
+			elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then
+				WTib_PropToTiberium(v)
+			end
+		end
+	end
 	missile:Remove()
 end
 
 function ENT:OnWarheadConnect(missile)
-	missile.En = self.En
-	missile.RefTib = self.RefTib
-	missile.TibChem = self.TibChem
+	missile.En = self.En or 50
+	missile.RefTib = self.RefTib or 10
+	missile.TibChem = self.TibChem or 0
 	return true
 end
