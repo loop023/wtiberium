@@ -213,7 +213,7 @@ end
 
 function WTib_CreateTiberiumByTrace(t,ent,ply)
 	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC() or t.Entity.IsTiberium)) or t.HitSky then return end
-	local e = ents.Create(ent or "wtib_greentiberium")
+	local e = ents.Create(ent or "wtib_tiberiumbase")
 	local ang = t.HitNormal:Angle()+Angle(90,0,0)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
 	e:SetAngles(ang)

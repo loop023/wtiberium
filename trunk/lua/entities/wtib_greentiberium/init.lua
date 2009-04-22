@@ -21,21 +21,5 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC() or t.Entity.IsTiberium)) or t.HitSky then return end
-	local e = ents.Create("wtib_greentiberium")
-	local ang = t.HitNormal:Angle()+Angle(90,0,0)
-	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
-	e:SetAngles(ang)
-	e:SetPos(t.HitPos)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	if t.Entity and !t.Entity:IsWorld() then
-		e:SetMoveType(MOVETYPE_VPHYSICS)
-		e:SetParent(t.Entity)
-	end
-	for i=1,3 do
-		e:EmitGas()
-	end
-	return e
+	return WTib_CreateTiberiumByTrace(t,"wtib_greentiberium",p)
 end
