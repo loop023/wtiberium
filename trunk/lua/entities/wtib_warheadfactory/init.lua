@@ -73,7 +73,7 @@ concommand.Add("wtib_setwarhead",WTib_ReceiveWarhead)
 function WTib_ReceiveSpawnWarhead(ply,com,args)
 	for _,v in pairs(ents.FindByClass("wtib_warheadfactory")) do
 		if tostring(v) == args[1] then
-			v:CreateWarhead()
+			v:CreateWarhead(ply)
 			return
 		end
 	end
@@ -83,14 +83,14 @@ concommand.Add("wtib_spawnwarhead",WTib_ReceiveSpawnWarhead)
 function WTib_ReceiveCustomWarhead(ply,com,args)
 	for _,v in pairs(ents.FindByClass("wtib_warheadfactory")) do
 		if tostring(v) == args[1] then
-			v:MakeCustomWarhead(args[2],args[3],args[4])
+			v:MakeCustomWarhead(args[2],args[3],args[4],ply)
 			return
 		end
 	end
 end
 concommand.Add("wtib_spawncustomwarhead",WTib_ReceiveCustomWarhead)
 
-function ENT:MakeCustomWarhead(En,RefTib,TibChem)
+function ENT:MakeCustomWarhead(En,RefTib,TibChem,ply)
 	if WTib_GetResourceAmount(self,"energy") >= tonumber(En) and WTib_GetResourceAmount(self,"RefinedTiberium") >= tonumber(RefTib) and WTib_GetResourceAmount(self,"TiberiumChemicals") >= tonumber(TibChem) then
 		WTib_ConsumeResource(self,"energy",tonumber(En))
 		WTib_ConsumeResource(self,"RefinedTiberium",tonumber(RefTib))
@@ -98,6 +98,7 @@ function ENT:MakeCustomWarhead(En,RefTib,TibChem)
 		local e = ents.Create("wtib_warhead_custom")
 		e:SetPos(self:LocalToWorld(Vector(65,0,-55)))
 		e:SetAngles(self:GetAngles())
+		e.WDSO = ply or self.WDSO or self
 		e.En = En
 		e.RefTib = RefTib
 		e.TibChem = TibChem
@@ -113,7 +114,7 @@ function ENT:SetWarhead(war)
 	self.CurWarhead = math.Clamp(tonumber(war),1,table.Count(self.Warheads))
 end
 
-function ENT:CreateWarhead()
+function ENT:CreateWarhead(ply)
 	local EnergyR = self.Warheads[self.CurWarhead].EnergyRequired or 100
 	local TiberiumR = self.Warheads[self.CurWarhead].RefinedTiberiumRequired or 200
 	local TiberiumChemR = self.Warheads[self.CurWarhead].TiberiumChemicalsRequired or 0
@@ -127,6 +128,7 @@ function ENT:CreateWarhead()
 	local e = ents.Create(self.Warheads[self.CurWarhead].Class)
 	e:SetPos(self:LocalToWorld(self.Warheads[self.CurWarhead].Pos or Vector(65,0,-55)))
 	e:SetAngles(self:GetAngles())
+	e.WDSO = ply or self.WDSO or self
 	e:Spawn()
 	e:Activate()
 	self:EmitSound("buttons/button9.wav",100,100)
