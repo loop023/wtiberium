@@ -25,11 +25,24 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self:SetNWInt("Energy",self.En)
-	self:SetNWInt("RefTib",self.RefTib)
-	self:SetNWInt("TibChem",self.TibChem)
+	if !self.En or !self.RefTib or !self.TibChem then
+		self:SetValues()
+	end
+	self:SetNWInt("Energy",self.En or 50)
+	self:SetNWInt("RefTib",self.RefTib or 10)
+	self:SetNWInt("TibChem",self.TibChem or 0)
 	self:NextThink(CurTime()+10)
 	return true
+end
+
+function ENT:SetValues(En,RefTib,TibChem)
+	self.En = En or self.En or 50
+	self.RefTib = RefTib or self.RefTib or 10
+	self.TibChem = TibChem or self.TibChem or 0
+	self:SetNWInt("Energy",self.En or 50)
+	self:SetNWInt("RefTib",self.RefTib or 10)
+	self:SetNWInt("TibChem",self.TibChem or 0)
+	self:SetColor(math.Clamp((self.RefTib/10)+55,55,255),math.Clamp((self.TibChem/5)+55,55,255),math.Clamp((self.En/15)+55,55,255),255)
 end
 
 function ENT:Explode(missile,data)
@@ -60,5 +73,7 @@ function ENT:OnWarheadConnect(missile)
 	missile.En = tonumber(self.En or 50)
 	missile.RefTib = tonumber(self.RefTib or 10)
 	missile.TibChem = tonumber(self.TibChem or 0)
+	missile.WDSO = self.WDSO or missile.WDSO or missile
+	missile:SetColor(math.Clamp((self.RefTib/10)+55,55,255),math.Clamp((self.TibChem/5)+55,55,255),math.Clamp((self.En/15)+55,55,255),255)
 	return true
 end

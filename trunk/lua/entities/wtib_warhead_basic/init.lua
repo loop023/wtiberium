@@ -26,7 +26,7 @@ end
 
 function ENT:Explode(missile,data)
 	data = data or {}
-	util.BlastDamage(missile,missile.WDSO or missile,missile:GetPos(),math.Rand(200,300),math.Rand(300,400))
+	util.BlastDamage(missile,missile.WDSO or missile,data.HitPos or missile:GetPos(),math.Rand(200,300),math.Rand(300,400))
 	local ed = EffectData()
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
@@ -37,5 +37,6 @@ end
 
 function ENT:OnWarheadConnect(missile)
 	missile:SetColor(255,255,255,255)
+	missile.WDSO = self.WDSO or missile.WDSO or missile
 	return true
 end

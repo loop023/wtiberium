@@ -44,7 +44,7 @@ function ENT:Explode(missile,data)
 		end
 		if v:GetClass() == "prop_ragdoll" then
 			WTib_RagdollToTiberium(v)
-		elseif v:IsPlayer or v:IsNPC() then
+		elseif v:IsPlayer() or v:IsNPC() then
 			WTib_InfectLiving(v)
 		end
 	end
@@ -53,5 +53,6 @@ end
 
 function ENT:OnWarheadConnect(missile)
 	missile:SetColor(150,150,20,255)
+	missile.WDSO = self.WDSO or missile.WDSO or missile
 	return true
 end

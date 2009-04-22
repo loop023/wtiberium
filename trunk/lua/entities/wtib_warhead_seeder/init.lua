@@ -34,11 +34,17 @@ function ENT:Explode(missile,data)
 	local t = util.QuickTrace(missile:GetPos(),data.HitPos or missile:GetForward()*160,{missile,missile.FTrail})
 	if (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC() or t.Entity.IsTiberium)) or t.HitSky then missile:Remove() return end
 	local e = WTib_CreateTiberiumByTrace(t,"wtib_greentiberium",missile.WDSO or missile)
-	for i=1,8 do
-		timer.Simple(i/10,function()
-			e:SetTiberiumAmount(3000)
-			e:Reproduce()
-		end)
+	if !e or !e:IsValid() then
+		t = util.QuickTrace(missile:GetPos(),missile:GetForward()*160,{missile,missile.FTrail})
+		e = WTib_CreateTiberiumByTrace(t,"wtib_greentiberium",missile.WDSO or missile)
+	end
+	if e and e:IsValid() then
+		for i=1,8 do
+			timer.Simple(i/10,function()
+				e:SetTiberiumAmount(3000)
+				e:Reproduce()
+			end)
+		end
 	end
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),600)) do
 		if v.IsTiberium then
@@ -58,6 +64,6 @@ end
 
 function ENT:OnWarheadConnect(missile)
 	missile:SetColor(20,220,20,255)
-	missile.WDSO = self.WDSO
+	missile.WDSO = self.WDSO or missile.WDSO or missile
 	return true
 end

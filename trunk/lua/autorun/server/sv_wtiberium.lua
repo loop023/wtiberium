@@ -107,7 +107,7 @@ hook.Add("PlayerSpawn","WTib_PlayerSpawn",WTib_PlayerSpawn)
 function WTib_Think()
 	local e = WTib_GetAllTiberium()[1] or NULL
 	for _,v in pairs(WTib_InfectedLifeForms) do
-		if v and v:IsValid() and v:Alive() and (v.WTib_NextInfectedDamage or 0) <= CurTime() then
+		if v and v:IsValid() and (v:IsPlayer() and v:Alive()) and (v.WTib_NextInfectedDamage or 0) <= CurTime() then
 			v:TakeDamage(1,e,e)
 			v.WTib_NextInfectedDamage = CurTime()+2
 		end

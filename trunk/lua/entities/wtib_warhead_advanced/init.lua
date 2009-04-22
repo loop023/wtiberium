@@ -37,5 +37,6 @@ end
 
 function ENT:OnWarheadConnect(missile)
 	missile:SetColor(220,20,20,255)
+	missile.WDSO = self.WDSO or missile.WDSO or missile
 	return true
 end
