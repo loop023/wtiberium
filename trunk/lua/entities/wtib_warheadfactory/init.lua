@@ -99,9 +99,7 @@ function ENT:MakeCustomWarhead(En,RefTib,TibChem,ply)
 		e:SetPos(self:LocalToWorld(Vector(65,0,-55)))
 		e:SetAngles(self:GetAngles())
 		e.WDSO = ply or self.WDSO or self
-		e.En = En
-		e.RefTib = RefTib
-		e.TibChem = TibChem
+		e:SetValues(En,RefTib,TibChem)
 		e:Spawn()
 		e:Activate()
 		self:EmitSound("buttons/button9.wav",100,100)
