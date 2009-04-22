@@ -34,16 +34,18 @@ function ENT:Explode(missile,data)
 	ed:SetOrigin(data.HitPos or missile:GetPos())
 	ed:SetStart(data.HitPos or missile:GetPos())
 	util.Effect("TermoniumExplosion",ed)
-	util.BlastDamage(missile,(missile.WDSO or missile),data.HitPos or missile:GetPos(),math.Rand(450,550),math.Rand(200,300))
-	for _,v in pairs(ents.FindInSphere(data.HitPos or self:GetPos(),700)) do
+	local rad = math.Rand(450,550)
+	util.BlastDamage(missile,missile.WDSO or missile,data.HitPos or missile:GetPos(),rad,math.Rand(200,300))
+	for _,v in pairs(ents.FindInSphere(data.HitPos or self:GetPos(),rad-10)) do
 		if v.IsTiberium then
 			v:AddTiberiumAmount(math.Rand(50,100))
-		elseif v:IsNPC() or v:IsPlayer() then
-			WTib_InfectLiving(v)
-		elseif v:GetClass() == "prop_ragdoll" then
+		else
+			v:Ignite()
+		end
+		if v:GetClass() == "prop_ragdoll" then
 			WTib_RagdollToTiberium(v)
-		elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then
-			WTib_PropToTiberium(v)
+		elseif v:IsPlayer or v:IsNPC() then
+			WTib_InfectLiving(v)
 		end
 	end
 	missile:Remove()

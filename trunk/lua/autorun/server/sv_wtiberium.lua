@@ -211,6 +211,26 @@ end
 	***************************************************
 */
 
+function WTib_CreateTiberiumByTrace(t,ent,ply)
+	if !t.Hit or (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC() or t.Entity.IsTiberium)) or t.HitSky then return end
+	local e = ents.Create(ent or "wtib_greentiberium")
+	local ang = t.HitNormal:Angle()+Angle(90,0,0)
+	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
+	e:SetAngles(ang)
+	e:SetPos(t.HitPos)
+	e.WDSO = p
+	e:Spawn()
+	e:Activate()
+	if t.Entity and !t.Entity:IsWorld() then
+		e:SetMoveType(MOVETYPE_VPHYSICS)
+		e:SetParent(t.Entity)
+	end
+	for i=1,3 do
+		e:EmitGas()
+	end
+	return e
+end
+
 function WTib_GetAllTiberium()
 	local a = {}
 	for _,v in pairs(ents.GetAll()) do
@@ -245,7 +265,7 @@ function WTib_PropToTiberium(v)
 end
 
 function WTib_RagdollToTiberium(rag)
-	if !rag or !rag:GetClass() == "prop_ragdoll" then return NULL end
+	if !rag or !rag:GetClass() == "prop_ragdoll" then return false end
 	rag.WTib_OldCollisionGroup = rag:GetCollisionGroup()
 	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	rag.IsTiberium = true
@@ -311,7 +331,7 @@ function WTib_RagdollToTiberium(rag)
 end
 
 function WTib_TiberiumRagdollToRagdoll(rag,func)
-	if !rag or !rag:GetClass() == "prop_ragdoll" or !rag.IsTiberium then return NULL end
+	if !rag or !rag:GetClass() == "prop_ragdoll" or !rag.IsTiberium then return false end
 	rag:SetCollisionGroup(rag.WTib_OldCollisionGroup)
 	rag.TiberiumDraimOnReproduction	= nil
 	rag.MinReprodutionTibRequired	= nil

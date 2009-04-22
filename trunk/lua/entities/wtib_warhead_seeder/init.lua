@@ -31,28 +31,14 @@ function ENT:Explode(missile,data)
 	ed:SetStart(data.HitPos or missile:GetPos())
 	ed:SetScale(1)
 	util.Effect("WTib_SeederExplosion",ed)
-	local t = util.QuickTrace(missile:GetPos(),data.HitPos or missile:GetForward()*80,{missile,missile.FTrail})
+	local t = util.QuickTrace(missile:GetPos(),data.HitPos or missile:GetForward()*160,{missile,missile.FTrail})
 	if (t.Entity and (t.Entity:IsPlayer() or t.Entity:IsNPC() or t.Entity.IsTiberium)) or t.HitSky then missile:Remove() return end
-	local e = ents.Create("wtib_greentiberium")
-	local ang = t.HitNormal:Angle()+Angle(90,0,0)
-	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
-	e:SetAngles(ang)
-	e:SetPos(t.HitPos)
-	e.WDSO = missile.WDSO
-	e:Spawn()
-	e:Activate()
-	if t.Entity and !t.Entity:IsWorld() then
-		e:SetMoveType(MOVETYPE_VPHYSICS)
-		e:SetParent(t.Entity)
-	end
-	for i=1,3 do
-		print(i)
-		e:EmitGas()
-	end
-	for i=1,6 do
-		print(i)
-		e:SetTiberiumAmount(3000)
-		e:Reproduce()
+	local e = WTib_CreateTiberiumByTrace(t,"wtib_greentiberium",missile.WDSO or missile)
+	for i=1,8 do
+		timer.Simple(i/10,function()
+			e:SetTiberiumAmount(3000)
+			e:Reproduce()
+		end)
 	end
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),600)) do
 		if v.IsTiberium then
@@ -61,13 +47,17 @@ function ENT:Explode(missile,data)
 			ed:SetStart(v:GetPos())
 			ed:SetScale(1)
 			util.Effect("WTib_SeederExplosion",ed)
+			v:AddTiberiumAmount(math.Rand(50,100))
 		end
 	end
-	e:SetTiberiumAmount(math.Rand(200,500))
+	timer.Simple(0.6,function()
+		e:SetTiberiumAmount(math.Rand(200,500))
+	end)
 	missile:Remove()
 end
 
 function ENT:OnWarheadConnect(missile)
 	missile:SetColor(20,220,20,255)
+	missile.WDSO = self.WDSO
 	return true
 end
