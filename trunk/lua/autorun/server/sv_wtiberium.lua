@@ -330,7 +330,7 @@ function WTib_RagdollToTiberium(rag)
 	return rag
 end
 
-function WTib_TiberiumRagdollToRagdoll(rag,func)
+function WTib_TiberiumRagdollToRagdoll(rag)
 	if !rag or !rag:GetClass() == "prop_ragdoll" or !rag.IsTiberium then return false end
 	rag:SetCollisionGroup(rag.WTib_OldCollisionGroup)
 	rag.TiberiumDraimOnReproduction	= nil
