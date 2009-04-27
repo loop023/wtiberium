@@ -1,0 +1,72 @@
+
+What we have so far is :
+
+Tiberium tanks :
+	Done :
+		Small tanks :
+			- Tiberium 
+			- Refined Tiberium
+			- Tiberium Chemicals
+
+		Medium tanks :
+			- Tiberium 
+			- Refined Tiberium
+			- Tiberium Chemicals
+
+		Large tanks :
+			- Tiberium 
+			- Refined Tiberium
+			- Tiberium Chemicals
+
+Tiberium :
+	Done :
+		- Blue crystal
+		- Green crystal
+
+	Todo :
+		- Parent crystals?
+		- Red tiberium?
+		- Tiberium plants/wildlife?
+
+Tiberium machinery :
+	Done :
+		- Tiberium refinery
+		- Tiberium chemical plant
+		- Tiberium power plant
+		Tiberium Harvester :
+			- Small
+			- Medium
+	Todo :
+		Tiberium growth accelerator :
+			- Small?
+			- Medium?
+			- Large?
+		Tiberium Harvester :
+			- Large (Parent crystal harvesting?)
+
+Tiberium misc entities :
+	Done :
+		- Warhead factory
+		- Sonic field emitter
+		- Tiberium warhead missile
+		- Tiberium warhead missile launcher
+		- Tiberium infection cure
+		Warheads :
+			- Basic
+			- Advanced
+			- Seeder
+			- Thermonium
+			- Sonic cluster
+	Todo :
+		- Tiberium meteor (Storm?)
+		- Tiberium gadget factory
+		- Tiberium infusion kit
+
+Tiberium SWeps :
+	Done :
+		- Tiberium sprayer
+		- Sonic grenade
+		- Sonic ray
+
+	Todo :
+		- Shard launcher
