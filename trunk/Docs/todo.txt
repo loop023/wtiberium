@@ -72,8 +72,8 @@ Tiberium SWeps :
 		- Tiberium sprayer
 		- Sonic grenade
 		- Sonic ray
+		- Shard launcher
 
 	Todo :
-		- Shard launcher
 		- Tiberium Laser
 		- Catalist Grenade

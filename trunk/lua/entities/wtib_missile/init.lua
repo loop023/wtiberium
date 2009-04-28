@@ -60,9 +60,9 @@ function ENT:Shoot()
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:EnableGravity(false)
-		phys:EnableDrag(false) 
+		phys:EnableDrag(false)
 		phys:SetMass(30)
-        phys:Wake()
+		phys:Wake()
 	end
 	local e = ents.Create("env_fire_trail")
 	e:SetAngles(self:GetAngles())
