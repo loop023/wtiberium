@@ -2,6 +2,10 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+function SWEP:Initialize()
+	self:SetWeaponHoldType("grenade")
+end
+
 function SWEP:PrimaryAttack()
 	if self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0 then return end
 	self:TakePrimaryAmmo(1)

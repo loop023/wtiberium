@@ -94,7 +94,7 @@ function ENT:EmitGas(pos)
 	e.WDSO = self
 	e:SetSize(50)
 	e:SetStartColor(Color(self.r,self.g,self.b))
-	e:SetStartColor(Color(self.r,self.g,self.b))
+	e:SetEndColor(Color(self.r,self.g,self.b))
 	e:Spawn()
 	e:Activate()
 	e:Fire("kill","",2)
@@ -103,7 +103,7 @@ end
 
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition())
-	if di:IsExplosionDamage() or di:IsDamageType(DMG_BURN) and !self.IgnoreExpBurDamage then
+	if di:IsDamageType(DMG_BURN) and !self.IgnoreExpBurDamage then
 		self:AddTiberiumAmount(math.Clamp(di:GetDamage()*math.Rand(0.8,2),2,self.MaxTiberium))
 		self.NextProduce = 0
 		self.NextTiberiumAdd = 0
@@ -123,7 +123,7 @@ function ENT:OnRemove()
 end
 
 function ENT:GetFieldEnts()
-	return WTib_GetFieldEnts(self.WTib_Field)
+	return WTib_GetFieldEnts(self.WTib_Field) or {}
 end
 
 function ENT:GetAllProduces()
@@ -147,12 +147,10 @@ function ENT:Reproduce()
 		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
 		if t.Hit then
 			local save = true
-			for _,v in pairs(ents.FindInSphere(t.HitPos,1024)) do
-				if v:GetClass() == "wtib_sonicfieldemitter" then
-					if t.HitPos:Distance(v:GetPos()) <= (v:GetNWInt("Radius") or 512) and (v:GetNWBool("Online") or false) then
-						save = false
-						break
-					end
+			for _,v in pairs(ents.FindByClass("wtib_sonicfieldemitter")) do
+				if t.HitPos:Distance(v:GetPos()) < (v:GetNWInt("Radius") or 512) then
+					save = false
+					break
 				end
 			end
 			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do

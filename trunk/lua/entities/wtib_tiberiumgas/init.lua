@@ -80,7 +80,7 @@ function ENT:Think()
 	if self.NextDamage <= CurTime() then
 		for _,v in pairs(ents.FindInSphere(self:GetPos(),self.Size or 250)) do
 			if (v:IsPlayer() or v:IsNPC()) and !v.IsTiberiumResistant then
-				v:TakeDamage(math.Rand(self.Damage-2,self.Damage+2),self.WDSO or self,self.WDSE or self)
+				v:TakeDamage(math.Rand(self.Damage-2,self.Damage+2),self.WDSO or self,self.WDSE or self.WDSO or self)
 				v.WTib_InfectLevel = (v.WTib_InfectLevel or 0)+1
 				if v.WTib_InfectLevel >= 10 then
 					WTib_InfectLiving(v)

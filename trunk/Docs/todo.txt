@@ -48,9 +48,16 @@ Tiberium misc entities :
 	Done :
 		- Warhead factory
 		- Sonic field emitter
+		- Tiberium infection cure
+	Todo :
+		- Tiberium meteor (Storm?)
+		- Tiberium gadget factory
+		- Tiberium infusion kit
+
+Tiberium weaponary :
+	Done :
 		- Tiberium warhead missile
 		- Tiberium warhead missile launcher
-		- Tiberium infection cure
 		Warheads :
 			- Basic
 			- Advanced
@@ -58,9 +65,7 @@ Tiberium misc entities :
 			- Thermonium
 			- Sonic cluster
 	Todo :
-		- Tiberium meteor (Storm?)
-		- Tiberium gadget factory
-		- Tiberium infusion kit
+		- Tiberium laser
 
 Tiberium SWeps :
 	Done :
@@ -70,3 +75,5 @@ Tiberium SWeps :
 
 	Todo :
 		- Shard launcher
+		- Tiberium Laser
+		- Catalist Grenade
