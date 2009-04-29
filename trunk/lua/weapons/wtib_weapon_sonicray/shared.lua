@@ -31,7 +31,6 @@ function SWEP:PrimaryAttack()
 	if self.NextFire > CurTime() then return end
 	local Pos = self.Owner:GetPos()
 	local Ang = self.Owner:GetForward()
-	local tab = {}
 	Ang.z = 0
 	local Time = 0
 	Pos = Pos+Ang*10
@@ -52,6 +51,7 @@ function SWEP:MakeSpike(Pos)
 	ed:SetRadius(30)
 	util.Effect("WTib_SonicSpike",ed)
 	local Ents = ents.FindInSphere(Pos,50)
+	local tab = {}
 	for k,v in pairs(Ents) do
 		if v.IsTiberium then
 			tab[k] = v.IgnoreExpBurDamage
@@ -60,8 +60,9 @@ function SWEP:MakeSpike(Pos)
 	end
 	util.BlastDamage(self,self.Owner,Pos,30,25)
 	for k,v in pairs(Ents) do
-		if v.IsTiberium and tab[k] != nil then
+		if v and v:IsValid() and tab[k] != nil then
 			v.IgnoreExpBurDamage = tab[k]
+			v:DrainTiberiumAmount(math.Rand(50,300))
 		end
 	end
 end
