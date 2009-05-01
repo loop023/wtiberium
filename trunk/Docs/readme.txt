@@ -8,12 +8,18 @@ Q/A :
 	A: you can use the commands "WTiberium_MaxProductionRate" and "WTiberium_MinProductionRate" to set the spawn rate of the tiberium,
 		you can also limit the amount of tiberium entities spawned per entity with the command "WTiberium_MaxProduction".
 
+	Q: What should i use, RD/LS2 or RD/LS3?
+	A: WTiberium works with RD/LS2 and RD/LS3, however there is a bug of yet unknown origin that causes it to drop your FPS with RD/LS3, 
+		i dont know why and/or how but i am looking into this, so for now i suggest RD/LS2
+
+	Q: How can i help you?
+	A: I am always looking for new/better models, textures and sounds, if you want to know more specific information just PM me on facepunch.
+
 Credits :
-	Lynix : For the original tiberium models.
+	Lynix : For the origional tiberium models.
 	kevkev : For the rest of the stuff.
 
-
-Changelog :
+Changelog (These changes are incomplete, i do leave out a lot of changes since i am to lazy to note them all) :
 
 	1.14 :
 	Players and NPC's can now get infected by tiberium,
