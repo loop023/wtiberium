@@ -17,7 +17,7 @@ function ENT:CreateDLight()
 	if ((WTib_DynamicLight and !WTib_DynamicLight:GetBool()) or false) or !self.DynLight then return end
 	local dlight = DynamicLight(self:EntIndex())
 	if dlight then
-		self.Size = math.Approach(self.Size,math.Clamp((((self:GetNWInt("TiberiumAmount")/self:GetNWInt("CDevider")) or 100)+5)*WTib_DynamicLightSize:GetInt(),100,1000)*2,10)
+		self.Size = math.Approach((self.Size or 0),math.Rand(400,600),10)
 		local r,g,b,a = self:GetColor()
 		dlight.Pos = self:GetPos()+self:GetUp()*30
 		dlight.r = r
@@ -29,4 +29,4 @@ function ENT:CreateDLight()
 		dlight.DieTime = CurTime()+1
 	end
 end
-language.Add("wtib_tiberiumbase","Base Tiberium")
+language.Add("wtib_parentcrystalbase","Base Parent Tiberium")
