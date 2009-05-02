@@ -40,7 +40,7 @@ function ENT:Harvest()
 	local En = WTib_GetResourceAmount(self,"energy")
 	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
 		if a >= 5 then return end
-		if v.IsTiberium then
+		if v.IsTiberium and v.CanBeHarvested then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 50,MaxTiberiumGain or 150))
 			if En < am*2 then
 				self:TurnOff()

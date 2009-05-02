@@ -39,6 +39,11 @@ function ENT:CreateCDevider()
 	end
 end
 
+function ENT:SetFieldReprodce(ent)
+	self.OverrideShouldReproduce = true
+	self.Produce = ent
+end
+
 function ENT:Think()
 	if !self.WTib_Field then self.WTib_Field = WTib_CreateNewField(self) end
 	if !self:GetNWInt("CDevider") or self:GetNWInt("CDevider") == 0 or self:GetNWInt("CDevider") == "" then self:CreateCDevider() end
@@ -49,6 +54,11 @@ function ENT:Think()
 	end
 	if self.NextGas <= CurTime() then
 		self:EmitGas()
+	end
+	if self.OverrideShouldReproduce then
+		if !self.Produce or !self.Produce:IsValid() then
+			self.OverrideShouldReproduce = false
+		end
 	end
 	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) then
 		self:Reproduce()
@@ -138,6 +148,7 @@ function ENT:GetAllProduces()
 end
 
 function ENT:Reproduce()
+	if self.OverrideShouldReproduce then return end
 	if !self.ShouldReproduce then return end
 	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end
 	if table.Count(self:GetAllProduces()) >= 3 then return end

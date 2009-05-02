@@ -62,7 +62,11 @@ function SWEP:MakeSpike(Pos)
 	for k,v in pairs(Ents) do
 		if v and v:IsValid() and tab[k] != nil then
 			v.IgnoreExpBurDamage = tab[k]
-			v:DrainTiberiumAmount(math.Rand(50,300))
+			if v.CanBeHarvested then
+				v:DrainTiberiumAmount(math.Rand(50,300))
+			else
+				v:TakeDamage(1,self,self)
+			end
 		end
 	end
 end

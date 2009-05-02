@@ -9,6 +9,7 @@ ENT.Spawnable		= true
 ENT.AdminSpawnable	= true
 ENT.Category		= "Tiberium"
 ENT.IsTiberium		= true
+ENT.CanBeHarvested	= true
 
 ENT.TiberiumDraimOnReproduction	= 2000
 ENT.MinReprodutionTibRequired	= 2300

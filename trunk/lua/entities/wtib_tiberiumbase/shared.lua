@@ -8,6 +8,7 @@ ENT.Spawnable		= false
 ENT.AdminSpawnable	= false
 ENT.Category		= "Tiberium"
 ENT.IsTiberium		= true
+ENT.CanBeHarvested	= true
 
 -- Take over the following variables when making your own tiberium ent.
 ENT.TiberiumDraimOnReproduction	= 3000 -- The amount of tiberium drained when it replicates.
