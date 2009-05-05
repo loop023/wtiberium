@@ -1,4 +1,5 @@
 
+SWEP.Base					= "wtib_weapon_base"
 SWEP.Author					= "kevkev/Warrior xXx"
 SWEP.Contact				= ""
 SWEP.Purpose				= "Shooting tiberium shards."
@@ -17,11 +18,13 @@ SWEP.SlotPos				= 5
 SWEP.DrawAmmo				= true
 SWEP.DrawCrosshair			= true
 SWEP.Category				= "Tiberium"
-SWEP.Primary.ClipSize		= -1
-SWEP.Primary.DefaultClip	= -1
-SWEP.Primary.Automatic		= true
-SWEP.Primary.Ammo			= "none"
-SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip	= -1
-SWEP.Secondary.Automatic	= true
-SWEP.Secondary.Ammo			= "none"
+
+SWEP.ClipSize				= 30
+SWEP.Bullets				= 90
+SWEP.ReloadTime				= 2
+SWEP.Ammo					= "basebullets"
+SWEP.SecAmmo				= "basesecondary"
+SWEP.HoldType				= "pistol"
+SWEP.PrimeDelay				= 0.1
+SWEP.SecClipSize			= 10
+SWEP.SecDelay				= 2
