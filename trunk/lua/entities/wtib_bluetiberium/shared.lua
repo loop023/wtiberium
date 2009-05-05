@@ -10,12 +10,12 @@ ENT.AdminSpawnable	= true
 ENT.Category		= "Tiberium"
 ENT.IsTiberium		= true
 ENT.CanBeHarvested	= true
+ENT.NoPhysicsPickup	= true
 
 ENT.TiberiumDraimOnReproduction	= 2000
 ENT.MinReprodutionTibRequired	= 2300
 ENT.RemoveOnNoTiberium			= true
 ENT.IgnoreExpBurDamage			= false
-ENT.DisableAntiPickup			= false
 ENT.ReproductionRate			= 10
 ENT.MinTiberiumGain				= 20
 ENT.MaxTiberiumGain				= 60

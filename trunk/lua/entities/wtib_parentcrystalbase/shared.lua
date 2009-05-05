@@ -9,10 +9,10 @@ ENT.AdminSpawnable	= false
 ENT.Category		= "Tiberium"
 ENT.IsTiberium		= true
 ENT.CanBeHarvested	= false
+ENT.NoPhysicsPickup	= true
 
 -- Take over the following variables when making your own tiberium ent.
 ENT.IgnoreExpBurDamage			= false -- Should we not gain extra tiberium from explosion/burn damage?
-ENT.DisableAntiPickup			= false -- Disable anti physgun on this ent?
 ENT.ReproduceDelay				= 40 -- The delay between reproductions.
 ENT.TiberiumClass				= "wtib_tiberiumbase" -- The tiberium entities it should produce.
 ENT.DynLight					= true -- Should we make a dynamic light at our position?

@@ -289,11 +289,11 @@ function WTib_RagdollToTiberium(rag)
 	rag.TiberiumDraimOnReproduction	= 0
 	rag.MinReprodutionTibRequired	= 0
 	rag.RemoveOnNoTiberium			= false
-	rag.DisableAntiPickup			= true
 	rag.ReproductionRate			= 0
 	rag.MinTiberiumGain				= 0
 	rag.MaxTiberiumGain				= 0
 	rag.ShouldReproduce				= false
+	rag.NoPhysicsPickup				= true
 	rag.ReproduceDelay				= 0
 	rag.TiberiumAdd					= false
 	rag.MaxTiberium					= 700
@@ -340,9 +340,9 @@ function WTib_TiberiumRagdollToRagdoll(rag)
 	rag.RemoveOnNoTiberium			= nil
 	rag.SetTiberiumAmount			= nil
 	rag.AddTiberiumAmount			= nil
-	rag.DisableAntiPickup			= nil
 	rag.GetTiberiumAmount			= nil
 	rag.ReproductionRate			= nil
+	rag.NoPhysicsPickup				= nil
 	rag.MinTiberiumGain				= nil
 	rag.MaxTiberiumGain				= nil
 	rag.ShouldReproduce				= nil

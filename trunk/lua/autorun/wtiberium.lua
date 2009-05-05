@@ -4,7 +4,7 @@ if SERVER then
 end
 
 function WTib_PhysPickup(ply,ent)
-	if ent.IsTiberium and !ent.DisableAntiPickup or ent.NoPhysicsPickup then
+	if ent.NoPhysicsPickup then
 		return false
 	end
 end
