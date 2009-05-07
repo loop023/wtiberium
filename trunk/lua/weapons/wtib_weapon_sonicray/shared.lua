@@ -43,29 +43,30 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:MakeSpike(Pos)
+	local t = util.QuickTrace(Pos,Pos+Vector(0,0,-10000),{self.Owner,self})
+	if !t.Hit then return end
 	local ed = EffectData()
-	ed:SetOrigin(Pos)
-	ed:SetStart(Pos)
+	ed:SetOrigin(t.HitPos)
+	ed:SetNormal(t.HitNormal)
+	ed:SetStart(t.HitPos)
 	ed:SetMagnitude(80)
 	ed:SetScale(10)
 	ed:SetRadius(30)
 	util.Effect("WTib_SonicSpike",ed)
-	local Ents = ents.FindInSphere(Pos,50)
-	local tab = {}
-	for k,v in pairs(Ents) do
-		if v.IsTiberium then
-			tab[k] = v.IgnoreExpBurDamage
-			v.IgnoreExpBurDamage = true
+	if SERVER then
+		local Ents = ents.FindInSphere(t.HitPos,50)
+		local tab = {}
+		for k,v in pairs(Ents) do
+			if v.IsTiberium then
+				tab[k] = v.IgnoreExpBurDamage
+				v.IgnoreExpBurDamage = true
+			end
 		end
-	end
-	util.BlastDamage(self,self.Owner,Pos,30,25)
-	for k,v in pairs(Ents) do
-		if v and v:IsValid() and tab[k] != nil then
-			v.IgnoreExpBurDamage = tab[k]
-			if v.CanBeHarvested then
-				v:DrainTiberiumAmount(math.Rand(50,300))
-			else
-				v:TakeDamage(1,self,self)
+		util.BlastDamage(self,self.Owner,t.HitPos,30,25)
+		for k,v in pairs(Ents) do
+			if v and v:IsValid() and tab[k] != nil then
+				v.IgnoreExpBurDamage = tab[k]
+				v:TakeSonicDamage(math.Rand(50,300))
 			end
 		end
 	end
