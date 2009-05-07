@@ -16,7 +16,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.NextProduce = CurTime()+math.Rand(30,60)
+	self.NextProduce = CurTime()+self.ReproduceDelay
 	self:Think()
 end
 
@@ -93,6 +93,11 @@ function ENT:GetAllProduces()
 	end
 	self.Produces = a
 	return a
+end
+
+function ENT:TakeSonicDamage(am)
+	am = am or math.Rand(10,100)
+	self.NextProduce = self.NextProduce+(10+am/7)
 end
 
 function ENT:Reproduce()

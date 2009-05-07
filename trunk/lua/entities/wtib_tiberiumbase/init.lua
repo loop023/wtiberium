@@ -97,8 +97,9 @@ end
 
 function ENT:EmitGas(pos)
 	if !self.Gas then return end
+	pos = pos or self:GetPos()+Vector(math.Rand(-30,30),math.Rand(-30,30),math.Rand(30,50))
 	local e = ents.Create("wtib_tiberiumgas")
-	e:SetPos(pos or self:GetPos()+Vector(math.Rand(-30,30),math.Rand(-30,30),math.Rand(30,50)))
+	e:SetPos(pos)
 	e:SetAngles(self:GetAngles())
 	e.WDSE = self
 	e.WDSO = self
@@ -145,6 +146,16 @@ function ENT:GetAllProduces()
 	end
 	self.Produces = a
 	return a
+end
+
+function ENT:TakeSonicDamage(am)
+	am = am or math.Rand(10,100)
+	self.NextTiberiumAdd = CurTime()+(10+am/5)
+	if self.NextProduce-CurTime() < 60 then
+		self.NextProduce = CurTime()+(self.ReproduceDelay or 60)
+	end
+	self:DrainTiberiumAmount(am)
+	self:EmitGas()
 end
 
 function ENT:Reproduce()
