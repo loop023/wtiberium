@@ -16,6 +16,10 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
+	self:SecInit()
+end
+
+function ENT:SecInit()
 	self.NextProduce = CurTime()+self.ReproduceDelay
 	self:Think()
 end
@@ -63,6 +67,20 @@ end
 function ENT:GetTiberiumAmount()
 	-- Since i dont want to break the ent.IsTiberium check ill leave this blank.
 	return 10
+end
+
+function ENT:SetTargetColor(r,g,b,a)
+	self.Tr = math.Clamp(r,0,255)
+	self.Tg = math.Clamp(g,0,255)
+	self.Tb = math.Clamp(b,0,255)
+	self.Ta = math.Clamp(a,0,255)
+end
+
+function ENT:CheckColor()
+	local inc = 1
+	local Or,Og,Ob,Oa = self:GetColor()
+	print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
+	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
 end
 
 function ENT:Die()

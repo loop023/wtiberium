@@ -14,16 +14,20 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	self:SetColor(self.r,self.g,self.b,150)
 	self:SetMaterial("models/debug/debugwhite")
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
 	end
+	self:SecInit()
+end
+
+function ENT:SecInit()
 	self.NextProduce = CurTime()+math.Rand(30,60)
 	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
 	self:SetTiberiumAmount(math.Rand(200,500))
+	self:SetColor(self.r,self.g,self.b,self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5)
 end
 
 function ENT:SpawnFunction(p,t)
@@ -64,13 +68,14 @@ function ENT:Think()
 		self:Reproduce()
 	end
 	if self.SecThink then self:SecThink() end
+	self:CheckColor()
 	self:NextThink(CurTime()+1)
 	return true
 end
 
 function ENT:SetTiberiumAmount(am)
 	self:SetNWInt("TiberiumAmount",math.Clamp(am,-10,self.MaxTiberium))
-	self:SetColor(self.r,self.g,self.b,math.Clamp(self.a,30,255))
+	self:SetTargetColor(self.r,self.g,self.b,math.Clamp(self.a,30,255))
 	if self:GetNWInt("TiberiumAmount") <= 0 then
 		self:Die()
 	end
@@ -86,6 +91,20 @@ end
 
 function ENT:GetTiberiumAmount()
 	return self:GetNWInt("TiberiumAmount")
+end
+
+function ENT:SetTargetColor(r,g,b,a)
+	self.Tr = math.Clamp(r,0,255)
+	self.Tg = math.Clamp(g,0,255)
+	self.Tb = math.Clamp(b,0,255)
+	self.Ta = math.Clamp(a,0,255)
+end
+
+function ENT:CheckColor()
+	local inc = 1
+	local Or,Og,Ob,Oa = self:GetColor()
+	print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
+	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
 end
 
 function ENT:Die()
