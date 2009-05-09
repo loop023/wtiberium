@@ -18,5 +18,5 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	return WTib_CreateTiberiumByTrace(t,"wtib_greentiberium",p)
+	return WTib_CreateTiberiumByTrace(t,self.Class,p)
 end

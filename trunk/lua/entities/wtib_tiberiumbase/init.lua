@@ -22,16 +22,16 @@ function ENT:Initialize()
 	self:SecInit()
 end
 
+function ENT:SpawnFunction(p,t)
+	return WTib_CreateTiberiumByTrace(t,self.Class,p)
+end
+
 function ENT:SecInit()
 	self.NextProduce = CurTime()+math.Rand(30,60)
 	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
 	self:SetTiberiumAmount(math.Rand(200,500))
 	self:SetColor(self.r,self.g,self.b,self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5)
-end
-
-function ENT:SpawnFunction(p,t)
-	return WTib_CreateTiberiumByTrace(t,"wtib_tiberiumbase",p)
 end
 
 function ENT:CreateCDevider()

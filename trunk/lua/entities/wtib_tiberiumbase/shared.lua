@@ -13,7 +13,7 @@ ENT.NoPhysicsPickup	= true
 
 -- Take over the following variables when making your own tiberium ent.
 ENT.TiberiumDraimOnReproduction	= 3000 -- The amount of tiberium drained when it replicates.
-ENT.MinReprodutionTibRequired	= 3800 -- The minimum amount of tiberium required before it attempts to replicate.
+ENT.MinReprodutionTibRequired	= 3600 -- The minimum amount of tiberium required before it attempts to replicate.
 ENT.RemoveOnNoTiberium			= true -- Remove the ent when the tiberium amount reaches 0?
 ENT.IgnoreExpBurDamage			= false -- Should we not gain extra tiberium from explosion/burn damage?
 ENT.ReproductionRate			= 30 -- Howmuch seconds are being added to the console command of the respawn rate for this ent.
@@ -24,6 +24,7 @@ ENT.ReproduceDelay				= 60 -- The delay between reproductions.
 ENT.TiberiumAdd					= true -- Should tiberium be added every 3 seconds?
 ENT.MaxTiberium					= 4000 -- The maximum amount of tiberium this entity can have.
 ENT.DynLight					= true -- Should we make a dynamic light at our position?
+ENT.Class						= "wtib_tiberiumbase" -- Our class so we dont need to overwride the spawn function.
 ENT.Gas							= true -- Should this entity emit gas?
 ENT.r							= 255 -- The red color.
 ENT.g							= 0 -- The green color.

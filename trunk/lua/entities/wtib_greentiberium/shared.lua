@@ -24,6 +24,7 @@ ENT.ReproduceDelay				= 60
 ENT.MaxTiberium					= 2000
 ENT.TiberiumAdd					= true
 ENT.DynLight					= true
+ENT.Class						= "wtib_greentiberium"
 ENT.Gas							= true
 ENT.r							= 0
 ENT.g							= 255

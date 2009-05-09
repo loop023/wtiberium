@@ -1,5 +1,7 @@
 include('shared.lua')
 
+WTib_DrawFactoryTooltip = true
+
 function ENT:Draw()
 	self:DrawModel()
 	WTib_Render(self)
@@ -14,10 +16,12 @@ end
 language.Add("wtib_warheadfactory","Warhead Factory")
 
 function ENT:WTib_GetTooltip()
+	--if !WTib_DrawFactoryTooltip then return "" end
 	return "Warhead Factory\nCurrent Warhead : "..tostring(self:GetNWString("Warhead","None")).."\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0))).."\nRefined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0))).."\nTiberium Chemicals : "..math.Round(tostring(self:GetNWInt("TibChem",0)))
 end
 
 function WTib_OpenWarheadMenu(um)
+	WTib_DrawFactoryTooltip = false
 	local ent = um:ReadEntity()
 	if !ent or !ent:IsValid() then return end
 	local Frame = vgui.Create("DFrame")
@@ -28,6 +32,9 @@ function WTib_OpenWarheadMenu(um)
 	Frame:SetSizable(true)
 	Frame:SetDeleteOnClose(true)
 	Frame:MakePopup()
+	Frame.OnClose = function()
+		WTib_DrawFactoryTooltip = true
+	end
 	local DList = vgui.Create("DListView")
 	DList:SetParent(Frame)
 	DList:SetPos(25,50)
@@ -60,6 +67,8 @@ function WTib_OpenWarheadMenu(um)
 		RunConsoleCommand("wtib_setwarhead",tostring(ent),num)
 		surface.PlaySound("buttons/button9.wav")
 	end
+	DList:SortByColumn(1)
+	DList:SetSortable(true)
 end
 usermessage.Hook("WTib_OpenWarheadMenu",WTib_OpenWarheadMenu)
 
