@@ -31,6 +31,11 @@ function WTib_Render(a)
 	if WireAddon then
 		return Wire_Render(a)
 	end
+	if WTib_HasRD() then
+		if WTib_IsRD3() then
+			return RD.Beam_Render(a)
+		end
+	end
 end
 
 function WTib_UpdateRenderBounds(a)
