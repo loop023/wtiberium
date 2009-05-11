@@ -116,7 +116,6 @@ function WTib_OpenCustomWarheadMenu(ent)
 	Confirm:SetSize(190,50)
 	Confirm:SetText("Spawn Custom Warhead")
 	Confirm.DoClick = function()
-		print("wtib_spawncustomwarhead".." "..tostring(ent).." "..tostring(En).." "..tostring(RefTib).." "..tostring(TibChem))
 		RunConsoleCommand("wtib_spawncustomwarhead",tostring(ent),tostring(En),tostring(RefTib),tostring(TibChem))
 		Frame:Close()
 	end

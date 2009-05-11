@@ -113,7 +113,6 @@ end
 function ENT:CheckColor()
 	local inc = 2
 	local Or,Og,Ob,Oa = self:GetColor()
-	print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
 	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
 end
 

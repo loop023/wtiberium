@@ -29,4 +29,4 @@ function ENT:CreateDLight()
 		dlight.DieTime = CurTime()+1
 	end
 end
-language.Add("wtib_parentcrystalbase","Base Parent Tiberium")
+language.Add("wtib_tiberiumparentbase","Base Parent Tiberium")
