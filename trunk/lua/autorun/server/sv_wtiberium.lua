@@ -13,7 +13,7 @@ resource.AddFile("sound/wtiberium/sonicexplosion/explode.wav")
 WTib_InfectedLifeForms = {}
 WTib_MinProductionRate = 30
 WTib_MaxProductionRate = 60
-WTib_MaxFieldSize = 0
+WTib_MaxFieldSize = 50
 local TibFields = {}
 
 if WDS and WDS.AddProtectionFunction then -- This is for my own damage system.
@@ -55,7 +55,7 @@ function WTib_MaxProductionRateConsole(ply,com,args)
 		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MaxProductionRate)
 	end
 end
-concommand.Add("WTiberium_MaxProductionRate",WTib_MaxProductionRateConsole)
+concommand.Add("WTib_MaxProductionRate",WTib_MaxProductionRateConsole)
 
 function WTib_MinProductionRateConsole(ply,com,args)
 	if !args[1] then return end
@@ -68,7 +68,7 @@ function WTib_MinProductionRateConsole(ply,com,args)
 		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MinProductionRate)
 	end
 end
-concommand.Add("WTiberium_MinProductionRate",WTib_MinProductionRateConsole)
+concommand.Add("WTib_MinProductionRate",WTib_MinProductionRateConsole)
 
 function WTib_ClearAllTiberiumConsole(ply,com,args)
 	if !ply:IsAdmin() then
@@ -86,7 +86,7 @@ function WTib_ClearAllTiberiumConsole(ply,com,args)
 		v:ChatPrint("Removed all "..tostring(a).." tiberium entities!")
 	end
 end
-concommand.Add("WTiberium_ClearAllTiberium",WTib_ClearAllTiberiumConsole)
+concommand.Add("WTib_ClearAllTiberium",WTib_ClearAllTiberiumConsole)
 
 /*
 	***************************************************

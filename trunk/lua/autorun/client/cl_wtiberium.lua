@@ -1,8 +1,8 @@
 
-WTib_DynamicLight = CreateClientConVar("WTiberium_DynamicLights",1,true,true)
-WTib_DynamicLightSize = CreateClientConVar("WTiberium_DynamicLightsSize",1,true,true)
-WTib_UseToolTips = CreateClientConVar("WTiberium_UseTooltips",1,true,true)
-WTib_UseOldToolTips = CreateClientConVar("WTiberium_UseOldTooltips",1,true,true)
+WTib_DynamicLight = CreateClientConVar("WTib_DynamicLight",1,true,true)
+WTib_DynamicLightSize = CreateClientConVar("WTib_DynamicLightSize",1,true,true)
+WTib_UseToolTips = CreateClientConVar("WTib_UseTooltips",1,true,true)
+WTib_UseOldToolTips = CreateClientConVar("WTib_UseOldTooltips",1,true,true)
 
 function WTib_ToolTipDraw()
 	if !WTib_UseToolTips:GetBool() then return end

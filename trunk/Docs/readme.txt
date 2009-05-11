@@ -1,12 +1,11 @@
 
 Q/A :
-
 	Q: Those dynamic lights lag my PC, how do i remove it?
-	A: Open up your console and type in "WTiberium_NoDynamicLights 1" (Without the quotation marks), you can also change the size by using "WTiberium_DynamicLightsSize" (Default 1).
+	A: Open up your console and type in "WTib_NoDynamicLights 1" (Without the quotation marks), you can also change the size by using "WTib_DynamicLightsSize" (Default 1).
 
 	Q: The tiberium grows to fast/slow!
-	A: you can use the commands "WTiberium_MaxProductionRate" and "WTiberium_MinProductionRate" to set the spawn rate of the tiberium,
-		you can also limit the amount of tiberium entities spawned per entity with the command "WTiberium_MaxProduction".
+	A: you can use the commands "WTib_MaxProductionRate" and "WTib_MinProductionRate" to set the spawn rate of the tiberium,
+		you can also limit the amount of tiberium entities spawned per entity with the command "WTib_MaxProduction".
 
 	Q: What should i use, RD/LS2 or RD/LS3?
 	A: WTiberium works with RD/LS2 and RD/LS3, however there is a bug of yet unknown origin that causes it to drop your FPS with RD/LS3, 
@@ -19,29 +18,22 @@ Credits :
 	Lynix : For the origional tiberium models.
 	kevkev : For the rest of the stuff.
 
+Console commands :
+	Serverside :
+		WTib_MaxFieldSize - The maximum amount of tiberium per field (Default 50)
+		WTib_MaxProductionRate - Growth speed of the tiberium at its maximum (Default 60)
+		WTib_MinProductionRate - Growth speed of the tiberium at its minimum (Default 30)
+		WTib_ClearAllTiberium - Removes all tiberium entities from the map
+
+	Clientside :
+		WTib_DynamicLight - Enables/Disables the dynamic lights on the entities.
+		WTib_DynamicLightSize - The size of the dynamic lights when enabled.
+		WTib_UseToolTips - If the tiberium tooltips should be enabled.
+		WTib_UseOldTooltips - If we should use the classic or the new way of showing the tooltips.
+
 Changelog (These changes are incomplete, i do leave out a lot of changes since i am to lazy to note them all) :
 
-	1.14 :
-	Players and NPC's can now get infected by tiberium,
-	Added a cure entitie,
-	Sepperated the server and client files,
-	Better spawn heights for the entities,
-	Added WTiberium_DynamicLightsSize,
-	Better dynamic lights calculation,
-	The Devider is now a NW value,
-	GCombat will no longer destroy tiberium entities,
-	The SWeps are now working as they should,
-	Added a sonic cluster warhead,
-	Added a MaxResource output for wire to each storage ent,
-	Missiles can no longer be picked up,
-	Added WTiberium_ClearAllTiberium that will remove all tiberium entities,
-	Added a sonic repultion field,
-	Added wire debugger support,
-	Added more tooltips,
-	Wire should no longer be required,
-	Entities can now be "Used" (Pressed use on),
-	Added WTiberium_UseTooltips (Disabled and enables tooltips on tiberium entities),
-	Added WTiberium_UseOldTooltips (Selects if the tooltips start at the origin of the ent or at the pos you look),
+	*Changelog is no longer supported, check the changes in the SVN changelog per revision*
 
 	1.13 :
 	Tiberium will no longer spawn so close to another tiberium entity,
