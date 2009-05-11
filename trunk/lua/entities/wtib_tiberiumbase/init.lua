@@ -5,6 +5,8 @@ include('shared.lua')
 ENT.NextTiberiumAdd = 0
 ENT.TiberiumAmount = 0
 ENT.NextProduce = 0
+ENT.Accelerate = false
+ENT.AccReturn = true
 ENT.Produces = {}
 ENT.NextGas = 0
 
@@ -93,6 +95,14 @@ function ENT:GetTiberiumAmount()
 	return self:GetNWInt("TiberiumAmount")
 end
 
+function ENT:SetGrowthAccelerate(a)
+	self.Accelerate = tobool(a)
+	if !self.Accelerate and !self.AccReturn then
+		self.NextProduce = self.NextProduce+20
+		self.AccReturn = true
+	end
+end
+
 function ENT:SetTargetColor(r,g,b,a)
 	self.Tr = math.Clamp(r,0,255)
 	self.Tg = math.Clamp(g,0,255)
@@ -101,7 +111,7 @@ function ENT:SetTargetColor(r,g,b,a)
 end
 
 function ENT:CheckColor()
-	local inc = 1
+	local inc = 2
 	local Or,Og,Ob,Oa = self:GetColor()
 	print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
 	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
@@ -182,7 +192,11 @@ function ENT:Reproduce()
 	if !self.ShouldReproduce then return end
 	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end
 	if table.Count(self:GetAllProduces()) >= 3 then return end
-	for i=1,5 do
+	local a = 5
+	if self.Accelerate then
+		a = 10
+	end
+	for i=1,a do
 		local fl = WTib_GetAllTiberium()
 		table.Add(fl,player.GetAll())
 		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
@@ -210,7 +224,12 @@ function ENT:Reproduce()
 			if dist >= 150 and dist <= 700 and save then
 				local e = self:SpawnFunction(self.WDSO,t)
 				if e and e:IsValid() then
-					self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))
+					local b = 0
+					if self.Accelerate then
+						b = 20
+						self.AccReturn = false
+					end
+					self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))-b
 					self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 					WTib_AddToField(self.WTib_Field,e)
 					e.WTib_Field = self.WTib_Field

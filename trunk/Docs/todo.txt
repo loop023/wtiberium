@@ -22,9 +22,9 @@ Tiberium :
 	Done :
 		- Blue crystal
 		- Green crystal
+		- Parent crystal
 
 	Todo :
-		- Parent crystals?
 		- Red tiberium?
 		- Tiberium plants/wildlife?
 
