@@ -1,0 +1,13 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+WTiberium is a tiberium addon for Garry's mod (A HL2 mod), this allows the user to spawn entities in the world like tiberium.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Currently the project is being created by *kevkev* aka *Warrior xXx*
+  * Models are being made by *Gman|Tocsin*.
+  * Check the facepunch topic here : http://www.facepunch.com/showthread.php?t=716169
