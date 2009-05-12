@@ -4,7 +4,6 @@ if SERVER then
 end
 
 local RD3
-RD_3
 
 function WTib_PhysPickup(ply,ent)
 	if ent.NoPhysicsPickup then
