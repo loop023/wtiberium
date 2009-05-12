@@ -58,7 +58,7 @@ function ENT:Explode(missile,data)
 			if v.IsTiberium then
 				v:AddTiberiumAmount(math.Rand(50,100))
 			elseif v:IsNPC() or v:IsPlayer() then
-				WTib_InfectLiving(v)
+				WTib_InfectLiving(v,self)
 			elseif v:GetClass() == "prop_ragdoll" then
 				WTib_RagdollToTiberium(v)
 			elseif v != missile and v != missile.FTrail and v:IsValid() and !v:IsWeapon() and !v:IsWorld() and v:GetPhysicsObject():IsValid() and string.find(v:GetClass(), "func_") != 1 and v:GetClass() != "physgun_beam" then

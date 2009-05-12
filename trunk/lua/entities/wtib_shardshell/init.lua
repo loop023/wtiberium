@@ -49,7 +49,7 @@ function ENT:Think()
 			self.NextDamage = CurTime()+2
 			self.HitEnt.WTib_InfectLevel = (self.HitEnt.WTib_InfectLevel or 0)+1
 			if self.HitEnt.WTib_InfectLevel >= 10 then
-				WTib_InfectLiving(self.HitEnt)
+				WTib_InfectLiving(self.HitEnt,self)
 			end
 		end
 	else

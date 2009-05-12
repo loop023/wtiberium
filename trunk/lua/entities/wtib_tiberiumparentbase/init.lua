@@ -45,7 +45,7 @@ function ENT:Think()
 end
 
 function ENT:Touch(ent)
-	WTib_InfectLiving(ent)
+	WTib_InfectLiving(ent,self)
 	ent:TakeDamage(math.Rand(60,120),self.WDSO,self)
 end
 

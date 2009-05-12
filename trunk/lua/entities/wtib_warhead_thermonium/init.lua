@@ -45,7 +45,7 @@ function ENT:Explode(missile,data)
 		if v:GetClass() == "prop_ragdoll" then
 			WTib_RagdollToTiberium(v)
 		elseif v:IsPlayer() or v:IsNPC() then
-			WTib_InfectLiving(v)
+			WTib_InfectLiving(v,self)
 		end
 	end
 	missile:Remove()
