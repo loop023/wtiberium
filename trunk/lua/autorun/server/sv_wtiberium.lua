@@ -377,7 +377,7 @@ end
 function WTib_SupplyResource(a,b,c)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.SupplyResource(a,b,c)
+			return RD_3.SupplyResource(a,b,c)
 		elseif WTib_IsRD2() then
 			return RD_SupplyResource(a,b,c)
 		end
@@ -387,7 +387,7 @@ end
 function WTib_ConsumeResource(a,b,c)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.ConsumeResource(a,b,c)
+			return RD_3.ConsumeResource(a,b,c)
 		elseif WTib_IsRD2() then
 			return RD_ConsumeResource(a,b,c)
 		end
@@ -397,7 +397,7 @@ end
 function WTib_AddResource(a,b,c)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.AddResource(a,b,c)
+			return RD_3.AddResource(a,b,c)
 		elseif WTib_IsRD2() then
 			return RD_AddResource(a,b,c)
 		end
@@ -407,7 +407,7 @@ end
 function WTib_GetResourceAmount(a,b,c)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.GetResourceAmount(a,b,c)
+			return RD_3.GetResourceAmount(a,b,c)
 		elseif WTib_IsRD2() then
 			return RD_GetResourceAmount(a,b,c)
 		end
@@ -417,7 +417,7 @@ end
 function WTib_RemoveRDEnt(a)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.RemoveRDEntity(a)
+			return RD_3.RemoveRDEntity(a)
 		elseif Dev_Unlink_All and a.resources2links then
 			return Dev_Unlink_All(a)
 		end
@@ -427,7 +427,7 @@ end
 function WTib_GetNetworkCapacity(a,b)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.GetNetworkCapacity(a,b)
+			return RD_3.GetNetworkCapacity(a,b)
 		elseif WTib_IsRD2() then
 			return RD_GetNetworkCapacity(a,b)
 		end
@@ -437,7 +437,7 @@ end
 function WTib_BuildDupeInfo(a)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.BuildDupeInfo(a)
+			return RD_3.BuildDupeInfo(a)
 		elseif WTib_IsRD2() then
 			return RD_BuildDupeInfo(a)
 		end
@@ -447,7 +447,7 @@ end
 function WTib_ApplyDupeInfo(a,b)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.ApplyDupeInfo(a,b)
+			return RD_3.ApplyDupeInfo(a,b)
 		elseif WTib_IsRD2() then
 			return RD_ApplyDupeInfo(a,b)
 		end

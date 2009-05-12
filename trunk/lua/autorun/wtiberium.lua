@@ -4,7 +4,7 @@ if SERVER then
 end
 
 local RD3
-local RD
+RD_3
 
 function WTib_PhysPickup(ply,ent)
 	if ent.NoPhysicsPickup then
@@ -17,7 +17,7 @@ function WTib_IsRD3()
 	if(RD3 ~= nil) then return RD3 end
 	if(CAF and CAF.GetAddon("Resource Distribution")) then
 		RD3 = true
-		RD = CAF.GetAddon("Resource Distribution")
+		RD_3 = CAF.GetAddon("Resource Distribution")
 		return true
 	end
 	RD3 = false

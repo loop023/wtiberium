@@ -33,7 +33,7 @@ function WTib_Render(a)
 	end
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD.Beam_Render(a)
+			return RD_3.Beam_Render(a)
 		end
 	end
 end
