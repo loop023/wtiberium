@@ -10,6 +10,26 @@ resource.AddFile("materials/killicons/wtib_missile_killicon.vmt")
 resource.AddFile("sound/wtiberium/refinery/ref.wav")
 resource.AddFile("sound/wtiberium/sonicexplosion/explode.wav")
 
+--Wire Sound emitter sounds
+list.Set("WireSounds","GDI - Harvester lost",{wire_soundemitter_sound="wtiberium/gdi/Geva_HarvesterLost.wav"})
+list.Set("WireSounds","GDI - Harvester under attack",{wire_soundemitter_sound="wtiberium/gdi/Geva_HarvUndAttack.wav"})
+list.Set("WireSounds","GDI - Low power",{wire_soundemitter_sound="wtiberium/gdi/Geva_LowPower.wav"})
+list.Set("WireSounds","GDI - Tiberium exposure",{wire_soundemitter_sound="wtiberium/gdi/Geva_TiberExposDet.wav"})
+list.Set("WireSounds","GDI - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/gdi/Geva_TiberWeaReady.wav"})
+list.Set("WireSounds","GDI - TIberium field depleted",{wire_soundemitter_sound="wtiberium/gdi/Geva_TibFieldDeple.wav"})
+list.Set("WireSounds","NOD - Harvester lost",{wire_soundemitter_sound="wtiberium/nod/Geva_HarvesterLost.wav"})
+list.Set("WireSounds","NOD - Harvester under attack",{wire_soundemitter_sound="wtiberium/nod/Neva_HarvUndAttack.wav"})
+list.Set("WireSounds","NOD - Low power",{wire_soundemitter_sound="wtiberium/nod/Neva_LowPower.wav"})
+list.Set("WireSounds","NOD - Tiberium exposure",{wire_soundemitter_sound="wtiberium/nod/Neva_TiberExposDet.wav"})
+list.Set("WireSounds","NOD - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/nod/Neva_TiberWeaReady.wav"})
+list.Set("WireSounds","NOD - TIberium field depleted",{wire_soundemitter_sound="wtiberium/nod/Neva_TibFieldDeple.wav"})
+list.Set("WireSounds","Scrin - Harvester lost",{wire_soundemitter_sound="wtiberium/gdi/Aeva_HarvesterLost.wav"})
+list.Set("WireSounds","Scrin - Harvester under attack",{wire_soundemitter_sound="wtiberium/gdi/Aeva_HarvUndAttack.wav"})
+list.Set("WireSounds","Scrin - Low power",{wire_soundemitter_sound="wtiberium/gdi/Aeva_LowPower.wav"})
+list.Set("WireSounds","Scrin - Tiberium exposure",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TiberExposDet.wav"})
+list.Set("WireSounds","Scrin - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TiberWeaReady.wav"})
+list.Set("WireSounds","Scrin - TIberium field depleted",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TibFieldDeple.wav"})
+
 WTib_InfectedLifeForms = {}
 WTib_MinProductionRate = 30
 WTib_MaxProductionRate = 60
