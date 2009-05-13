@@ -36,10 +36,11 @@ Tiberium machinery :
 		Tiberium Harvester :
 			- Small
 			- Medium
+		Tiberium growth accelerator :
+			- Medium/Normal
 	Todo :
 		Tiberium growth accelerator :
 			- Small?
-			- Medium?
 			- Large?
 		Tiberium Harvester :
 			- Large (Parent crystal harvesting?)

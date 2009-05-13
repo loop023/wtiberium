@@ -8,8 +8,7 @@ Q/A :
 		you can also limit the amount of tiberium entities spawned per entity with the command "WTib_MaxProduction".
 
 	Q: What should i use, RD/LS2 or RD/LS3?
-	A: WTiberium works with RD/LS2 and RD/LS3, however there is a bug of yet unknown origin that causes it to drop your FPS with RD/LS3, 
-		i dont know why and/or how but i am looking into this, so for now i suggest RD/LS2
+	A: WTiberium works with both RD/LS2 and RD/LS3, My personal preference is RD2/LS2 but RD3/LS3 works just as good.
 
 	Q: How can i help you?
 	A: I am always looking for new/better models, textures and sounds, if you want to know more specific information just PM me on facepunch.
