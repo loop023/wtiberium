@@ -16,7 +16,7 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	self:SetMaterial("models/debug/debugwhite")
+	--self:SetMaterial("models/debug/debugwhite")
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
