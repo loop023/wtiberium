@@ -4,6 +4,7 @@ if SERVER then
 end
 
 local RD3
+local HasRD
 
 function WTib_PhysPickup(ply,ent)
 	if ent.NoPhysicsPickup then
@@ -24,7 +25,10 @@ function WTib_IsRD3()
 end
 
 function WTib_HasRD()
-	return (Dev_Link != nil or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
+	if !HasRD then
+		HasRD = (Dev_Link != nil or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
+	end
+	return HasRD
 end
 
 function WTib_IsRD2()
