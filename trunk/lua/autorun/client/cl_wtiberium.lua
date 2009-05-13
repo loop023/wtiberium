@@ -28,12 +28,12 @@ hook.Add("HUDPaint","WTib_ToolTipDraw",WTib_ToolTipDraw)
 */
 
 function WTib_Render(a)
-	if WireAddon then
-		return Wire_Render(a)
+	if Wire_Render then
+		Wire_Render(a)
 	end
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
-			return RD_3.Beam_Render(a)
+			RD_3.Beam_Render(a)
 		end
 	end
 end
