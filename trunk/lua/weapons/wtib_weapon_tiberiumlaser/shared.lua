@@ -1,0 +1,27 @@
+
+SWEP.Author					= "kevkev/Warrior xXx"
+SWEP.Contact				= ""
+SWEP.Purpose				= "Shoots a laser that can be charged with tiberium."
+SWEP.Instructions			= "Left click to shoot the laser, rightclick to charge your laser from a tiberium crystal."
+SWEP.Spawnable				= true
+SWEP.AdminSpawnable			= true
+SWEP.ViewModel				= "models/weapons/v_physcannon.mdl"
+SWEP.WorldModel				= "models/Weapons/w_physics.mdl"
+SWEP.ViewModelFlip			= false
+SWEP.Weight					= 5
+SWEP.AutoSwitchTo			= false
+SWEP.AutoSwitchFrom			= false
+SWEP.PrintName				= "Tiberium laser"	
+SWEP.Slot					= 4
+SWEP.SlotPos				= 6
+SWEP.DrawAmmo				= true
+SWEP.DrawCrosshair			= true
+SWEP.Category				= "Tiberium"
+SWEP.Primary.ClipSize		= -1
+SWEP.Primary.DefaultClip	= -1
+SWEP.Primary.Automatic		= true
+SWEP.Primary.Ammo			= "none"
+SWEP.Secondary.ClipSize		= -1
+SWEP.Secondary.DefaultClip	= -1
+SWEP.Secondary.Automatic	= true
+SWEP.Secondary.Ammo			= "none"
