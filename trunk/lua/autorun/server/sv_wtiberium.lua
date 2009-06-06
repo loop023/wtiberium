@@ -431,7 +431,9 @@ function WTib_GetResourceAmount(a,b,c)
 		elseif WTib_IsRD2() then
 			return RD_GetResourceAmount(a,b,c)
 		end
+		return 0
 	end
+	return 0
 end
 
 function WTib_RemoveRDEnt(a)
@@ -451,7 +453,9 @@ function WTib_GetNetworkCapacity(a,b)
 		elseif WTib_IsRD2() then
 			return RD_GetNetworkCapacity(a,b)
 		end
+		return 0
 	end
+	return 0
 end
 
 function WTib_BuildDupeInfo(a)
