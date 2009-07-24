@@ -243,8 +243,10 @@ function WTib_CreateTiberiumByTrace(t,ent,ply)
 		e:SetMoveType(MOVETYPE_VPHYSICS)
 		e:SetParent(t.Entity)
 	end
-	for i=1,3 do
-		e:EmitGas()
+	if e.EmitGas then
+		for i=1,3 do
+			e:EmitGas()
+		end
 	end
 	return e
 end
