@@ -6,7 +6,7 @@ ENT.NextProduce = 0
 ENT.Produces = {}
 
 function ENT:Initialize()
-	self:SetModel("models/props_gammarays/tiberium.mdl")
+	self:SetModel("models/props_gammarays/tiberiumtower5.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -25,13 +25,9 @@ function ENT:SecInit()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_tiberiumparentbase")
-	e:SetPos(t.HitPos+t.HitNormal)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
+	p:PrintMessage(HUD_PRINTCENTER,"THIS IS A BETA DON'T COMPLAIN ABOUT BUGS!")
+	p:ChatPrint("THIS IS A BETA DON'T COMPLAIN ABOUT BUGS!")
+	return WTib_CreateTiberiumByTrace(t,self.Class,p)
 end
 
 function ENT:Think()
@@ -79,7 +75,7 @@ end
 function ENT:CheckColor()
 	local inc = 1
 	local Or,Og,Ob,Oa = self:GetColor()
-	print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
+	--print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
 	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
 end
 

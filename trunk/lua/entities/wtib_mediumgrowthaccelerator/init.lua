@@ -5,8 +5,6 @@ include('shared.lua')
 util.PrecacheSound("apc_engine_start")
 util.PrecacheSound("apc_engine_stop")
 
-ENT.Active = false
-
 function ENT:Initialize()
 	self:SetModel("models/props_c17/TrapPropeller_Engine.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -35,11 +33,12 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
+	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
 end
 
 function ENT:Use(ply)
 	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
-	if self.Active then
+	if self:GetNWBool("Online",false) then
 		self:TurnOff()
 	else
 		self:TurnOn()
@@ -58,24 +57,19 @@ end
 
 function ENT:TurnOff()
 	self:StopSound("apc_engine_start")
-	if self.Active then
+	if self:GetNWBool("Online",false) then
 		self:EmitSound("apc_engine_stop")
 	end
-	self.Active = false
+	self:SetNWBool("Online",false)
 	WTib_TriggerOutput(self,"Online",0)
 end
 
 function ENT:TurnOn()
-	if !self.Active then
+	if !self:GetNWBool("Online",false) then
 		self:EmitSound("apc_engine_start")
 	end
-	self.Active = true
+	self:SetNWBool("Online",true)
 	WTib_TriggerOutput(self,"Online",1)
-	for _,v in pairs(ents.FindInSphere(self:GetPos(),512)) do
-		if v.IsTiberium and v.CanBeHarvested then
-			--v:SetGrowthAccelerate(true)
-		end
-	end
 end
 
 function ENT:OnRemove()

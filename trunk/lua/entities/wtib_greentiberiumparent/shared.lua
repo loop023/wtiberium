@@ -1,0 +1,23 @@
+ENT.Type			= "anim"
+ENT.Base			= "wtib_tiberiumparentbase"
+ENT.PrintName		= "Green Tiberium Parent"
+ENT.Author			= "kevkev/Warrior xXx"
+ENT.Contact			= ""
+ENT.Purpose			= ""
+ENT.Instructions	= ""
+ENT.Spawnable		= false
+ENT.AdminSpawnable	= true
+ENT.Category		= "Tiberium"
+ENT.IsTiberium		= true
+ENT.CanBeHarvested	= false
+ENT.NoPhysicsPickup	= true
+
+ENT.IgnoreExpBurDamage			= false
+ENT.ReproduceDelay				= 0
+ENT.TiberiumClass				= "wtib_greentiberium"
+ENT.DynLight					= true
+ENT.Class						= "wtib_greentiberiumparent"
+ENT.r							= 0
+ENT.g							= 255
+ENT.b							= 0
+ENT.a							= 150
