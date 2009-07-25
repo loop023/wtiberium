@@ -10,8 +10,6 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
-	self:SetColor(self.r,self.g,self.b,150)
-	self:SetMaterial("models/debug/debugwhite")
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -20,13 +18,13 @@ function ENT:Initialize()
 end
 
 function ENT:SecInit()
+	self:SetColor(self.r,self.g,self.b,150)
+	self:SetMaterial("models/debug/debugwhite")
 	self.NextProduce = CurTime()+self.ReproduceDelay
 	self:Think()
 end
 
 function ENT:SpawnFunction(p,t)
-	p:PrintMessage(HUD_PRINTCENTER,"THIS IS A BETA DON'T COMPLAIN ABOUT BUGS!")
-	p:ChatPrint("THIS IS A BETA DON'T COMPLAIN ABOUT BUGS!")
 	return WTib_CreateTiberiumByTrace(t,self.Class,p)
 end
 
@@ -42,7 +40,7 @@ end
 
 function ENT:Touch(ent)
 	WTib_InfectLiving(ent,self)
-	ent:TakeDamage(math.Rand(60,120),self.WDSO,self)
+	ent:TakeDamage(math.Rand(60,120),self,self)
 end
 
 function ENT:SetTiberiumAmount(am)

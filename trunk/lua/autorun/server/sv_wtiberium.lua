@@ -236,7 +236,7 @@ function WTib_CreateTiberiumByTrace(t,ent,ply)
 	ang:RotateAroundAxis(ang:Up(),math.random(0,360))
 	e:SetAngles(ang)
 	e:SetPos(t.HitPos)
-	e.WDSO = p
+	e.WDSO = ply
 	e:Spawn()
 	e:Activate()
 	if t.Entity and !t.Entity:IsWorld() then
