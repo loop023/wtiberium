@@ -20,6 +20,51 @@ function WTib_ToolTipDraw()
 end
 hook.Add("HUDPaint","WTib_ToolTipDraw",WTib_ToolTipDraw)
 
+function WTib_ToolMenu()
+	spawnmenu.AddToolMenuOption("Options","Performance","WTibClientSettings","WTib Settings","","",WTib_ClientPopulateMenu,{})
+	spawnmenu.AddToolMenuOption("Options","Admin","WTibAdminSettings","WTib Settings","","",WTib_AdminPopulateMenu,{})
+end
+hook.Add("AddToolMenuCategories","WTib_ToolMenu",WTib_ToolMenu)
+
+function WTib_ClientPopulateMenu(Panel)
+	Panel:ClearControls()
+	Panel:AddHeader()
+	Panel:CheckBox("Use dynamic lights","WTib_DynamicLight"):SetToolTip("Frame Burst: High")
+	Panel:AddControl("Slider",{	Label = "Dynamic light size",
+								Command = "WTib_DynamicLightSize",
+								Type = "Integer",
+								Min = "1",
+								Max = "10"})
+	Panel:CheckBox("Use tool tips","WTib_UseTooltips"):SetToolTip("Frame Burst: Low")
+	Panel:CheckBox("Use old tool tips","WTib_UseOldTooltips"):SetToolTip("Frame Burst: None")
+end
+
+function WTib_AdminPopulateMenu(Panel)
+	Panel:ClearControls()
+	Panel:AddHeader()
+	if !LocalPlayer():IsAdmin() then
+		
+		return
+	end
+	Panel:AddControl("Slider",{	Label = "Max Tiberium field size",
+								Command = "WTib_MaxFieldSize",
+								Type = "Integer",
+								Min = "30",
+								Max = "300"})
+	Panel:AddControl("Slider",{	Label = "Max Tiberium production rate",
+								Command = "WTib_MaxProductionRate",
+								Type = "Integer",
+								Min = "40",
+								Max = "300"})
+	Panel:AddControl("Slider",{	Label = "Min Tiberium production rate",
+								Command = "WTib_MinProductionRate",
+								Type = "Integer",
+								Min = "30",
+								Max = "290"})
+	Panel:AddControl("Button",{	Text = "Remove all Tiberium",
+								Command = "WTib_ClearAllTiberium"})
+end
+
 /*
 	***************************************************
 	*         Wire shit down here, these are all placeholders          *
