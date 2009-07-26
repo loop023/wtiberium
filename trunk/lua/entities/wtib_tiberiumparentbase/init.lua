@@ -142,7 +142,7 @@ function ENT:Reproduce()
 			if dist >= 150 and dist <= 700 and save then
 				local e = WTib_CreateTiberiumByTrace(t,self.TiberiumClass or "wtib_tiberiumbase",self.WDSO)
 				if e and e:IsValid() then
-					self.NextProduce = CurTime()+math.Rand(self.ReproduceDelay-10,self.ReproduceDelay+10)
+					self.NextProduce = CurTime()+math.Rand(self.ReproductionRate-10,self.ReproductionRate+10)
 					WTib_AddToField(self.WTib_Field,e)
 					e.WTib_Field = self.WTib_Field
 					e:SetFieldReprodce(self)

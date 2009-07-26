@@ -13,7 +13,8 @@ ENT.NoPhysicsPickup	= true
 
 -- Take over the following variables when making your own tiberium ent.
 ENT.IgnoreExpBurDamage			= false -- Should we not gain extra tiberium from explosion/burn damage?
-ENT.ReproduceDelay				= 30 -- The delay between reproductions.
+ENT.ReproductionRate			= 30 -- Howmuch seconds are being added to the console command of the respawn rate for this ent.
+ENT.ReproduceDelay				= 60 -- The delay between reproductions when damaged.
 ENT.TiberiumClass				= "wtib_tiberiumbase" -- The tiberium entities it should produce.
 ENT.DynLight					= true -- Should we make a dynamic light at our position?
 ENT.Class						= "wtib_tiberiumparentbase" -- What is our class?

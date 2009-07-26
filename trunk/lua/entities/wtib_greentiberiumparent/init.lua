@@ -15,7 +15,5 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	p:PrintMessage(HUD_PRINTCENTER,"THIS IS A BETA DON'T COMPLAIN ABOUT BUGS!")
-	p:ChatPrint("THIS IS A BETA DON'T COMPLAIN ABOUT BUGS!")
 	return WTib_CreateTiberiumByTrace(t,self.Class,p)
 end
