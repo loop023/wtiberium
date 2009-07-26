@@ -5,6 +5,8 @@ include('shared.lua')
 util.PrecacheSound("apc_engine_start")
 util.PrecacheSound("apc_engine_stop")
 
+ENT.Accelerators = {}
+
 function ENT:Initialize()
 	self:SetModel("models/props_c17/TrapPropeller_Engine.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -34,6 +36,20 @@ end
 
 function ENT:Think()
 	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
+	if self:GetNWBool("Online") then
+		for k,v in pairs(self.Accelerators) do
+			if v:GetPos():Distance(self:GetPos()) > 512 then
+				v:SetGrowthAccelerate(false)
+				self.Accelerators[k] = nil
+			end
+		end
+		for _,v in pairs(ents.FindInSphere(self:GetPos(),512)) do
+			if v.IsTiberium and (!table.HasValue(self.Accelerators,v) or !v:IsGrowthAccelerating()) then
+				v:SetGrowthAccelerate(true)
+				table.insert(self.Accelerators,v)
+			end
+		end
+	end
 end
 
 function ENT:Use(ply)
@@ -62,6 +78,9 @@ function ENT:TurnOff()
 	end
 	self:SetNWBool("Online",false)
 	WTib_TriggerOutput(self,"Online",0)
+	for _,v in pairs(self.Accelerators) do
+		v:SetGrowthAccelerate(false)
+	end
 end
 
 function ENT:TurnOn()
@@ -76,6 +95,9 @@ function ENT:OnRemove()
 	WTib_RemoveRDEnt(self)
 	if (self.Outputs or self.Inputs) then
 		WTib_Remove(self)
+	end
+	for _,v in pairs(self.Accelerators) do
+		v:SetGrowthAccelerate(false)
 	end
 end
 

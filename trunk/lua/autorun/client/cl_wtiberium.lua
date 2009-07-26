@@ -43,7 +43,6 @@ function WTib_AdminPopulateMenu(Panel)
 	Panel:ClearControls()
 	Panel:AddHeader()
 	if !LocalPlayer():IsAdmin() then
-		
 		return
 	end
 	Panel:AddControl("Slider",{	Label = "Max Tiberium field size",
@@ -51,13 +50,33 @@ function WTib_AdminPopulateMenu(Panel)
 								Type = "Integer",
 								Min = "30",
 								Max = "300"})
-	Panel:AddControl("Slider",{	Label = "Max Tiberium production rate",
-								Command = "WTib_MaxProductionRate",
+	Panel:AddControl("Slider",{	Label = "Max Green Tiberium production rate",
+								Command = "WTib_MaxGreenProductionRate",
 								Type = "Integer",
 								Min = "40",
 								Max = "300"})
-	Panel:AddControl("Slider",{	Label = "Min Tiberium production rate",
-								Command = "WTib_MinProductionRate",
+	Panel:AddControl("Slider",{	Label = "Min Green Tiberium production rate",
+								Command = "WTib_MinGreenProductionRate",
+								Type = "Integer",
+								Min = "30",
+								Max = "290"})
+	Panel:AddControl("Slider",{	Label = "Max Blue Tiberium production rate",
+								Command = "WTib_MaxBlueProductionRate",
+								Type = "Integer",
+								Min = "40",
+								Max = "300"})
+	Panel:AddControl("Slider",{	Label = "Min Blue Tiberium production rate",
+								Command = "WTib_MinBlueProductionRate",
+								Type = "Integer",
+								Min = "30",
+								Max = "290"})
+	Panel:AddControl("Slider",{	Label = "Max Red Tiberium production rate",
+								Command = "WTib_MaxRedProductionRate",
+								Type = "Integer",
+								Min = "40",
+								Max = "300"})
+	Panel:AddControl("Slider",{	Label = "Min Red Tiberium production rate",
+								Command = "WTib_MinRedProductionRate",
 								Type = "Integer",
 								Min = "30",
 								Max = "290"})

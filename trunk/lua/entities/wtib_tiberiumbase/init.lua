@@ -15,7 +15,6 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
-	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -28,6 +27,7 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:SecInit()
+	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	self.NextProduce = CurTime()+math.Rand(30,60)
 	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
@@ -100,6 +100,10 @@ function ENT:SetGrowthAccelerate(a)
 		self.NextProduce = self.NextProduce+20
 		self.AccReturn = true
 	end
+end
+
+function ENT:IsGrowthAccelerating()
+	return self.Accelerate
 end
 
 function ENT:SetTargetColor(r,g,b,a)
@@ -186,48 +190,44 @@ function ENT:TakeSonicDamage(am)
 end
 
 function ENT:Reproduce()
-	if self.OverrideShouldReproduce then return end
-	if !self.ShouldReproduce then return end
-	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end
-	if table.Count(self:GetAllProduces()) >= 3 then return end
+	if self.OverrideShouldReproduce or !self.ShouldReproduce then return end -- Don't reproduce if we should not.
+	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end -- Don't grow past our field size.
+	if table.Count(self:GetAllProduces()) >= 3 then return end -- Don't grow past 3 children
 	local a = 5
-	if self.Accelerate then
+	if self.Accelerate then -- If we are accelerating our growth then do 10 loops.
 		a = 10
 	end
 	for i=1,a do
-		local fl = WTib_GetAllTiberium()
-		table.Add(fl,player.GetAll())
+		local fl = WTib_GetAllTiberium() -- All the tiberium ents to be filtered
+		table.Add(fl,player.GetAll()) -- Plus all players
 		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
 		if t.Hit then
 			local save = true
-			for _,v in pairs(ents.FindByClass("wtib_sonicfieldemitter")) do
+			for _,v in pairs(ents.FindByClass("wtib_sonicfieldemitter")) do -- If the trace is to close to a sonic emiter set save to false.
 				if t.HitPos:Distance(v:GetPos()) < (v:GetNWInt("Radius") or 512) then
 					save = false
-					break
 				end
 			end
-			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do
+			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do -- If we can find tiberium insize a 500 radius of the tracehit that is not the same class it aint save.
 				if v.IsTiberium and v:GetClass() != self:GetClass() then
 					save = false
-					break
 				end
 			end
-			for _,v in pairs(ents.FindInSphere(t.HitPos,150)) do
+			for _,v in pairs(ents.FindInSphere(t.HitPos,150)) do -- To prevent overcrowding don't spawn closer than 150 to any tiberium ent.
 				if v.IsTiberium then
 					save = false
-					break
 				end
 			end
 			local dist = t.HitPos:Distance(self:GetPos())
-			if dist >= 150 and dist <= 700 and save then
-				local e = self:SpawnFunction(self.WDSO,t)
-				if e and e:IsValid() then
+			if dist >= 150 and dist <= 700 and save then -- Don't spawn to close nor to far.
+				local e = self:SpawnFunction(self.WDSO,t) -- Create the ent.
+				if e and e:IsValid() then -- We got a health tib baby!
 					local b = 0
 					if self.Accelerate then
 						b = 20
 						self.AccReturn = false
 					end
-					self.NextProduce = CurTime()+math.Rand(math.Clamp((WTib_MinProductionRate or 30)-self.ReproductionRate,5,9998),math.Clamp((WTib_MaxProductionRate or 60)-self.ReproductionRate,6,9999))-b
+					self.NextProduce = CurTime()+math.Rand(math.Clamp((self:GetMinProductionRate() or 30)-self.ReproductionRate,5,9998),math.Clamp((self:GetMaxProductionRate() or 60)-self.ReproductionRate,6,9999))-b
 					self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
 					WTib_AddToField(self.WTib_Field,e)
 					e.WTib_Field = self.WTib_Field
@@ -235,10 +235,17 @@ function ENT:Reproduce()
 					return e
 				else
 					self.NextProduce = CurTime()+1
-					return
 				end
 			end
 		end
 	end
 	self.NextProduce = CurTime()+1
+end
+
+function ENT:GetMinProductionRate()
+	return WTib_MinRedProductionRate or 30
+end
+
+function ENT:GetMaxProductionRate()
+	return WTib_MaxRedProductionRate or 60
 end

@@ -7,7 +7,6 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_VPHYSICS)
-	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then
 		phys:Wake()
@@ -17,4 +16,12 @@ end
 
 function ENT:SpawnFunction(p,t)
 	return WTib_CreateTiberiumByTrace(t,self.Class,p)
+end
+
+function ENT:GetMinProductionRate()
+	return WTib_MinGreenProductionRate or 30
+end
+
+function ENT:GetMaxProductionRate()
+	return WTib_MaxGreenProductionRate or 60
 end

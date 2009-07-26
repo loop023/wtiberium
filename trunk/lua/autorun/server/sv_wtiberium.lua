@@ -31,8 +31,12 @@ list.Set("WireSounds","Scrin - Tiberium weapon ready",{wire_soundemitter_sound="
 list.Set("WireSounds","Scrin - TIberium field depleted",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TibFieldDeple.wav"})
 
 WTib_InfectedLifeForms = {}
-WTib_MinProductionRate = 30
-WTib_MaxProductionRate = 60
+WTib_MinGreenProductionRate = 30
+WTib_MaxGreenProductionRate = 60
+WTib_MinBlueProductionRate = 40
+WTib_MaxBlueProductionRate = 80
+WTib_MinRedProductionRate = 50
+WTib_MaxRedProductionRate = 100
 WTib_MaxFieldSize = 50
 local TibFields = {}
 
@@ -64,31 +68,83 @@ function WTib_MaxFieldSizeConsole(ply,com,args)
 end
 concommand.Add("WTib_MaxFieldSize",WTib_MaxFieldSizeConsole)
 
-function WTib_MaxProductionRateConsole(ply,com,args)
+function WTib_MaxGreenProductionRateConsole(ply,com,args)
 	if !args[1] then return end
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MaxProductionRate = math.Clamp(tonumber(args[1]),tonumber(WTib_MinProductionRate)+1,100000)
+	WTib_MaxGreenProductionRate = math.Clamp(tonumber(args[1]),tonumber(WTib_MinGreenProductionRate)+1,100000)
 	for _,v in pairs(player.GetAll()) do
-		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MaxProductionRate)
+		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MaxGreenProductionRate)
 	end
 end
-concommand.Add("WTib_MaxProductionRate",WTib_MaxProductionRateConsole)
+concommand.Add("WTib_MaxGreenProductionRate",WTib_MaxGreenProductionRateConsole)
 
-function WTib_MinProductionRateConsole(ply,com,args)
+function WTib_MinGreenProductionRateConsole(ply,com,args)
 	if !args[1] then return end
 	if !ply:IsAdmin() then
 		ply:ChatPrint("This command is admin only "..ply:Nick())
 		return
 	end
-	WTib_MinProductionRate = math.Clamp(tonumber(args[1]),1,tonumber(WTib_MaxProductionRate)-1)
+	WTib_MinGreenProductionRate = math.Clamp(tonumber(args[1]),1,tonumber(WTib_MaxGreenProductionRate)-1)
 	for _,v in pairs(player.GetAll()) do
-		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MinProductionRate)
+		v:ChatPrint("Maximum tiberium production rate changed to "..WTib_MinGreenProductionRate)
 	end
 end
-concommand.Add("WTib_MinProductionRate",WTib_MinProductionRateConsole)
+concommand.Add("WTib_MinGreenProductionRate",WTib_MinGreenProductionRateConsole)
+
+function WTib_MaxBlueProductionRateConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	WTib_MaxBlueProductionRate = math.Clamp(tonumber(args[1]),tonumber(WTib_MinBlueProductionRate)+1,100000)
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Maximum blue tiberium production rate changed to "..WTib_MaxBlueProductionRate)
+	end
+end
+concommand.Add("WTib_MaxBlueProductionRate",WTib_MaxBlueProductionRateConsole)
+
+function WTib_MinBlueProductionRateConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	WTib_MinBlueProductionRate = math.Clamp(tonumber(args[1]),1,tonumber(WTib_MaxBlueProductionRate)-1)
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Maximum blue tiberium production rate changed to "..WTib_MinBlueProductionRate)
+	end
+end
+concommand.Add("WTib_MinBlueProductionRate",WTib_MinBlueProductionRateConsole)
+
+function WTib_MaxRedProductionRateConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	WTib_MaxRedProductionRate = math.Clamp(tonumber(args[1]),tonumber(WTib_MinRedProductionRate)+1,100000)
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Maximum red tiberium production rate changed to "..WTib_MaxRedProductionRate)
+	end
+end
+concommand.Add("WTib_MaxRedProductionRate",WTib_MaxRedProductionRateConsole)
+
+function WTib_MinRedProductionRateConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	WTib_MinRedProductionRate = math.Clamp(tonumber(args[1]),1,tonumber(WTib_MaxRedProductionRate)-1)
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Maximum red tiberium production rate changed to "..WTib_MinRedProductionRate)
+	end
+end
+concommand.Add("WTib_MinRedProductionRate",WTib_MinRedProductionRateConsole)
 
 function WTib_ClearAllTiberiumConsole(ply,com,args)
 	if !ply:IsAdmin() then
