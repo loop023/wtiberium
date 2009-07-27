@@ -44,13 +44,24 @@ function ENT:CreateCDevider()
 	end
 end
 
-function ENT:SetFieldReprodce(ent)
-	self.OverrideShouldReproduce = true
-	self.Produce = ent
+function ENT:SetField(a)
+	self.WTib_Field = a
+end
+
+function ENT:GetField()
+	return self.WTib_Field
+end
+
+function ENT:SetCore(ent)
+	self.CoreEntity = ent
+end
+
+function ENT:GetCore()
+	return self.CoreEntity
 end
 
 function ENT:Think()
-	if !self.WTib_Field then self.WTib_Field = WTib_CreateNewField(self) end
+	if !self.WTib_Field then self:SetField(WTib_CreateNewField(self)) end
 	if !self:GetNWInt("CDevider") or self:GetNWInt("CDevider") == 0 or self:GetNWInt("CDevider") == "" then self:CreateCDevider() end
 	self.a = self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5
 	if self.NextTiberiumAdd <= CurTime() and self.TiberiumAdd then
@@ -59,11 +70,6 @@ function ENT:Think()
 	end
 	if self.NextGas <= CurTime() then
 		self:EmitGas()
-	end
-	if self.OverrideShouldReproduce then
-		if !self.Produce or !self.Produce:IsValid() then
-			self.OverrideShouldReproduce = false
-		end
 	end
 	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) then
 		self:Reproduce()
@@ -190,7 +196,6 @@ function ENT:TakeSonicDamage(am)
 end
 
 function ENT:Reproduce()
-	if self.OverrideShouldReproduce or !self.ShouldReproduce then return end -- Don't reproduce if we should not.
 	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end -- Don't grow past our field size.
 	if table.Count(self:GetAllProduces()) >= 3 then return end -- Don't grow past 3 children
 	local a = 5
@@ -227,10 +232,10 @@ function ENT:Reproduce()
 						b = 20
 						self.AccReturn = false
 					end
-					self.NextProduce = CurTime()+math.Rand(math.Clamp((self:GetMinProductionRate() or 30)-self.ReproductionRate,5,9998),math.Clamp((self:GetMaxProductionRate() or 60)-self.ReproductionRate,6,9999))-b
-					self:DrainTiberiumAmount(self.TiberiumDraimOnReproduction or self.MaxTiberium-200)
+					self.NextProduce = CurTime()+self.ReproduceDelay
 					WTib_AddToField(self.WTib_Field,e)
-					e.WTib_Field = self.WTib_Field
+					e:SetField(self:GetField())
+					e:SetCore(self)
 					table.insert(self.Produces,e)
 					return e
 				else

@@ -29,13 +29,21 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	if !self.WTib_Field then self.WTib_Field = WTib_CreateNewField(self) end
+	if !self.WTib_Field then self:SetField(WTib_CreateNewField(self)) end
 	if self.NextProduce <= CurTime() then
 		self:Reproduce()
 	end
 	if self.SecThink then self:SecThink() end
 	self:NextThink(CurTime()+1)
 	return true
+end
+
+function ENT:SetField(a)
+	self.WTib_Field = a
+end
+
+function ENT:GetField()
+	return self.WTib_Field
 end
 
 function ENT:Touch(ent)
@@ -63,33 +71,11 @@ function ENT:GetTiberiumAmount()
 	return 10
 end
 
-function ENT:SetTargetColor(r,g,b,a)
-	self.Tr = math.Clamp(r,0,255)
-	self.Tg = math.Clamp(g,0,255)
-	self.Tb = math.Clamp(b,0,255)
-	self.Ta = math.Clamp(a,0,255)
-end
-
-function ENT:CheckColor()
-	local inc = 1
-	local Or,Og,Ob,Oa = self:GetColor()
-	--print("Inc "..inc.." Cur : "..Or.." "..Og.." "..Ob.." "..Oa)
-	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
-end
-
 function ENT:Die()
 	self:Remove()
 end
 
 function ENT:OnTakeDamage(di)
-	if di:IsDamageType(DMG_BURN) and !self.IgnoreExpBurDamage then
-		self.NextProduce = 4
-		self.NextTiberiumAdd = 0
-		return
-	end
-	if self.NextProduce-CurTime() < 30 then
-		self.NextProduce = CurTime()+(self.ReproduceDelay or 30)
-	end
 end
 
 function ENT:GetFieldEnts()
@@ -139,18 +125,17 @@ function ENT:Reproduce()
 				end
 			end
 			local dist = t.HitPos:Distance(self:GetPos())
-			if dist >= 150 and dist <= 700 and save then
+			if dist >= 100 and dist <= 700 and save then
 				local e = WTib_CreateTiberiumByTrace(t,self.TiberiumClass or "wtib_tiberiumbase",self.WDSO)
 				if e and e:IsValid() then
-					self.NextProduce = CurTime()+math.Rand(self.ReproductionRate-10,self.ReproductionRate+10)
+					self.NextProduce = CurTime()+self.ReproduceDelay
 					WTib_AddToField(self.WTib_Field,e)
-					e.WTib_Field = self.WTib_Field
-					e:SetFieldReprodce(self)
+					e:SetField(self.WTib_Field)
+					e:SetCore(self)
 					table.insert(self.Produces,e)
 					return e
-				else
-					self.NextProduce = CurTime()+0.5
-					return
+				elseif i == 7 then
+					self.NextProduce = CurTime()+0.1
 				end
 			end
 		end

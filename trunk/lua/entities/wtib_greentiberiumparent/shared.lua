@@ -12,9 +12,7 @@ ENT.IsTiberium		= true
 ENT.CanBeHarvested	= false
 ENT.NoPhysicsPickup	= true
 
-ENT.IgnoreExpBurDamage			= false
-ENT.ReproductionRate			= 10
-ENT.ReproduceDelay				= 20
+ENT.ReproduceDelay				= 5
 ENT.TiberiumClass				= "wtib_greentiberium"
 ENT.DynLight					= true
 ENT.Class						= "wtib_greentiberiumparent"
