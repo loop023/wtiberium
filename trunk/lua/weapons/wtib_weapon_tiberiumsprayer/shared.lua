@@ -28,6 +28,7 @@ SWEP.Secondary.Ammo			= "none"
 SWEP.NextFire				= 0
 SWEP.IsEmittingSound		= false
 SWEP.Tiberium				= 1000
+SWEP.AlreadyInvurnable		= true
 
 function SWEP:PrimaryAttack()
 	if self.NextFire > CurTime() then return end
@@ -88,10 +89,16 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:Deploy()
-	self.Owner.IsTiberiumResistant = true
+	if self.Owner.IsTiberiumResistant then
+		self.AlreadyInvurnable = true
+	else
+		self.Owner.IsTiberiumResistant = true
+	end
 end
 
 function SWEP:Holster()
-	self.Owner.IsTiberiumResistant = false
+	if !self.AlreadyInvurnable then
+		self.Owner.IsTiberiumResistant = false
+	end
 	return true
 end
