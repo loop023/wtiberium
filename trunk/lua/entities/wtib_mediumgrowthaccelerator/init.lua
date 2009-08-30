@@ -44,7 +44,7 @@ function ENT:Think()
 			end
 		end
 		for _,v in pairs(ents.FindInSphere(self:GetPos(),512)) do
-			if v.IsTiberium and (!table.HasValue(self.Accelerators,v) or !v:IsGrowthAccelerating()) then
+			if v.IsTiberium and v.CanBeHarvested and (!table.HasValue(self.Accelerators,v) or !v:IsGrowthAccelerating()) then
 				v:SetGrowthAccelerate(true)
 				table.insert(self.Accelerators,v)
 			end

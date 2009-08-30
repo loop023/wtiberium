@@ -11,8 +11,6 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.MaxHealth = 500
-	self.aHealth = self.MaxHealth
 	self.Outputs = WTib_CreateOutputs(self,{"TiberiumChemicals","MaxTiberiumChemicals"})
 	WTib_AddResource(self,"TiberiumChemicals",3300)
 	WTib_RegisterEnt(self,"Storage")
@@ -32,22 +30,6 @@ function ENT:Think()
 	self:SetNWInt("ChemTib",WTib_GetResourceAmount(self,"TiberiumChemicals"))
 	WTib_TriggerOutput(self,"TiberiumChemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
 	WTib_TriggerOutput(self,"MaxTiberiumChemicals",WTib_GetNetworkCapacity(self,"TiberiumChemicals"))
-end
-
-function ENT:OnTakeDamage(di)
-	self.aHealth = self.aHealth-di:GetDamage()
-	if self.aHealth <= 0 then
-		self:Die()
-	end
-end
-
-function ENT:Die()
-	self:Remove()
-end
-
-function ENT:Repair(am)
-	if am <= 0 then return end
-	self.aHealth = math.Clamp(self.aHealth+am,0,self.MaxHealth)
 end
 
 function ENT:OnRemove()

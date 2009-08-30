@@ -35,22 +35,6 @@ function ENT:Think()
 	WTib_TriggerOutput(self,"MaxTiberium",WTib_GetNetworkCapacity(self,"Tiberium"))
 end
 
-function ENT:OnTakeDamage(di)
-	self.aHealth = self.aHealth-di:GetDamage()
-	if self.aHealth <= 0 then
-		self:Die()
-	end
-end
-
-function ENT:Die()
-	self:Remove()
-end
-
-function ENT:Repair(am)
-	if am <= 0 then return end
-	self.aHealth = math.Clamp(self.aHealth+am,0,self.MaxHealth)
-end
-
 function ENT:OnRemove()
 	WTib_RemoveRDEnt(self)
 	if (self.Outputs or self.Inputs) then

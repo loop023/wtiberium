@@ -563,7 +563,7 @@ end
 
 function WTib_TriggerOutput(a,b,c)
 	if WireAddon then
-		return Wire_TriggerOutput(a,b,c)
+		return Wire_TriggerOutput(a,b,math.Round(c))
 	end
 end
 
