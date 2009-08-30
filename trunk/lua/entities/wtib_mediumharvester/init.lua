@@ -9,7 +9,7 @@ ENT.NextHarvest = 0
 ENT.Active = false
 
 function ENT:Initialize()
-	self:SetModel("models/props_industrial/oil_storage.mdl")
+	self:SetModel("models/medium_harvester.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -28,7 +28,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_mediumharvester")
-	e:SetPos(t.HitPos+t.HitNormal)
+	e:SetPos(t.HitPos+t.HitNormal*40)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -38,15 +38,16 @@ end
 function ENT:Harvest()
 	local a = 0
 	local En = WTib_GetResourceAmount(self,"energy")
-	for _,v in pairs(ents.FindInSphere(self:GetPos(),300)) do
+	local Multipl = 2
+	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),250,10)) do
 		if a >= 5 then return end
 		if v.IsTiberium and v.CanBeHarvested then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 50,MaxTiberiumGain or 150))
-			if En < am*2 then
+			if En < am*Multipl then
 				self:TurnOff()
 				return
 			end
-			WTib_ConsumeResource(self,"energy",am*2)
+			WTib_ConsumeResource(self,"energy",am*Multipl)
 			v:DrainTiberiumAmount(am)
 			WTib_SupplyResource(self,"Tiberium",am)
 			self:DoSparkEffect(v,math.Clamp((am/10)-35,5,15))
@@ -90,7 +91,6 @@ function ENT:Think()
 		self:Harvest()
 		self.NextHarvest = CurTime()+1
 	end
-	local a = 0
 end
 
 function ENT:Use(ply)
@@ -128,6 +128,7 @@ function ENT:TurnOn()
 end
 
 function ENT:OnRemove()
+	self:TurnOff()
 	WTib_RemoveRDEnt(self)
 	if (self.Outputs or self.Inputs) then
 		WTib_Remove(self)

@@ -9,7 +9,7 @@ ENT.NextHarvest = 0
 ENT.Active = false
 
 function ENT:Initialize()
-	self:SetModel("models/props_c17/TrapPropeller_Engine.mdl")
+	self:SetModel("models/small_harvester.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -28,7 +28,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_smallharvester")
-	e:SetPos(t.HitPos+t.HitNormal*20)
+	e:SetPos(t.HitPos+t.HitNormal*10)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -38,15 +38,16 @@ end
 function ENT:Harvest()
 	local a = 0
 	local En = WTib_GetResourceAmount(self,"energy")
-	for _,v in pairs(ents.FindInSphere(self:GetPos(),100)) do
+	local Multipl = 1.5
+	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetForward(),100,10)) do
 		if a >= 5 then return end
 		if v.IsTiberium and v.CanBeHarvested then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 15,MaxTiberiumGain or 50))
-			if En < am*1.5 then
+			if En < am*Multipl then
 				self:TurnOff()
 				return
 			end
-			WTib_ConsumeResource(self,"energy",am*1.5)
+			WTib_ConsumeResource(self,"energy",am*Multipl)
 			v:DrainTiberiumAmount(am)
 			WTib_SupplyResource(self,"Tiberium",am)
 			self:DoSparkEffect(v,math.Clamp((am/10)-35,1,10))
@@ -127,6 +128,7 @@ function ENT:TurnOn()
 end
 
 function ENT:OnRemove()
+	self:TurnOff()
 	WTib_RemoveRDEnt(self)
 	if (self.Outputs or self.Inputs) then
 		WTib_Remove(self)
