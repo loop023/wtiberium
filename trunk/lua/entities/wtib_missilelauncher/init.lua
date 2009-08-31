@@ -5,7 +5,7 @@ include('shared.lua')
 ENT.Locked = false
 
 function ENT:Initialize()
-	self:SetModel("models/props_phx/box_amraam.mdl")
+	self:SetModel("models/missile_launcher.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

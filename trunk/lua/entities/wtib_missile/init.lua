@@ -5,7 +5,7 @@ include('shared.lua')
 ENT.Armed = false
 
 function ENT:Initialize()
-	self:SetModel("models/props_phx/amraam.mdl")
+	self:SetModel("models/missile.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

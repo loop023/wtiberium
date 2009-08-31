@@ -5,7 +5,7 @@ include('shared.lua')
 ENT.NextRefine = 0
 
 function ENT:Initialize()
-	self:SetModel("models/props_wasteland/coolingtank01.mdl")
+	self:SetModel("models/chemical_plant.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
