@@ -2,6 +2,8 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+local OffsetVector = Vector(5,0,0)
+
 ENT.Locked = false
 
 function ENT:Initialize()
@@ -21,7 +23,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_missilelauncher")
-	e:SetPos(t.HitPos+t.HitNormal)
+	e:SetPos(t.HitPos+t.HitNormal*13)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -79,7 +81,7 @@ end
 function ENT:Touch(ent)
 	if ent:GetClass() == "wtib_missile" and !ValidEntity(self.Missile) and !ent.NoLauncher then
 		ent:SetAngles(self:GetAngles())
-		ent:SetPos(self:LocalToWorld(Vector(18,0,3)))
+		ent:SetPos(self:LocalToWorld(OffsetVector))
 		ent:SetParent(self)
 		constraint.Weld(self,ent,0,0,0,false)
 		constraint.NoCollide(self,ent,0,0)

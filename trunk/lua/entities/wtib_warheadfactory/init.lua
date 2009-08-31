@@ -2,6 +2,8 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+local OffsetVector = Vector(40,20,-8)
+
 function ENT:Initialize()
 	self:SetModel("models/warhead_factory.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -25,7 +27,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_warheadfactory")
-	e:SetPos(t.HitPos+t.HitNormal*54)
+	e:SetPos(t.HitPos+t.HitNormal*39)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -96,7 +98,7 @@ function ENT:MakeCustomWarhead(En,RefTib,TibChem,ply)
 		WTib_ConsumeResource(self,"RefinedTiberium",tonumber(RefTib))
 		WTib_ConsumeResource(self,"TiberiumChemicals",tonumber(TibChem))
 		local e = ents.Create("wtib_warhead_custom")
-		e:SetPos(self:LocalToWorld(Vector(65,0,-55)))
+		e:SetPos(self:LocalToWorld(OffsetVector))
 		e:SetAngles(self:GetAngles())
 		e.WDSO = ply or self.WDSO or self
 		e:SetValues(En,RefTib,TibChem)
