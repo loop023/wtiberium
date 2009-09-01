@@ -9,7 +9,7 @@ ENT.NextHarvest = 0
 ENT.Active = false
 
 function ENT:Initialize()
-	self:SetModel("models/small_harvester.mdl")
+	self:SetModel("models/Tiberium/small_harvester.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

@@ -5,7 +5,7 @@ include('shared.lua')
 ENT.NextPower = 0
 
 function ENT:Initialize()
-	self:SetModel("models/large_tiberium_reactor.mdl")
+	self:SetModel("models/Tiberium/large_tiberium_reactor.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

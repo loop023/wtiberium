@@ -7,7 +7,7 @@ local OffsetVector = Vector(5,0,0)
 ENT.Locked = false
 
 function ENT:Initialize()
-	self:SetModel("models/missile_launcher.mdl")
+	self:SetModel("models/Tiberium/tiberium_missile_launcher.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

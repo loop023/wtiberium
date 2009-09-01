@@ -5,7 +5,7 @@ include('shared.lua')
 local OffsetVector = Vector(40,20,-8)
 
 function ENT:Initialize()
-	self:SetModel("models/warhead_factory.mdl")
+	self:SetModel("models/Tiberium/tiberium_warhead_factory.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

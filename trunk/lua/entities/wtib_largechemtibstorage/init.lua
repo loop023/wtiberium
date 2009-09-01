@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 function ENT:Initialize()
-	self:SetModel("models/large_chemical_storage.mdl")
+	self:SetModel("models/Tiberium/large_chemical_storage.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -19,7 +19,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_largechemtibstorage")
-	e:SetPos(t.HitPos+t.HitNormal*60)
+	e:SetPos(t.HitPos+t.HitNormal*80)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()

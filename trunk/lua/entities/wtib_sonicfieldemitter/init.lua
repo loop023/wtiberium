@@ -6,7 +6,7 @@ ENT.ShouldBeActive = false
 ENT.NextSonicEmit = 0
 
 function ENT:Initialize()
-	self:SetModel("models/Combine_Helicopter/helicopter_bomb01.mdl")
+	self:SetModel("models/Tiberium/sonic_field_emitter.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)

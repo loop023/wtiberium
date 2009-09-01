@@ -6,7 +6,7 @@ ENT.MaxHealth = 500
 ENT.aHealth = 500
 
 function ENT:Initialize()
-	self:SetModel("models/small_tiberium_storage.mdl")
+	self:SetModel("models/Tiberium/small_tiberium_storage.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
