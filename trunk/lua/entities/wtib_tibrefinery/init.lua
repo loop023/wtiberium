@@ -36,7 +36,7 @@ function ENT:Think()
 	local En = WTib_GetResourceAmount(self,"energy")
 	local T = WTib_GetResourceAmount(self,"Tiberium")
 	local rand = math.Rand(100,300)
-	if self.Active and En >= rand*1.5 then
+	if self:GetNWBool("Online",true) and En >= rand*1.5 then
 		if T >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)
@@ -50,11 +50,6 @@ function ENT:Think()
 	else
 		self:TurnOff()
 	end
-	local o = false
-	if a == 1 then
-		o = true
-	end
-	self:SetNWBool("Online",o)
 	self:SetNWInt("energy",En)
 	self:SetNWInt("Tib",T)
 	WTib_TriggerOutput(self,"Online",a)
@@ -65,7 +60,7 @@ end
 
 function ENT:Use(ply)
 	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
-	if self.Active then
+	if self:GetNWBool("Online",true) then
 		self:TurnOff()
 	else
 		self:TurnOn()
@@ -84,15 +79,15 @@ end
 
 function ENT:TurnOff()
 	self:StopSound("apc_engine_start")
-	if self.Active then
+	if self:GetNWBool("Online",true) then
 		self:EmitSound("apc_engine_stop")
 	end
-	self.Active = false
+	self:SetNWBool("Online",false)
 end
 
 function ENT:TurnOn()
 	self:EmitSound("apc_engine_start")
-	self.Active = true
+	self:SetNWBool("Online",true)
 end
 
 function ENT:OnRemove()

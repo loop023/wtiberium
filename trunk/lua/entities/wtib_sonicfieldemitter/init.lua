@@ -2,7 +2,6 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-ENT.ShouldBeActive = false
 ENT.NextSonicEmit = 0
 
 function ENT:Initialize()
@@ -16,7 +15,6 @@ function ENT:Initialize()
 	end
 	self.Inputs = WTib_CreateInputs(self,{"On","SetRadius"})
 	self.Outputs = WTib_CreateOutputs(self,{"Online","Radius"})
-	self:SetNWBool("Online",false)
 	WTib_TriggerOutput(self,"Online",0)
 	self:SetNWInt("Radius",512)
 	WTib_TriggerOutput(self,"Radius",512)
@@ -37,7 +35,7 @@ end
 function ENT:Think()
 	local am = (self:GetNWInt("Radius") or 512)/math.Rand(1.5,2.5)
 	local a = 0
-	if self.ShouldBeActive and WTib_GetResourceAmount(self,"energy") > am then
+	if self:GetNWBool("Online",false) and WTib_GetResourceAmount(self,"energy") > am then
 		if self.NextSonicEmit <= CurTime() then
 			WTib_ConsumeResource(self,"energy",am)
 			for _,v in pairs(ents.FindInSphere(self:GetPos(),self:GetNWInt("Radius") or 512)) do
@@ -47,10 +45,10 @@ function ENT:Think()
 			end
 			self.NextSonicEmit = CurTime()+1
 		end
-		self:SetNWBool("Online",true)
+		self:TurnOn()
 		a = 1
 	else
-		self:SetNWBool("Online",false)
+		self:TurnOff()
 		a = 0
 	end
 	WTib_TriggerOutput(self,"Online",a)
@@ -80,11 +78,11 @@ function ENT:TriggerInput(name,val)
 end
 
 function ENT:TurnOn()
-	self.ShouldBeActive = true
+	self:SetNWBool("Online",true)
 end
 
 function ENT:TurnOff()
-	self.ShouldBeActive = false
+	self:SetNWBool("Online",false)
 end
 
 function ENT:OnRestore()
