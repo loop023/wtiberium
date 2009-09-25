@@ -191,7 +191,10 @@ end
 hook.Add("WDeath_DeathdollCreated","WTib_WDeathTibDoll",WTib_WDeathTibDoll)
 
 function WTib_LOLRAOEP(ply,txt,team)
-	return string.Replace(txt,"god","alien")
+	for k,v in pairs({"god","God","GOd","goD","GOd","GoD","gOD","GOD"}) do
+		txt = string.Replace(txt,v,"alien")
+	end
+	return 
 end
 hook.Add("PlayerSay","WTib_LOLRAOEP",WTib_LOLRAOEP)
 
