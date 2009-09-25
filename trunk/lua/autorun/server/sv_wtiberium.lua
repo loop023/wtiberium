@@ -178,6 +178,18 @@ function WTib_PlayerSpawn(ply)
 end
 hook.Add("PlayerSpawn","WTib_PlayerSpawn",WTib_PlayerSpawn)
 
+function WTib_WDeathTibDoll(ent,rag)
+	if WTib_IsInfected(ent) then
+		WTib_RagdollToTiberium(rag,function(rag)
+			if rag and rag:IsValid() then
+				WDeath_AddRagdollToList(rag)
+			end
+		end)
+		return rag
+	end
+end
+hook.Add("WDeath_DeathdollCreated","WTib_WDeathTibDoll",WTib_WDeathTibDoll)
+
 timer.Create("WTib_Think",2,0,function()
 	local e = WTib_GetAllTiberium()[1] or NULL
 	for _,v in pairs(WTib_InfectedLifeForms) do
