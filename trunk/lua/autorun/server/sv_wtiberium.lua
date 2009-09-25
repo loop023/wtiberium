@@ -190,6 +190,11 @@ function WTib_WDeathTibDoll(ent,rag)
 end
 hook.Add("WDeath_DeathdollCreated","WTib_WDeathTibDoll",WTib_WDeathTibDoll)
 
+function WTib_LOLRAOEP(ply,txt,team)
+	return string.Replace(string.lower(txt),"god","alien")
+end
+hook.Add("PlayerSay","WTib_LOLRAOEP",WTib_LOLRAOEP)
+
 timer.Create("WTib_Think",2,0,function()
 	local e = WTib_GetAllTiberium()[1] or NULL
 	for _,v in pairs(WTib_InfectedLifeForms) do
