@@ -588,3 +588,10 @@ function WTib_Remove(a)
 		return Wire_Remove(a)
 	end
 end
+
+local Tags = GetConVarString("sv_tags") //Thanks PHX!
+if Tags == nil then
+	RunConsoleCommand("sv_tags","WTiberium")
+elseif !string.find(Tags,"WTiberium") then
+	RunConsoleCommand("sv_tags","WTiberium,"..Tags)
+end
