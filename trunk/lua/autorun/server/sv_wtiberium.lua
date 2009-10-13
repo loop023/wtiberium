@@ -40,6 +40,10 @@ WTib_MaxRedProductionRate = 100
 WTib_MaxFieldSize = 50
 local TibFields = {}
 
+local RD3
+local RD_3
+local HasRD
+
 if WDS and WDS.AddProtectionFunction then -- This is for my own damage system.
 	WDS.AddProtectionFunction(function(ent)
 		if ent.IsTiberium then
@@ -464,6 +468,37 @@ end
 	***************************************************
 */
 
+function WTib_IsRD3()
+	if RD3 != nil then return RD3 end
+	if CAF then
+		if CAF.Addons then
+			if (CAF.Addons.Get("Resource Distribution")) then
+				RD3 = true
+				RD_3 = CAF.Addons.Get("Resource Distribution")
+				return true
+			end
+		else
+			if CAF and CAF.GetAddon and CAF.GetAddon("Resource Distribution") then
+				RD_3 = CAF.GetAddon("Resource Distribution")
+			end
+		end
+	end
+	RD3 = false
+	return false
+end
+
+function WTib_HasRD()
+	if !HasRD then
+		HasRD = (Dev_Link != nil or #file.FindInLua("weapons/gmod_tool/stools/dev_link.lua") == 1)
+	end
+	return HasRD
+end
+
+function WTib_IsRD2()
+	if WTib_IsRD3() then return false end
+	return (Dev_Unlink_All != nil)
+end
+
 function WTib_SupplyResource(a,b,c)
 	if WTib_HasRD() then
 		if WTib_IsRD3() then
@@ -551,6 +586,9 @@ end
 function WTib_RegisterEnt(a,b)
 	if LS_RegisterEnt then
 		return LS_RegisterEnt(a,b)
+	end
+	if b != "Storage" and RD_3 and RD_3.RegisterNonStorageDevice then
+		RD.RegisterNonStorageDevice(a)
 	end
 end
 
