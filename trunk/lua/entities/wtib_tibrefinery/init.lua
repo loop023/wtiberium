@@ -36,7 +36,7 @@ function ENT:Think()
 	local En = WTib_GetResourceAmount(self,"energy")
 	local T = WTib_GetResourceAmount(self,"Tiberium")
 	local rand = math.Rand(100,300)
-	if self:GetNWBool("Online",true) and En >= rand*1.5 then
+	if self:GetNWBool("Online",false) and En >= rand*1.5 then
 		if T >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)

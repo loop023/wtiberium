@@ -40,7 +40,7 @@ function ENT:Harvest()
 	local En = WTib_GetResourceAmount(self,"energy")
 	local Multipl = 1.5
 	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetForward(),100,10)) do
-		if a >= 5 then return end
+		if a >= 5 then break end
 		if v.IsTiberium and v.CanBeHarvested then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 15,MaxTiberiumGain or 50))
 			if En < am*Multipl then
@@ -54,11 +54,7 @@ function ENT:Harvest()
 			a = a+1
 		end
 	end
-	local o = false
-	if a == 1 then
-		o = true
-	end
-	self:SetNWBool("Online",o)
+	En = WTib_GetResourceAmount(self,"energy")
 	self:SetNWInt("energy",En)
 	WTib_TriggerOutput(self,"Online",a)
 	WTib_TriggerOutput(self,"Energy",En)
@@ -117,6 +113,7 @@ function ENT:TurnOff()
 	if self.Active then
 		self:EmitSound("apc_engine_stop")
 	end
+	self:SetNWBool("Online",false)
 	self.Active = false
 end
 
@@ -124,6 +121,7 @@ function ENT:TurnOn()
 	if !self.Active then
 		self:EmitSound("apc_engine_start")
 	end
+	self:SetNWBool("Online",true)
 	self.Active = true
 end
 

@@ -31,6 +31,8 @@ end
 
 function ENT:Infuse(ply)
 	ply.IsTiberiumResistant = true
+	ply:EmitSound("items/medshot4.wav")
+	self:Remove()
 end
 
 function ENT:Use(ply)

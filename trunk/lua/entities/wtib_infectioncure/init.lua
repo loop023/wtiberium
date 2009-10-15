@@ -30,11 +30,11 @@ function ENT:Touch(ply)
 end
 
 function ENT:Heal(ply)
-	if ply:IsPlayer() and (ply:Health() < 100 or WTib_IsInfected(ply)) then
+	if ply:IsPlayer() and (ply:Health() < ply:GetMaxHealth() or WTib_IsInfected(ply)) then
 		WTib_CureInfection(ply)
 		ply:EmitSound("items/medshot4.wav")
-		if ply:Health() < 100 then
-			ply:SetHealth(math.Clamp(ply:Health()+20,1,100))
+		if ply:Health() < ply:GetMaxHealth() then
+			ply:SetHealth(math.Clamp(ply:Health()+20,1,ply:GetMaxHealth()))
 		end
 		self:Remove()
 	end
