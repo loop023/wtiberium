@@ -96,8 +96,8 @@ function WTib_Render(a)
 		Wire_Render(a)
 	end
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			RD_3.Beam_Render(a)
+		if WTib_HasRD3() then
+			WTib_RD3.Beam_Render(a)
 		end
 	end
 end

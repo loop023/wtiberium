@@ -40,10 +40,6 @@ WTib_MaxRedProductionRate = 100
 WTib_MaxFieldSize = 50
 local TibFields = {}
 
-local RD3
-local RD_3
-local HasRD
-
 if WDS and WDS.AddProtectionFunction then -- This is for my own damage system.
 	WDS.AddProtectionFunction(function(ent)
 		if ent.IsTiberium then
@@ -468,26 +464,19 @@ end
 	***************************************************
 */
 
-function WTib_IsRD2()
-	if WTib_IsRD3() then return false end
-	return (Dev_Unlink_All != nil)
-end
-
 function WTib_SupplyResource(a,b,c)
-	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.SupplyResource(a,b,c)
-		elseif WTib_IsRD2() then
-			return RD_SupplyResource(a,b,c)
-		end
+	if WTib_HasRD3() then
+		return WTib_RD3.SupplyResource(a,b,c)
+	elseif WTib_HasRD2() then
+		return RD_SupplyResource(a,b,c)
 	end
 end
 
 function WTib_ConsumeResource(a,b,c)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.ConsumeResource(a,b,c)
-		elseif WTib_IsRD2() then
+		if WTib_HasRD3() then
+			return WTib_RD3.ConsumeResource(a,b,c)
+		elseif WTib_HasRD2() then
 			return RD_ConsumeResource(a,b,c)
 		end
 	end
@@ -495,9 +484,9 @@ end
 
 function WTib_AddResource(a,b,c)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.AddResource(a,b,c)
-		elseif WTib_IsRD2() then
+		if WTib_HasRD3() then
+			return WTib_RD3.AddResource(a,b,c)
+		elseif WTib_HasRD2() then
 			return RD_AddResource(a,b,c)
 		end
 	end
@@ -505,9 +494,9 @@ end
 
 function WTib_GetResourceAmount(a,b,c)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.GetResourceAmount(a,b,c)
-		elseif WTib_IsRD2() then
+		if WTib_HasRD3() then
+			return WTib_RD3.GetResourceAmount(a,b,c)
+		elseif WTib_HasRD2() then
 			return RD_GetResourceAmount(a,b,c)
 		end
 		return 0
@@ -517,8 +506,8 @@ end
 
 function WTib_RemoveRDEnt(a)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.RemoveRDEntity(a)
+		if WTib_HasRD3() then
+			return WTib_RD3.RemoveRDEntity(a)
 		elseif Dev_Unlink_All and a.resources2links then
 			return Dev_Unlink_All(a)
 		end
@@ -527,9 +516,9 @@ end
 
 function WTib_GetNetworkCapacity(a,b)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.GetNetworkCapacity(a,b)
-		elseif WTib_IsRD2() then
+		if WTib_HasRD3() then
+			return WTib_RD3.GetNetworkCapacity(a,b)
+		elseif WTib_HasRD2() then
 			return RD_GetNetworkCapacity(a,b)
 		end
 		return 0
@@ -539,9 +528,9 @@ end
 
 function WTib_BuildDupeInfo(a)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.BuildDupeInfo(a)
-		elseif WTib_IsRD2() then
+		if WTib_HasRD3() then
+			return WTib_RD3.BuildDupeInfo(a)
+		elseif WTib_HasRD2() then
 			return RD_BuildDupeInfo(a)
 		end
 	end
@@ -549,9 +538,9 @@ end
 
 function WTib_ApplyDupeInfo(a,b)
 	if WTib_HasRD() then
-		if WTib_IsRD3() then
-			return RD_3.ApplyDupeInfo(a,b)
-		elseif WTib_IsRD2() then
+		if WTib_HasRD3() then
+			return WTib_RD3.ApplyDupeInfo(a,b)
+		elseif WTib_HasRD2() then
 			return RD_ApplyDupeInfo(a,b)
 		end
 	end
@@ -561,7 +550,7 @@ function WTib_RegisterEnt(a,b)
 	if LS_RegisterEnt then
 		return LS_RegisterEnt(a,b)
 	end
-	if b != "Storage" and RD_3 and RD_3.RegisterNonStorageDevice then
+	if b != "Storage" and WTib_RD3 and WTib_RD3.RegisterNonStorageDevice then
 		RD.RegisterNonStorageDevice(a)
 	end
 end
