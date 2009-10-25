@@ -15,7 +15,7 @@ function WTib_HasRD2()
 end
 
 function WTib_HasRD3()
-	if WTib_RD3 != nil then return true end
+	if WTib_RD3 != nil then return WTib_RD3 != false end
 	if CAF then
 		if CAF.Addons then
 			if (CAF.Addons.Get("Resource Distribution")) then
@@ -25,7 +25,7 @@ function WTib_HasRD3()
 		else
 			if CAF and CAF.GetAddon and CAF.GetAddon("Resource Distribution") then
 				WTib_RD3 = CAF.GetAddon("Resource Distribution")
-				return
+				return true
 			end
 		end
 	end
