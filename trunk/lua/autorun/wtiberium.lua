@@ -11,7 +11,7 @@ end
 hook.Add("PhysgunPickup","WTib_PhysPickup",WTib_PhysPickup)
 
 function WTib_HasRD2()
-	return RD2Version == 0
+	return RES_DISTRIB != nil
 end
 
 function WTib_HasRD3()

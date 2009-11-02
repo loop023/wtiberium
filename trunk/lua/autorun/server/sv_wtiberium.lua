@@ -23,12 +23,12 @@ list.Set("WireSounds","NOD - Low power",{wire_soundemitter_sound="wtiberium/nod/
 list.Set("WireSounds","NOD - Tiberium exposure",{wire_soundemitter_sound="wtiberium/nod/Neva_TiberExposDet.wav"})
 list.Set("WireSounds","NOD - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/nod/Neva_TiberWeaReady.wav"})
 list.Set("WireSounds","NOD - TIberium field depleted",{wire_soundemitter_sound="wtiberium/nod/Neva_TibFieldDeple.wav"})
-list.Set("WireSounds","Scrin - Harvester lost",{wire_soundemitter_sound="wtiberium/gdi/Aeva_HarvesterLost.wav"})
-list.Set("WireSounds","Scrin - Harvester under attack",{wire_soundemitter_sound="wtiberium/gdi/Aeva_HarvUndAttack.wav"})
-list.Set("WireSounds","Scrin - Low power",{wire_soundemitter_sound="wtiberium/gdi/Aeva_LowPower.wav"})
-list.Set("WireSounds","Scrin - Tiberium exposure",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TiberExposDet.wav"})
-list.Set("WireSounds","Scrin - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TiberWeaReady.wav"})
-list.Set("WireSounds","Scrin - TIberium field depleted",{wire_soundemitter_sound="wtiberium/gdi/Aeva_TibFieldDeple.wav"})
+list.Set("WireSounds","Scrin - Harvester lost",{wire_soundemitter_sound="wtiberium/scrin/Aeva_HarvesterLost.wav"})
+list.Set("WireSounds","Scrin - Harvester under attack",{wire_soundemitter_sound="wtiberium/scrin/Aeva_HarvUndAttack.wav"})
+list.Set("WireSounds","Scrin - Low power",{wire_soundemitter_sound="wtiberium/scrin/Aeva_LowPower.wav"})
+list.Set("WireSounds","Scrin - Tiberium exposure",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TiberExposDet.wav"})
+list.Set("WireSounds","Scrin - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TiberWeaReady.wav"})
+list.Set("WireSounds","Scrin - TIberium field depleted",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TibFieldDeple.wav"})
 
 WTib_InfectedLifeForms = {}
 WTib_MinGreenProductionRate = 30
@@ -551,7 +551,7 @@ function WTib_RegisterEnt(a,b)
 		return LS_RegisterEnt(a,b)
 	end
 	if b != "Storage" and WTib_RD3 and WTib_RD3.RegisterNonStorageDevice then
-		RD.RegisterNonStorageDevice(a)
+		WTib_RD3.RegisterNonStorageDevice(a)
 	end
 end
 
