@@ -6,7 +6,7 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	return "Energy : "..math.Round(tostring(self:GetNWInt("energy",0)))
+	return self.PrintName.."Energy : "..math.Round(tostring(self:GetNWInt("energy",0)))
 end
 
 function ENT:Think()
@@ -15,4 +15,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_smallenergystorage","Small Energy Cell")
+language.Add("wtib_smallenergystorage",ENT.PrintName)

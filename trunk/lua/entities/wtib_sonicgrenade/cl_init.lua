@@ -1,2 +1,2 @@
 include('shared.lua')
-language.Add("wtib_sonicgrenade","Sonic Grenade")
+language.Add("wtib_sonicgrenade",ENT.PrintName)

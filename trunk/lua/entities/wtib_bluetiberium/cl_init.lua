@@ -1,2 +1,2 @@
 include('shared.lua')
-language.Add("wtib_bluetiberium","Blue Tiberium")
+language.Add("wtib_bluetiberium",ENT.PrintName)

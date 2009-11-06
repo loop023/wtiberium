@@ -6,7 +6,7 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	return "Tiberium Chemicals : "..math.Round(tostring(self:GetNWInt("ChemTib",0)))
+	return self.PrintName.."\nTiberium Chemicals : "..math.Round(tostring(self:GetNWInt("ChemTib",0)))
 end
 
 function ENT:Think()
@@ -15,4 +15,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_mediumchemtibstorage","Medium Tiberium Chemicals Tank")
+language.Add("wtib_mediumchemtibstorage",ENT.PrintName)

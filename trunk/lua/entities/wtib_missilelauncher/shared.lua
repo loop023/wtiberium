@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Missile launcher"
+ENT.PrintName		= "Tiberium Missile launcher"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

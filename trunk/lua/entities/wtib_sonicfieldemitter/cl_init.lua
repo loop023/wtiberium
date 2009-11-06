@@ -10,7 +10,7 @@ function ENT:WTib_GetTooltip()
 	if self:GetNWBool("Online") then
 		on = "On"
 	end
-	return "Sonic Field Emitter ("..on..")\nRadius : "..tostring(self:GetNWInt("Radius"))
+	return self.PrintName.." ("..on..")\nRadius : "..tostring(self:GetNWInt("Radius"))
 end
 
 function ENT:Think()
@@ -19,4 +19,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_sonicfieldemitter","Sonic Field Emitter")
+language.Add("wtib_sonicfieldemitter",ENT.PrintName)

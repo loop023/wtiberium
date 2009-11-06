@@ -1,2 +1,2 @@
 include('shared.lua')
-language.Add("wtib_infectioncure","Tiberium Infection Cure")
+language.Add("wtib_infectioncure",ENT.PrintName)

@@ -6,7 +6,7 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	return "Tiberium : "..math.Round(tostring(self:GetNWInt("Tib",0)))
+	return self.PrintName.."\nTiberium : "..math.Round(tostring(self:GetNWInt("Tib",0)))
 end
 
 function ENT:Think()
@@ -15,4 +15,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_smalltibstorage","Small Tiberium Tank")
+language.Add("wtib_smalltibstorage",ENT.PrintName)

@@ -6,7 +6,7 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	return "Refined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0)))
+	return self.PrintName.."\nRefined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0)))
 end
 
 function ENT:Think()
@@ -15,4 +15,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_largereftibstorage","Large Refined Tiberium Tank")
+language.Add("wtib_largereftibstorage",ENT.PrintName)

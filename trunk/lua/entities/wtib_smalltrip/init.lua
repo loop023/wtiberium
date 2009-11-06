@@ -32,7 +32,7 @@ function ENT:Think()
 			Count = Count+1
 		end
 	end
-	WTib_SupplyResource(self,"TiberiumChemicals",Count*10)
+	WTib_SupplyResource(self,"energy",Count*math.Rand(5,15))
 	self:SetNWBool("Online",Count >= 1)
 	WTib_TriggerOutput(self,"Online",tonumber(Count >= 1))
 end

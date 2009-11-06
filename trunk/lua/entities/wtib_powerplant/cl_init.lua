@@ -10,7 +10,7 @@ function ENT:WTib_GetTooltip()
 	if self:GetNWBool("Online") then
 		on = "On"
 	end
-	return "Tiberium Power Plant ("..on..")\nRefined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0)))
+	return self.PrintName.." ("..on..")\nRefined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0)))
 end
 
 function ENT:Think()
@@ -19,4 +19,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_powerplant","Tiberium Powerplant")
+language.Add("wtib_powerplant",ENT.PrintName)

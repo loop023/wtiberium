@@ -29,4 +29,4 @@ function ENT:CreateDLight()
 		dlight.DieTime = CurTime()+1
 	end
 end
-language.Add("wtib_tiberiumbase","Base Tiberium")
+language.Add("wtib_tiberiumbase",ENT.PrintName)

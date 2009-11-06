@@ -1,2 +1,2 @@
 include('shared.lua')
-language.Add("wtib_shardshell","Tiberium shard")
+language.Add("wtib_shardshell",ENT.PrintName)

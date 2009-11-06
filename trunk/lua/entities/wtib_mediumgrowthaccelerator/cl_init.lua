@@ -10,7 +10,7 @@ function ENT:WTib_GetTooltip()
 	if self:GetNWBool("Online") then
 		on = "On"
 	end
-	return "Medium growth accelerator ("..on..")\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0)))
+	return self.PrintName.." ("..on..")\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0)))
 end
 
 function ENT:Think()
@@ -19,4 +19,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_mediumgrowthaccelerator","Medium growth accelerator")
+language.Add("wtib_mediumgrowthaccelerator",ENT.PrintName)

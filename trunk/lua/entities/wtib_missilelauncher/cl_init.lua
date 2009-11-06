@@ -10,7 +10,7 @@ function ENT:WTib_GetTooltip()
 	if self:GetNWBool("Loaded") then
 		loaded = "Yes"
 	end
-	return "Tiberium Missile Launcher\nLoaded : ("..loaded..")"
+	return self.PrintName.."\nLoaded : ("..loaded..")"
 end
 
 function ENT:Think()
@@ -19,4 +19,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_missilelauncher","Missile Launcher")
+language.Add("wtib_missilelauncher",ENT.PrintName)

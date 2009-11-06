@@ -1,2 +1,2 @@
 include('shared.lua')
-language.Add("wtib_warhead_basic","Basic Warhead")
+language.Add("wtib_warhead_basic",ENT.PrintName)
