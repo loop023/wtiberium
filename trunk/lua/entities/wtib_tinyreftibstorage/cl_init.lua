@@ -6,7 +6,7 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	return "Battery\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0)))
+	return "Refined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0)))
 end
 
 function ENT:Think()
@@ -15,4 +15,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_battery","Battery")
+language.Add("wtib_tinyreftibstorage","Tiny Refined Tiberium Tank")

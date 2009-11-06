@@ -2,6 +2,9 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+--ENT.MaxHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
+--ENT.aHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
+
 function ENT:Initialize()
 	self:SetModel("models/Tiberium/large_tiberium_storage.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
@@ -12,7 +15,7 @@ function ENT:Initialize()
 		phys:Wake()
 	end
 	self.Outputs = WTib_CreateOutputs(self,{"RefinedTiberium","MaxRefinedTiberium"})
-	WTib_AddResource(self,"RefinedTiberium",8000)
+	WTib_AddResource(self,"RefinedTiberium",6000)
 	WTib_RegisterEnt(self,"Storage")
 end
 

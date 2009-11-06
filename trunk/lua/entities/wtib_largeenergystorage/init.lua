@@ -6,7 +6,7 @@ include('shared.lua')
 --ENT.aHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
 
 function ENT:Initialize()
-	self:SetModel("models/Tiberium/small_tiberium_storage.mdl")
+	self:SetModel("models/Tiberium/large_energy_cell.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -14,15 +14,15 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Outputs = WTib_CreateOutputs(self,{"RefinedTiberium","MaxRefinedTiberium"})
-	WTib_AddResource(self,"RefinedTiberium",1500)
+	self.Outputs = WTib_CreateOutputs(self,{"Energy","MaxEnergy"})
+	WTib_AddResource(self,"energy",6000)
 	WTib_RegisterEnt(self,"Storage")
 end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_smallreftibstorage")
-	e:SetPos(t.HitPos+t.HitNormal*26)
+	local e = ents.Create("wtib_largeenergystorage")
+	e:SetPos(t.HitPos+t.HitNormal*102)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -30,9 +30,9 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self:SetNWInt("RefTib",WTib_GetResourceAmount(self,"RefinedTiberium"))
-	WTib_TriggerOutput(self,"RefinedTiberium",WTib_GetResourceAmount(self,"RefinedTiberium"))
-	WTib_TriggerOutput(self,"MaxRefinedTiberium",WTib_GetNetworkCapacity(self,"RefinedTiberium"))
+	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
+	WTib_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
+	WTib_TriggerOutput(self,"MaxEnergy",WTib_GetNetworkCapacity(self,"energy"))
 end
 
 function ENT:OnRemove()

@@ -15,4 +15,4 @@ function ENT:Think()
 		WTib_UpdateRenderBounds(self)
 	end
 end
-language.Add("wtib_largechemtibstorage","Large Tiberium Chemicals Tank")
+language.Add("wtib_tinychemtibstorage","Tiny Tiberium Chemicals Tank")

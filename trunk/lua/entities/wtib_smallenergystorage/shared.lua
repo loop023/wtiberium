@@ -1,0 +1,10 @@
+ENT.Type			= "anim"
+ENT.PrintName		= "Small Energy Storage"
+ENT.WireDebugName	= "Small Energy Storage"
+ENT.Author			= "kevkev/Warrior xXx"
+ENT.Contact			= ""
+ENT.Purpose			= ""
+ENT.Instructions	= ""
+ENT.Spawnable		= true
+ENT.AdminSpawnable	= true
+ENT.Category		= "Tiberium"

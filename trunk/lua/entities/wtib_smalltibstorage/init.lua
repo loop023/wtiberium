@@ -2,8 +2,8 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-ENT.MaxHealth = 500
-ENT.aHealth = 500
+--ENT.MaxHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
+--ENT.aHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
 
 function ENT:Initialize()
 	self:SetModel("models/Tiberium/small_tiberium_storage.mdl")
@@ -15,14 +15,14 @@ function ENT:Initialize()
 		phys:Wake()
 	end
 	self.Outputs = WTib_CreateOutputs(self,{"Tiberium","MaxTiberium"})
-	WTib_AddResource(self,"Tiberium",3300)
+	WTib_AddResource(self,"Tiberium",1500)
 	WTib_RegisterEnt(self,"Storage")
 end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_smalltibstorage")
-	e:SetPos(t.HitPos+t.HitNormal*27)
+	e:SetPos(t.HitPos+t.HitNormal*26)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()

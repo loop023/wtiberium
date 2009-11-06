@@ -2,8 +2,11 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+--ENT.MaxHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
+--ENT.aHealth = 500 --NightReaper:this doesn't seem to work right now, so I commented it out for you
+
 function ENT:Initialize()
-	self:SetModel("models/Tiberium/small_energy_cell.mdl")
+	self:SetModel("models/Tiberium/tiny_chemical_storage.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -11,15 +14,15 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Outputs = WTib_CreateOutputs(self,{"Energy","MaxEnergy"})
-	WTib_AddResource(self,"energy",5000)
+	self.Outputs = WTib_CreateOutputs(self,{"TiberiumChemicals","MaxTiberiumChemicals"})
+	WTib_AddResource(self,"TiberiumChemicals",750)
 	WTib_RegisterEnt(self,"Storage")
 end
 
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
-	local e = ents.Create("wtib_battery")
-	e:SetPos(t.HitPos+t.HitNormal*5)
+	local e = ents.Create("wtib_tinychemtibstorage")
+	e:SetPos(t.HitPos+t.HitNormal*14)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -27,9 +30,9 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
-	WTib_TriggerOutput(self,"Energy",WTib_GetResourceAmount(self,"energy"))
-	WTib_TriggerOutput(self,"MaxEnergy",WTib_GetNetworkCapacity(self,"energy"))
+	self:SetNWInt("ChemTib",WTib_GetResourceAmount(self,"TiberiumChemicals"))
+	WTib_TriggerOutput(self,"TiberiumChemicals",WTib_GetResourceAmount(self,"TiberiumChemicals"))
+	WTib_TriggerOutput(self,"MaxTiberiumChemicals",WTib_GetNetworkCapacity(self,"TiberiumChemicals"))
 end
 
 function ENT:OnRemove()
