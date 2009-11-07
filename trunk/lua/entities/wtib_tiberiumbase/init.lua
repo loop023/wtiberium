@@ -3,10 +3,9 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 ENT.NextTiberiumAdd = 0
+ENT.LastAccelerate = 0
 ENT.TiberiumAmount = 0
 ENT.NextProduce = 0
-ENT.Accelerate = false
-ENT.AccReturn = true
 ENT.Produces = {}
 ENT.NextGas = 0
 
@@ -52,14 +51,6 @@ function ENT:GetField()
 	return self.WTib_Field
 end
 
-function ENT:SetCore(ent)
-	self.CoreEntity = ent
-end
-
-function ENT:GetCore()
-	return self.CoreEntity
-end
-
 function ENT:Think()
 	if !self.WTib_Field then self:SetField(WTib_CreateNewField(self)) end
 	if !self:GetNWInt("CDevider") or self:GetNWInt("CDevider") == 0 or self:GetNWInt("CDevider") == "" then self:CreateCDevider() end
@@ -72,7 +63,13 @@ function ENT:Think()
 		self:EmitGas()
 	end
 	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) then
-		self:Reproduce()
+		local e = self:Reproduce()
+		if e then
+			self.NextProduce = CurTime()+(self.ReproduceDelay or (self:IsAccelerated() and self.ReproduceDelay/2))
+			WTib_AddToField(self:GetField(),e)
+			e:SetField(self:GetField())
+			table.insert(self.Produces,e)
+		end
 	end
 	if self.SecThink then self:SecThink() end
 	self:CheckColor()
@@ -98,18 +95,6 @@ end
 
 function ENT:GetTiberiumAmount()
 	return self:GetNWInt("TiberiumAmount")
-end
-
-function ENT:SetGrowthAccelerate(a)
-	self.Accelerate = tobool(a)
-	if !self.Accelerate and !self.AccReturn then
-		self.NextProduce = self.NextProduce+20
-		self.AccReturn = true
-	end
-end
-
-function ENT:IsGrowthAccelerating()
-	return self.Accelerate
 end
 
 function ENT:SetTargetColor(r,g,b,a)
@@ -196,55 +181,95 @@ function ENT:TakeSonicDamage(am)
 end
 
 function ENT:Reproduce()
-	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end -- Don't grow past our field size.
-	if table.Count(self:GetAllProduces()) >= 3 then return end -- Don't grow past 3 children
-	local a = 5
-	if self.Accelerate then -- If we are accelerating our growth then do 10 loops.
-		a = 10
-	end
-	for i=1,a do
-		local fl = WTib_GetAllTiberium() -- All the tiberium ents to be filtered
-		table.Add(fl,player.GetAll()) -- Plus all players
-		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
-		if t.Hit then
-			local save = true
-			for _,v in pairs(ents.FindByClass("wtib_sonicfieldemitter")) do -- If the trace is to close to a sonic emiter set save to false.
-				if t.HitPos:Distance(v:GetPos()) < (v:GetNWInt("Radius") or 512) then
-					save = false
-				end
-			end
-			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do -- If we can find tiberium insize a 500 radius of the tracehit that is not the same class it aint save.
-				if v.IsTiberium and v:GetClass() != self:GetClass() then
-					save = false
-				end
-			end
-			for _,v in pairs(ents.FindInSphere(t.HitPos,150)) do -- To prevent overcrowding don't spawn closer than 150 to any tiberium ent.
-				if v.IsTiberium then
-					save = false
-				end
-			end
-			local dist = t.HitPos:Distance(self:GetPos())
-			if dist >= 150 and dist <= 700 and save then -- Don't spawn to close nor to far.
-				local e = self:SpawnFunction(self.WDSO,t) -- Create the ent.
-				if e and e:IsValid() then -- We got a health tib baby!
-					local b = 0
-					if self.Accelerate then
-						b = 20
-						self.AccReturn = false
-					end
-					self.NextProduce = CurTime()+self.ReproduceDelay
-					WTib_AddToField(self.WTib_Field,e)
-					e:SetField(self:GetField())
-					e:SetCore(self)
-					table.insert(self.Produces,e)
-					return e
-				else
-					self.NextProduce = CurTime()+1
-				end
-			end
+	local Count = 0
+	for k,v in pairs(self.Produces) do
+		if v and v:IsValid() then
+			Count = Count+1
+		else
+			self.Produces[k] = nil
 		end
 	end
-	self.NextProduce = CurTime()+1
+	//print("Count : "..Count)
+	if WTib_GetFieldCount(self:GetField())+1 > WTib_GetMaxFieldMembers(self:GetField()) or Count >= 3 then return end
+	//print("Check passed 1")
+	local AllEnts = ents.GetAll()
+	local fl = {}
+	for _,v in pairs(AllEnts) do
+		if v.IsTiberium or (v.Alive and v:Alive()) then
+			table.insert(fl,v)
+		end
+	end
+	local pos = self:GetPos()+(self:GetUp()*70)
+	for i=1,self:GetReproduceLoops() do
+		//print("\tLoop "..i)
+		local t = WTib_Trace(pos,VectorRand()*math.random(-650,650),fl)
+		//print("\tHitPos : "..tostring(t.HitPos))
+		if t.Hit then
+			/*
+			local ed = EffectData()
+				ed:SetOrigin(pos)
+				ed:SetStart(t.HitPos)
+				ed:SetMagnitude(10)
+			util.Effect("WTib_DebugTrace",ed)
+			//print("\t\tHit!")
+			*/
+			local Save = true
+			for _,v in pairs(AllEnts) do
+				if !v:IsWorld() and !string.find(v:GetClass(),"func_*") then
+					local Dist = t.HitPos:Distance(v:GetPos())
+					if t.HitPos:Distance(self:GetPos()) > 800 then
+						//print("\t\t\tFurther than 800")
+						Save = false
+						break
+					elseif v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
+						//print("\t\t\tSonic emitter")
+						Save = false
+						break
+					elseif v.IsTiberium then
+						//print("\t\t\tTiberium close!")
+						if Dist <= 150 then
+							//print("\t\t\tWay to close!")
+							Save = false
+							break
+						elseif Dist <= 500 then
+							if v:GetClass() != self:GetClass() then
+								//print("\t\t\tNot own class!")
+								Save = false
+								break
+							end
+						end
+					end
+				end
+			end
+			if Save then
+				//print("\t\tSave, creating ent..")
+				local e = self:SpawnFunction(self.WDSO,t)
+				if e and e:IsValid() then
+					//print("\t\tValid ent returned!")
+					return e
+				end
+			end
+		else
+			local ed = EffectData()
+				ed:SetOrigin(pos)
+				ed:SetStart(t.HitPos)
+				ed:SetMagnitude(10)
+				ed:SetScale(2)
+			util.Effect("WTib_DebugTrace",ed)
+		end
+	end
+end
+
+function ENT:Accelerate(time)
+	self.LastAccelerate = time
+end
+
+function ENT:GetReproduceLoops()
+	return 5 or (self:IsAccelerated() and 10)
+end
+
+function ENT:IsAccelerated()
+	return self.LastAccelerate > CurTime()
 end
 
 function ENT:GetMinProductionRate()

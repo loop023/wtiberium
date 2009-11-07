@@ -35,20 +35,18 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
+	local Energy = WTib_GetResourceAmount(self,"energy")
+	self:SetNWInt("energy",Energy)
+	WTib_TriggerOutput(self,"Energy",Energy)
 	if self:GetNWBool("Online") then
-		for k,v in pairs(self.Accelerators) do
-			if v:GetPos():Distance(self:GetPos()) > 512 then
-				v:SetGrowthAccelerate(false)
-				self.Accelerators[k] = nil
-			end
-		end
+		WTib_TriggerOutput(self,"Online",1)
 		for _,v in pairs(ents.FindInSphere(self:GetPos(),512)) do
-			if v.IsTiberium and v.CanBeHarvested and (!table.HasValue(self.Accelerators,v) or !v:IsGrowthAccelerating()) then
-				v:SetGrowthAccelerate(true)
-				table.insert(self.Accelerators,v)
+			if v.IsTiberium and v.CanBeHarvested and Energy >= 50 then
+				v:Accelerate(CurTime()+1)
 			end
 		end
+	else
+		WTib_TriggerOutput(self,"Online",0)
 	end
 end
 
@@ -92,12 +90,10 @@ function ENT:TurnOn()
 end
 
 function ENT:OnRemove()
+	self:TurnOff()
 	WTib_RemoveRDEnt(self)
 	if (self.Outputs or self.Inputs) then
 		WTib_Remove(self)
-	end
-	for _,v in pairs(self.Accelerators) do
-		v:SetGrowthAccelerate(false)
 	end
 end
 

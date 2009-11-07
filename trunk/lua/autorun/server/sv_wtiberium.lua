@@ -254,6 +254,16 @@ function WTib_CheckOnField(f)
 	return true
 end
 
+function WTib_GetFieldCount(f)
+	if !TibFields[f] then return -1 end
+	return table.Count(TibFields[f])
+end
+
+function WTib_GetMaxFieldMembers(f)
+	if !TibFields[f] then return 0 end
+	return TibFields[f].MaxSize or WTib_MaxFieldSize
+end
+
 /*
 	***************************************************
 	*                    WTiberium infection management                     *
@@ -317,6 +327,10 @@ function WTib_CreateTiberiumByTrace(t,ent,ply)
 		end
 	end
 	return e
+end
+
+function WTib_Trace(...)
+	return util.QuickTrace(...)
 end
 
 function WTib_GetAllTiberium()
