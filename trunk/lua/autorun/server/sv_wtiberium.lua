@@ -37,6 +37,7 @@ WTib_MinBlueProductionRate = 40
 WTib_MaxBlueProductionRate = 80
 WTib_MinRedProductionRate = 50
 WTib_MaxRedProductionRate = 100
+WTib_ProduceGas = true
 WTib_MaxFieldSize = 50
 local TibFields = {}
 
@@ -145,6 +146,19 @@ function WTib_MinRedProductionRateConsole(ply,com,args)
 	end
 end
 concommand.Add("WTib_MinRedProductionRate",WTib_MinRedProductionRateConsole)
+
+function WTib_ProduceGasConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	WTib_ProduceGas = tobool(args[1])
+	for _,v in pairs(player.GetAll()) do
+		v:ChatPrint("Maximum red tiberium production rate changed to "..tostring(args[1]))
+	end
+end
+concommand.Add("WTib_ProduceGas",WTib_ProduceGasConsole)
 
 function WTib_ClearAllTiberiumConsole(ply,com,args)
 	if !ply:IsAdmin() then

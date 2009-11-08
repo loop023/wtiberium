@@ -80,6 +80,7 @@ function WTib_AdminPopulateMenu(Panel)
 								Type = "Integer",
 								Min = "30",
 								Max = "290"})
+	Panel:CheckBox("Emit gas","WTib_ProduceGas"):SetToolTip("If the Tiberium should emit gas.")
 	Panel:AddControl("Button",{	Text = "Remove all Tiberium",
 								Command = "WTib_ClearAllTiberium"})
 end

@@ -118,7 +118,7 @@ function ENT:Die()
 end
 
 function ENT:EmitGas(pos)
-	if !self.Gas then return end
+	if !self.Gas or !WTib_ProduceGas then return end
 	pos = pos or self:GetPos()+Vector(math.Rand(-30,30),math.Rand(-30,30),math.Rand(30,50))
 	local e = ents.Create("wtib_tiberiumgas")
 	e:SetPos(pos)
