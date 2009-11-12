@@ -2,11 +2,12 @@
 local BLaser = Material("wtiberium/tiberiumlaser/bluelight")
 
 function EFFECT:Init(data)
-	self.StartPos	= data:GetStart()
 	self.EndPos		= data:GetOrigin()
-	self.Size		= CurTime()+data:GetMagnitude()
-	if LocalPlayer():GetShootPos() == self.EndPos then
-		--self.EndPos = WeaponShootPos
+	self.Time		= CurTime()+(data:GetMagnitude()/10)
+	self.Ent		= data:GetEntity()
+	self.StartPos = self.Ent:GetActiveWeapon():GetAttachment(1).Pos
+	if self.Ent == LocalPlayer() then
+		self.StartPos = LocalPlayer():GetViewModel():GetAttachment(1).Pos
 	end
 end
 

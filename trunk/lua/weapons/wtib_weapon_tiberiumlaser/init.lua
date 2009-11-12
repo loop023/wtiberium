@@ -2,21 +2,24 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
-SWEP.MaxTib = 200
-SWEP.Tiberium = SWEP.MaxTib
-SWEP.NextFire = 0
-SWEP.NextCharge = 0
+SWEP.MaxTib = 50
+SWEP.MaxAmmo = 50
+SWEP.LastShot = 0
+SWEP.NextRegen = 0
 
 function SWEP:Initialize()
 	self:SetWeaponHoldType("physgun")
+	self.Weapon:SetNWInt("Tiberium",0)
 end
 
 function SWEP:PrimaryAttack()
-	if self.NextFire > CurTime() then return false end
-	local dmg = 20
-	if self.Tiberium >= 1 then
-		dmg = math.Clamp((dmg*self.Tiberium)/100,20,40)
-		self.Tiberium = math.Clamp(self.Tiberium-math.Clamp((dmg/2),5,20),0,self.MaxTib)
+	if self:Clip1() <= 0 then return end
+	self:SetClip1(self:Clip1()-1)
+	local dmg = 15
+	local Tib = self.Weapon:GetNWInt("Tiberium")
+	if Tib > 0 then
+		self.Weapon:SetNWInt("Tiberium",Tib-1)
+		dmg = math.random(15,40)
 	end
 	local tr = self.Owner:GetEyeTrace()
 	if tr.Hit and tr.Entity and tr.Entity:IsValid() then
@@ -24,23 +27,34 @@ function SWEP:PrimaryAttack()
 	end
 	local ed = EffectData()
 	ed:SetEntity(self.Owner)
+	ed:SetStart(self.Owner:GetShootPos())
 	ed:SetOrigin(tr.HitPos)
 	ed:SetMagnitude(dmg)
 	util.Effect("wtib_tiberiumlaser",ed)
-	self.NextFire = CurTime()+0.1
-	self.NextCharge = CurTime()+0.3
-	self.Weapon:SetNWInt("Tiberium",self.Tiberium)
+	self:SetNextPrimaryFire(CurTime()+0.1)
+	self:SetNextSecondaryFire(CurTime()+0.3)
+	self.NextRegen = CurTime()+1.5
 	return true
 end
 
 function SWEP:SecondaryAttack()
-	if self.NextCharge > CurTime() then return end
 	local tr = self.Owner:GetEyeTrace()
-	if tr.Hit and tr.Entity and tr.Entity:IsValid() and tr.Entity.IsTiberium and tr.HitPos:Distance(self.Owner:GetShootPos()) <= 70 and self.Tiberium < self.MaxTib then
-		self.Tiberium = math.Clamp(self.Tiberium+math.Clamp(tr.Entity:GetTiberiumAmount(),0,10),0,self.MaxTib)
+	local Tib = self.Weapon:GetNWInt("Tiberium")
+	if !tr.Hit or !tr.Entity or !tr.Entity:IsValid() or tr.HitPos:Distance(self.Owner:GetShootPos()) > 70 or !tr.Entity.IsTiberium or Tib >= self.MaxTib then return end
+	local Add = math.Clamp(tr.Entity:GetTiberiumAmount(),0,math.random(3,8))
+	if Tib+Add > self.MaxTib then
+		Add = Add-(Tib+(Add-self.MaxTib))
 	end
-	self.NextCharge = CurTime()+0.1
-	self.NextFire = CurTime()+0.3
-	self.Weapon:SetNWInt("Tiberium",self.Tiberium)
+	self.Weapon:SetNWInt("Tiberium",Tib+Add)
+	tr.Entity:DrainTiberiumAmount(Add)
+	self:SetNextSecondaryFire(CurTime()+0.1)
+	self:SetNextPrimaryFire(CurTime()+0.3)
 	return true
+end
+
+function SWEP:Think()
+	if self:Clip1() < self.MaxAmmo and self.NextRegen <= CurTime() then
+		self:SetClip1(self:Clip1()+1)
+		self.NextRegen = CurTime()+0.12
+	end
 end

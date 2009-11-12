@@ -1,11 +1,11 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Base Tiberium"
+ENT.PrintName		= "Red Tiberium Parent"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
 ENT.Instructions	= ""
-ENT.Spawnable		= false
-ENT.AdminSpawnable	= false
+ENT.Spawnable		= true
+ENT.AdminSpawnable	= true
 ENT.Category		= "Tiberium"
 ENT.IsTiberium		= true
 ENT.CanBeHarvested	= false
