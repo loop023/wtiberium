@@ -31,7 +31,8 @@ function ENT:SecInit()
 	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
 	self:SetTiberiumAmount(math.Rand(200,500))
-	self:SetColor(self.r,self.g,self.b,self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5)
+	self:SetColor(self.r,self.g,self.b,10)
+	self:SetTargetColor(self.r,self.g,self.b,self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5)
 end
 
 function ENT:CreateCDevider()
@@ -101,7 +102,7 @@ function ENT:SetTargetColor(r,g,b,a)
 	self.Tr = math.Clamp(r,0,255)
 	self.Tg = math.Clamp(g,0,255)
 	self.Tb = math.Clamp(b,0,255)
-	self.Ta = math.Clamp(a,0,255)
+	self.Ta = math.Clamp(a,0,250)
 end
 
 function ENT:CheckColor()
@@ -181,17 +182,8 @@ function ENT:TakeSonicDamage(am)
 end
 
 function ENT:Reproduce()
-	local Count = 0
-	for k,v in pairs(self.Produces) do
-		if v and v:IsValid() then
-			Count = Count+1
-		else
-			self.Produces[k] = nil
-		end
-	end
-	//print("Count : "..Count)
-	if WTib_GetFieldCount(self:GetField())+1 > WTib_GetMaxFieldMembers(self:GetField()) or Count >= 3 then return end
-	//print("Check passed 1")
+	if WTib_GetFieldCount(self:GetField())+1 > WTib_GetMaxFieldMembers(self:GetField()) then WTib_Print("Max Field : "..WTib_GetFieldCount(self:GetField()).." out of "..WTib_GetMaxFieldMembers(self:GetField())) return end
+	WTib_Print("Check passed 1")
 	local AllEnts = ents.GetAll()
 	local fl = {}
 	for _,v in pairs(AllEnts) do
@@ -201,39 +193,37 @@ function ENT:Reproduce()
 	end
 	local pos = self:GetPos()+(self:GetUp()*70)
 	for i=1,self:GetReproduceLoops() do
-		//print("\tLoop "..i)
+		WTib_Print("\tLoop "..i)
 		local t = WTib_Trace(pos,VectorRand()*math.random(-650,650),fl)
-		//print("\tHitPos : "..tostring(t.HitPos))
+		WTib_Print("\tHitPos : "..tostring(t.HitPos))
 		if t.Hit then
-			/*
 			local ed = EffectData()
 				ed:SetOrigin(pos)
 				ed:SetStart(t.HitPos)
 				ed:SetMagnitude(10)
 			util.Effect("WTib_DebugTrace",ed)
-			//print("\t\tHit!")
-			*/
+			WTib_Print("\t\tHit!")
 			local Save = true
 			for _,v in pairs(AllEnts) do
-				if !v:IsWorld() and !string.find(v:GetClass(),"func_*") then
+				if !v:IsWorld() then
 					local Dist = t.HitPos:Distance(v:GetPos())
 					if t.HitPos:Distance(self:GetPos()) > 800 then
-						//print("\t\t\tFurther than 800")
+						WTib_Print("\t\t\tFurther than 800")
 						Save = false
 						break
 					elseif v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
-						//print("\t\t\tSonic emitter")
+						WTib_Print("\t\t\tSonic emitter")
 						Save = false
 						break
 					elseif v.IsTiberium then
-						//print("\t\t\tTiberium close!")
+						WTib_Print("\t\t\tTiberium close!")
 						if Dist <= 150 then
-							//print("\t\t\tWay to close!")
+							WTib_Print("\t\t\tWay to close!")
 							Save = false
 							break
 						elseif Dist <= 500 then
 							if v:GetClass() != self:GetClass() then
-								//print("\t\t\tNot own class!")
+								WTib_Print("\t\t\tNot own class!")
 								Save = false
 								break
 							end
@@ -242,10 +232,10 @@ function ENT:Reproduce()
 				end
 			end
 			if Save then
-				//print("\t\tSave, creating ent..")
+				WTib_Print("\t\tSave, creating ent..")
 				local e = self:SpawnFunction(self.WDSO,t)
 				if e and e:IsValid() then
-					//print("\t\tValid ent returned!")
+					WTib_Print("\t\tValid ent returned!")
 					return e
 				end
 			end

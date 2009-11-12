@@ -10,6 +10,12 @@ function WTib_PhysPickup(ply,ent)
 end
 hook.Add("PhysgunPickup","WTib_PhysPickup",WTib_PhysPickup)
 
+function WTib_Print(...)
+	if WTib_Debug then
+		print(...)
+	end
+end
+
 function WTib_HasRD2()
 	return RES_DISTRIB != nil
 end
