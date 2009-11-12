@@ -1,21 +1,27 @@
 
 Q/A :
 	Q: Those dynamic lights lag my PC, how do i remove it?
-	A: Open up your console and type in "WTib_NoDynamicLights 1" (Without the quotation marks), you can also change the size by using "WTib_DynamicLightsSize" (Default 1).
+	A: Open up your console and type in "WTib_NoDynamicLights 1" (Without the quotation marks), you can also change the size by using "WTib_DynamicLightsSize" (Default 1), more options are located in the menu.
 
 	Q: The tiberium grows to fast/slow!
 	A: you can use the commands "WTib_MaxProductionRate" and "WTib_MinProductionRate" to set the spawn rate of the tiberium,
-		you can also limit the amount of tiberium entities spawned per entity with the command "WTib_MaxProduction".
+		you can also limit the amount of tiberium entities spawned per entity with the command "WTib_MaxProduction", but the tiberium wont grow super fast just because it is set to the fastest,
+		the tiberium still needs to find and open space to place its "offspring", and this takes time.
 
 	Q: What should i use, RD/LS2 or RD/LS3?
-	A: WTiberium works with both RD/LS2 and RD/LS3, My personal preference is RD2/LS2 but RD3/LS3 works just as good.
+	A: WTiberium works with both RD/LS2 and RD/LS3, i recommend RD2/LS2 since RD3/LS3 is still in beta.
 
 	Q: How can i help you?
 	A: I am always looking for new/better models, textures and sounds, if you want to know more specific information just PM me on facepunch.
 
 Credits :
-	Lynix : For the origional tiberium models.
-	kevkev : For the rest of the stuff.
+	These credits can be outdated, if so please notify me and i'll update the list.
+	
+	Lynix : For the original tiberium models.
+	kevkev : For the rest of the stuff in there.
+	NightReaper : Models and icons
+	Hoizen : Models
+	Sn1per : For some ideas and testing help.
 
 Console commands :
 	Serverside :
@@ -29,6 +35,8 @@ Console commands :
 		WTib_DynamicLightSize - The size of the dynamic lights when enabled.
 		WTib_UseToolTips - If the tiberium tooltips should be enabled.
 		WTib_UseOldTooltips - If we should use the classic or the new way of showing the tooltips.
+		
+	Note that all these commands are in a menu!
 
 Changelog (These changes are incomplete, i do leave out a lot of changes since i am to lazy to note them all) :
 
