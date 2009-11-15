@@ -1,6 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Small T.R.I.P."
-ENT.WireDebugName	= "Small T.R.I.P."
+ENT.WireDebugName	= ENT.PrintName
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

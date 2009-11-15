@@ -1,6 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Tiny Energy Storage"
-ENT.WireDebugName	= "Tiny Energy Storage"
+ENT.WireDebugName	= ENT.PrintName
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

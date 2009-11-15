@@ -91,23 +91,4 @@ function ENT:Touch(ent)
 	end
 end
 
-function ENT:OnRestore(self)
-	WTib_Restored(self)
-end
-
-function ENT:PreEntityCopy()
-	WTib_BuildDupeInfo(self)
-	if WireAddon then
-		local DupeInfo = WireLib.BuildDupeInfo(self)
-		if DupeInfo then
-			duplicator.StoreEntityModifier(self,"WireDupeInfo",DupeInfo)
-		end
-	end
-end
-
-function ENT:PostEntityPaste(ply,Ent,CreatedEntities)
-	WTib_ApplyDupeInfo(Ent,CreatedEntities)
-	if WireAddon and Ent.EntityMods and Ent.EntityMods.WireDupeInfo then
-		WireLib.ApplyDupeInfo(ply,Ent,Ent.EntityMods.WireDupeInfo,function(id) return CreatedEntities[id] end)
-	end
-end
+WTib_ApplyFunctionsSV(ENT)

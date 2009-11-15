@@ -1,6 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Sonic Field Emitter"
-ENT.WireDebugName	= "Sonic Field Emitter"
+ENT.WireDebugName	= ENT.PrintName
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""

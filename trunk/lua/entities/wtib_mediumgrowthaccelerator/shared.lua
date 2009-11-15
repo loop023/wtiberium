@@ -1,6 +1,6 @@
 ENT.Type			= "anim"
 ENT.PrintName		= "Medium growth accelerator"
-ENT.WireDebugName	= "Medium growth accelerator"
+ENT.WireDebugName	= ENT.PrintName
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
