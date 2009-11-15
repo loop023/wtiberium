@@ -25,7 +25,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_sonicfieldemitter")
-	e:SetPos(t.HitPos+t.HitNormal*15)
+	e:SetPos(t.HitPos+t.HitNormal*22)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()

@@ -12,6 +12,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
+	self:SetNWBool("Online",false)
 	self.NextRefine = 0
 	self.Inputs = WTib_CreateInputs(self,{"On"})
 	self.Outputs = WTib_CreateOutputs(self,{"Online","Energy","RefinedTiberium","Tiberium"})
@@ -40,8 +41,8 @@ function ENT:Think()
 		if T >= rand then
 			if self.NextRefine <= CurTime() then
 				WTib_ConsumeResource(self,"Tiberium",rand)
-				WTib_ConsumeResource(self,"energy",rand*1.5)
-				WTib_SupplyResource(self,"RefinedTiberium",rand/math.Rand(1,1.8))
+				WTib_ConsumeResource(self,"energy",rand*1.2)
+				WTib_SupplyResource(self,"RefinedTiberium",rand/math.Rand(0.8,1.1))
 				self:EmitSound("wtiberium/refinery/ref.wav",200,40)
 				self.NextRefine = CurTime()+2
 			end

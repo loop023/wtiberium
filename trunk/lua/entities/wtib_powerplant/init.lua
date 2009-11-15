@@ -34,7 +34,7 @@ end
 function ENT:Think()
 	local a = 0
 	local RT = WTib_GetResourceAmount(self,"RefinedTiberium")
-	local rand = math.Rand(50,200)
+	local rand = math.Rand(400,460)
 	if self.Active and RT >= rand and self.NextPower <= CurTime() then
 		WTib_ConsumeResource(self,"RefinedTiberium",rand)
 		WTib_SupplyResource(self,"energy",rand*1.5)
