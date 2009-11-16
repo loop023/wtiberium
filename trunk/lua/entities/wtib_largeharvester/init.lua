@@ -39,7 +39,7 @@ function ENT:Harvest()
 	local a = 0
 	local En = WTib_GetResourceAmount(self,"energy")
 	local Multipl = 2
-	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),500,5)) do
+	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),500,10)) do
 		if a >= 5 then break end
 		if v.IsTiberium and v.CanBeHarvested then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 100,MaxTiberiumGain or 250))
@@ -55,7 +55,6 @@ function ENT:Harvest()
 		end
 	end
 	En = WTib_GetResourceAmount(self,"energy")
-	self:SetNWInt("energy",En)
 	WTib_TriggerOutput(self,"Online",a)
 	WTib_TriggerOutput(self,"Energy",En)
 	WTib_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
@@ -87,6 +86,7 @@ function ENT:Think()
 		self:Harvest()
 		self.NextHarvest = CurTime()+1
 	end
+	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
 end
 
 function ENT:Use(ply)
@@ -123,6 +123,10 @@ function ENT:TurnOn()
 	end
 	self:SetNWBool("Online",true)
 	self.Active = true
+	local ed = EffectData()
+		ed:SetEntity(self)
+		ed:SetMagnitude(500)
+	util.Effect("WTib_HarvesterBeam",ed)
 end
 
 WTib_ApplyFunctionsSV(ENT)

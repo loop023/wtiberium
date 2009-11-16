@@ -55,7 +55,6 @@ function ENT:Harvest()
 		end
 	end
 	En = WTib_GetResourceAmount(self,"energy")
-	self:SetNWInt("energy",En)
 	WTib_TriggerOutput(self,"Online",a)
 	WTib_TriggerOutput(self,"Energy",En)
 	WTib_TriggerOutput(self,"Tiberium",WTib_GetResourceAmount(self,"Tiberium"))
@@ -87,6 +86,7 @@ function ENT:Think()
 		self:Harvest()
 		self.NextHarvest = CurTime()+1
 	end
+	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
 end
 
 function ENT:Use(ply)
@@ -123,6 +123,10 @@ function ENT:TurnOn()
 	end
 	self:SetNWBool("Online",true)
 	self.Active = true
+	local ed = EffectData()
+		ed:SetEntity(self)
+		ed:SetMagnitude(100)
+	util.Effect("WTib_HarvesterBeam",ed)
 end
 
 WTib_ApplyFunctionsSV(ENT)
