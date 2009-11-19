@@ -5,8 +5,8 @@ ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
 ENT.Instructions	= ""
-ENT.Spawnable		= true
-ENT.AdminSpawnable	= true
+ENT.Spawnable		= false
+ENT.AdminSpawnable	= false
 ENT.Category		= "Tiberium"
 
 ENT.Warheads =	{
@@ -23,5 +23,8 @@ ENT.Warheads =	{
 					EnergyRequired=2000,RefinedTiberiumRequired=200,TiberiumChemicalsRequired=2000,Class="wtib_warhead_thermonium",Pos=Vector(65,0,-20)},
 
 					{name="Sonic Cluster Warhead",Discription="A warhead that launches 8 different shells on hit that will disintegrate tiberium.",
-					EnergyRequired=1000,RefinedTiberiumRequired=600,TiberiumChemicalsRequired=0,Class="wtib_warhead_soniccluster",Pos=Vector(65,0,-20)}
+					EnergyRequired=1000,RefinedTiberiumRequired=600,TiberiumChemicalsRequired=0,Class="wtib_warhead_soniccluster",Pos=Vector(65,0,-20)},
+					
+					{name="Missile",Discription="The missile that will use the warheads.",
+					EnergyRequired=200,RefinedTiberiumRequired=400,TiberiumChemicalsRequired=0,Class="wtib_missile",Pos=Vector(65,0,-20)}
 				}

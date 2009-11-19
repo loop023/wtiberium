@@ -16,7 +16,7 @@ end
 language.Add("wtib_warheadfactory",ENT.PrintName)
 
 function ENT:WTib_GetTooltip()
-	return self.PrintName.."\nCurrent Warhead : "..tostring(self:GetNWString("Warhead","None")).."\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0))).."\nRefined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0))).."\nTiberium Chemicals : "..math.Round(tostring(self:GetNWInt("TibChem",0)))
+	return self.PrintName.."\nCurrent Item : "..tostring(self:GetNWString("Warhead","None")).."\nEnergy : "..math.Round(tostring(self:GetNWInt("energy",0))).."\nRefined Tiberium : "..math.Round(tostring(self:GetNWInt("RefTib",0))).."\nTiberium Chemicals : "..math.Round(tostring(self:GetNWInt("TibChem",0)))
 end
 
 function WTib_OpenWarheadMenu(um)
