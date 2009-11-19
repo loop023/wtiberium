@@ -10,6 +10,7 @@ ENT.Category		= "Tiberium"
 ENT.IsTiberium		= true
 ENT.CanBeHarvested	= false
 ENT.NoPhysicsPickup	= true
+ENT.IsTiberiumParent= true
 
 -- Take over the following variables when making your own tiberium ent.
 ENT.ReproduceDelay				= 15 -- The delay between reproductions.
