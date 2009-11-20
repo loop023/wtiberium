@@ -8,7 +8,7 @@ util.PrecacheSound("apc_engine_stop")
 ENT.Accelerators = {}
 
 function ENT:Initialize()
-	self:SetModel("models/props_c17/TrapPropeller_Engine.mdl")
+	self:SetModel("models/Tiberium/medium_growth_accelerator.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
