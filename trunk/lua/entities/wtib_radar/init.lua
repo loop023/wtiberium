@@ -103,6 +103,15 @@ function ENT:CheckOutputs()
 	end
 end
 
+function ENT:Use(ply)
+	if !ply or !ply:IsValid() or !ply:IsPlayer() then return end
+	if self.In_On == 0 then
+		self.In_On = 1
+	else
+		self.In_On = 0
+	end
+end
+
 function ENT:Think()
 	local Drain = math.random(10,20)
 	if WTib_GetResourceAmount(self,"energy") > Drain and self.In_On != 0 then

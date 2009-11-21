@@ -67,6 +67,28 @@ function TOOL:Reload(t)
 	return false
 end
 
+function TOOL:Think()
+	/* // Disabled because i am unable to get the model of the current item
+	local Mod = self:GetCurrentItemModel()
+	if !self.GhostEntity or !self.GhostEntity:IsValid() or self.GhostEntity:GetModel() != InsertModelHere then
+		self:MakeGhostEntity(Mod,Vector(0,0,0),Angle(0,0,0))
+	end
+	self:UpdateGhost(self.GhostEntity,self:GetOwner())
+	*/
+end
+
+function TOOL:UpdateGhost(ent,ply)
+	if !ent or !ent:IsValid() then return end
+	local trace = util.TraceLine(utilx.GetPlayerTrace(ply,ply:GetCursorAimVector()))
+	if !trace.Hit or trace.Entity:IsPlayer() then
+		ent:SetNoDraw(true)
+		return
+	end
+	ent:SetPos(trace.HitPos+self:Offset(trace.HitNormal:Angle(),Vector(-12,13,0)))
+	ent:SetAngles(trace.HitNormal:Angle())
+	ent:SetNoDraw(false)
+end
+
 function TOOL.BuildCPanel(CPanel)
 	CPanel:AddControl("Header",{Text = "#Tool_wtib_generators_name",Description = "#Tool_wtib_generators_desc"})
 	local tab = {}

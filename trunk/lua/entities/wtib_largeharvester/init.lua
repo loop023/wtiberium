@@ -28,7 +28,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_largeharvester")
-	e:SetPos(t.HitPos+t.HitNormal*140)
+	e:SetPos(t.HitPos+t.HitNormal*125)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
@@ -40,9 +40,9 @@ function ENT:Harvest()
 	local En = WTib_GetResourceAmount(self,"energy")
 	local Multipl = 2
 	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),500,10)) do
-		if a >= 5 then break end
+		if a >= 7 then break end
 		if v.IsTiberium and v.CanBeHarvested then
-			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 100,MaxTiberiumGain or 250))
+			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(150,250))
 			if En < am*Multipl then
 				self:TurnOff()
 				return
@@ -82,11 +82,16 @@ function ENT:DoSparkEffect(te,size)
 end
 
 function ENT:Think()
-	if self.NextHarvest <= CurTime() and self.Active then
-		self:Harvest()
-		self.NextHarvest = CurTime()+1
+	local En = WTib_GetResourceAmount(self,"energy")
+	if self.Active then
+		if En < 250 then
+			self:TurnOff()
+		elseif self.NextHarvest <= CurTime() then
+			self:Harvest()
+			self.NextHarvest = CurTime()+1
+		end
 	end
-	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
+	self:SetNWInt("energy",En)
 end
 
 function ENT:Use(ply)
@@ -121,6 +126,7 @@ function ENT:TurnOn()
 	if !self.Active then
 		self:EmitSound("apc_engine_start")
 	end
+	if WTib_GetResourceAmount(self,"energy") < 250 then self:TurnOff() return end
 	self:SetNWBool("Online",true)
 	self.Active = true
 	local ed = EffectData()

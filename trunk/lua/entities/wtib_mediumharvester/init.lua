@@ -42,7 +42,7 @@ function ENT:Harvest()
 	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),250,10)) do
 		if a >= 5 then break end
 		if v.IsTiberium and v.CanBeHarvested then
-			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(v.MinTiberiumGain or 50,MaxTiberiumGain or 150))
+			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(50,150))
 			if En < am*Multipl then
 				self:TurnOff()
 				return
@@ -82,11 +82,16 @@ function ENT:DoSparkEffect(te,size)
 end
 
 function ENT:Think()
-	if self.NextHarvest <= CurTime() and self.Active then
-		self:Harvest()
-		self.NextHarvest = CurTime()+1
+	local En = WTib_GetResourceAmount(self,"energy")
+	if self.Active then
+		if En < 150 then
+			self:TurnOff()
+		elseif self.NextHarvest <= CurTime() then
+			self:Harvest()
+			self.NextHarvest = CurTime()+1
+		end
 	end
-	self:SetNWInt("energy",WTib_GetResourceAmount(self,"energy"))
+	self:SetNWInt("energy",En)
 end
 
 function ENT:Use(ply)
@@ -121,6 +126,7 @@ function ENT:TurnOn()
 	if !self.Active then
 		self:EmitSound("apc_engine_start")
 	end
+	if WTib_GetResourceAmount(self,"energy") < 150 then self:TurnOff() return end
 	self:SetNWBool("Online",true)
 	self.Active = true
 	local ed = EffectData()
