@@ -2,11 +2,5 @@
 {
   	"$baseTexture" "models/Metal1"
 	"$surfaceprop"			"metal"
-	"$bumpmap"				"models\metal1_normal"
-	"$phong"				"1"
-	"$halflambert"			"1"
- 	"$phongexponent"		"60"
- 	"$phongboost"			"2"
- 	"$phongfresnelranges"	"[.5 .8 1]"
-	"$alphatest"			"1"
+	"$bumpmap"				"models/metal_normal"
 }

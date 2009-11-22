@@ -1,5 +1,5 @@
-"VertexLitGeneric"
+"LightmappedGeneric"
 {
-   "$baseTexture" "models/Metal2"
-   "$model" 1
+	"$basetexture" "models/metal2"
+	"$bumpmap"	"models/metal_normal"
 }
