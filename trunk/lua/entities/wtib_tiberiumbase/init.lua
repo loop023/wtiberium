@@ -215,6 +215,10 @@ function ENT:Reproduce()
 						WTib_Print("\t\t\tSonic emitter")
 						Save = false
 						break
+					elseif t.HitSky then
+						WTib_Print("\t\t\tWe hit the sky")
+						Save = false
+						break
 					elseif v.IsTiberium then
 						WTib_Print("\t\t\tTiberium close!")
 						if Dist <= 150 then
