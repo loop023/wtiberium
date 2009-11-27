@@ -11,7 +11,7 @@ function EFFECT:Init(d)
 end
 
 function EFFECT:Think()
-	return self.DieTime > CurTime()
+	return (self.DieTime > CurTime() or !WTib_Debug)
 end
 
 function EFFECT:Render()
