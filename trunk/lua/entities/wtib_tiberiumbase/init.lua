@@ -196,7 +196,9 @@ function ENT:Reproduce()
 				ed:SetOrigin(pos)
 				ed:SetStart(t.HitPos)
 				ed:SetMagnitude(10)
-			util.Effect("WTib_DebugTrace",ed)
+			if WTib_Debug then
+				util.Effect("WTib_DebugTrace",ed)
+			end
 			WTib_Print("\t\tHit!")
 			local Save = true
 			for _,v in pairs(AllEnts) do
@@ -240,7 +242,9 @@ function ENT:Reproduce()
 				ed:SetStart(t.HitPos)
 				ed:SetMagnitude(10)
 				ed:SetScale(2)
-			util.Effect("WTib_DebugTrace",ed)
+			if WTib_Debug then
+				util.Effect("WTib_DebugTrace",ed)
+			end
 		end
 	end
 end

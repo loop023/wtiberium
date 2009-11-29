@@ -11,11 +11,10 @@ function EFFECT:Init(d)
 end
 
 function EFFECT:Think()
-	return (self.DieTime > CurTime() or !WTib_Debug)
+	return self.DieTime > CurTime()
 end
 
 function EFFECT:Render()
-	if !WTib_Debug then return end
 	self.fDelta = math.Max(self.fDelta-0.5,0)
 	render.SetMaterial(self.Mat)
 	render.DrawBeam(self.EndPos,self.StartPos,2+self.fDelta*16,0,0,Color(255,0,0,255))
