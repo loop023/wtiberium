@@ -10,8 +10,8 @@ end
 
 function EFFECT:Think()
 	if !self.Ent or !self.Ent:IsValid() or !self.Ent:GetNWBool("Online") then
-		if e then
-			e:Finish()
+		if self.Emitter then
+			self.Emitter:Finish()
 		end
 		return false
 	else

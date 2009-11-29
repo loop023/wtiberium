@@ -124,14 +124,9 @@ function ENT:EmitGas(pos)
 	local e = ents.Create("wtib_tiberiumgas")
 	e:SetPos(pos)
 	e:SetAngles(self:GetAngles())
-	e.WDSE = self
-	e.WDSO = self
-	e:SetSize(50)
-	e:SetStartColor(Color(self.r,self.g,self.b))
-	e:SetEndColor(Color(self.r,self.g,self.b))
+	e:SetTiberium(self)
 	e:Spawn()
 	e:Activate()
-	e:Fire("kill","",2)
 	self.NextGas = CurTime()+math.Rand(5,60)
 end
 

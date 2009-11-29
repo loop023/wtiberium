@@ -121,10 +121,9 @@ end
 hook.Add("WDeath_DeathdollCreated","WTib_WDeathTibDoll",WTib_WDeathTibDoll)
 
 timer.Create("WTib_Think",2,0,function()
-	local e = WTib_GetAllTiberium()[1] or NULL
-	for _,v in pairs(WTib_InfectedLifeForms) do
-		if v and v:IsValid() and (v:IsPlayer() and v:Alive()) then
-			v:TakeDamage(1,v.WTib_Infector or e,v.WTib_Infector or e)
+	for k,v in pairs(WTib_InfectedLifeForms) do
+		if k and k:IsValid() and (k:IsPlayer() and k:Alive()) then
+			k:TakeDamage(1,v,v)
 		end
 	end
 end)
@@ -205,18 +204,17 @@ function WTib_InfectLiving(ply,e)
 	if ply and ply:IsValid() and ((ply:IsPlayer() and ply:Alive()) or ply:IsNPC()) and !WTib_IsInfected(ply) then
 		ply.WTib_Infector = e
 		ply:SetColor(0,200,0,255)
-		table.insert(WTib_InfectedLifeForms,ply)
+		WTib_InfectedLifeForms[ply] = e
 	end
 end
 
 function WTib_CureInfection(ply)
 	if ply and ply:IsValid() and (ply:IsPlayer() or ply:IsNPC()) then
 		for k,v in pairs(WTib_InfectedLifeForms) do
-			if v == ply then
+			if k == ply then
 				ply:SetColor(255,255,255,255)
 				ply.WTib_LastTiberiumGasDamage = 0
 				ply.WTib_InfectLevel = 0
-				ply.WTib_Infector = nil
 				WTib_InfectedLifeForms[k] = nil
 				return true
 			end
@@ -227,7 +225,7 @@ function WTib_CureInfection(ply)
 end
 
 function WTib_IsInfected(ply)
-	return table.HasValue(WTib_InfectedLifeForms,ply)
+	return WTib_InfectedLifeForms[ply] != nil
 end
 
 /*
