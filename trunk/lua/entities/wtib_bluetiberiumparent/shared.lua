@@ -12,7 +12,7 @@ ENT.IsTiberium		= true
 ENT.CanBeHarvested	= false
 ENT.NoPhysicsPickup	= true
 
-ENT.ReproduceDelay				= 10
+ENT.ReproduceDelay				= 20
 ENT.TiberiumClass				= "wtib_bluetiberium"
 ENT.DynLight					= true
 ENT.Class						= "wtib_bluetiberiumparent"

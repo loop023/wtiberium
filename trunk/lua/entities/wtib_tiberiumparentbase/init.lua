@@ -31,7 +31,13 @@ end
 function ENT:Think()
 	if !self.WTib_Field then self:SetField(WTib_CreateNewField(self)) end
 	if self.NextProduce <= CurTime() then
-		self:Reproduce()
+		local e = self:Reproduce()
+		if e then
+			self.NextProduce = CurTime()+(self.ReproduceDelay or (self:IsAccelerated() and self.ReproduceDelay/2))
+			WTib_AddToField(self:GetField(),e)
+			e:SetField(self:GetField())
+			table.insert(self.Produces,e)
+		end
 	end
 	if self.SecThink then self:SecThink() end
 	self:NextThink(CurTime()+1)
@@ -99,46 +105,79 @@ function ENT:TakeSonicDamage(am)
 end
 
 function ENT:Reproduce()
-	if WTib_MaxFieldSize > 0 and table.Count(self:GetFieldEnts()) >= WTib_MaxFieldSize-1 then return end
-	for i=1,7 do
-		local fl = WTib_GetAllTiberium()
-		table.Add(fl,player.GetAll())
-		local t = util.QuickTrace(self:GetPos()+(self:GetUp()*60),VectorRand()*50000,fl)
-		if t.Hit then
-			local save = true
-			for _,v in pairs(ents.FindByClass("wtib_sonicfieldemitter")) do
-				if t.HitPos:Distance(v:GetPos()) < (v:GetNWInt("Radius") or 512) then
-					save = false
-					break
-				end
-			end
-			for _,v in pairs(ents.FindInSphere(t.HitPos,500)) do
-				if v.IsTiberium and v:GetClass() != self.TiberiumClass then
-					save = false
-					break
-				end
-			end
-			for _,v in pairs(ents.FindInSphere(t.HitPos,150)) do
-				if v.IsTiberium then
-					save = false
-					break
-				end
-			end
-			local dist = t.HitPos:Distance(self:GetPos())
-			if dist >= 100 and dist <= 700 and save then
-				local e = WTib_CreateTiberiumByTrace(t,self.TiberiumClass or "wtib_tiberiumbase",self.WDSO)
-				if e and e:IsValid() then
-					self.NextProduce = CurTime()+self.ReproduceDelay
-					WTib_AddToField(self.WTib_Field,e)
-					e:SetField(self.WTib_Field)
-					e:SetCore(self)
-					table.insert(self.Produces,e)
-					return e
-				elseif i == 7 then
-					self.NextProduce = CurTime()+0.1
-				end
-			end
+	if WTib_GetFieldCount(self:GetField())+1 > WTib_GetMaxFieldMembers(self:GetField()) then WTib_Print("Max Field : "..WTib_GetFieldCount(self:GetField()).." out of "..WTib_GetMaxFieldMembers(self:GetField())) return end
+	WTib_Print("Check passed 1")
+	local AllEnts = ents.GetAll()
+	local fl = {}
+	for _,v in pairs(AllEnts) do
+		if v.IsTiberium or (v.Alive and v:Alive()) then
+			table.insert(fl,v)
 		end
 	end
-	self.NextProduce = CurTime()+0.5
+	local pos = self:GetPos()+(self:GetUp()*100)
+	local Class = self.TiberiumClass or "wtib_tiberiumbase"
+	for i=1,self:GetReproduceLoops() do
+		WTib_Print("\tLoop "..i)
+		local t = WTib_Trace(pos,VectorRand()*math.random(-1000,1000),fl)
+		WTib_Print("\tHitPos : "..tostring(t.HitPos))
+		if t.Hit then
+			local ed = EffectData()
+				ed:SetOrigin(pos)
+				ed:SetStart(t.HitPos)
+				ed:SetMagnitude(10)
+			util.Effect("WTib_DebugTrace",ed)
+			WTib_Print("\t\tHit!")
+			local Save = true
+			for _,v in pairs(AllEnts) do
+				if !v:IsWorld() then
+					local Dist = t.HitPos:Distance(v:GetPos())
+					if v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
+						WTib_Print("\t\t\tSonic emitter")
+						Save = false
+						break
+					elseif t.HitSky then
+						WTib_Print("\t\t\tWe hit the sky")
+						Save = false
+						break
+					elseif v.IsTiberium then
+						WTib_Print("\t\t\tTiberium close!")
+						if Dist <= 150 then
+							WTib_Print("\t\t\tWay to close!")
+							Save = false
+							break
+						elseif Dist <= 450 then
+							if v:GetClass() != Class and v:GetClass() != self:GetClass() then
+								WTib_Print("\t\t\tNot own class!")
+								Save = false
+								break
+							end
+						end
+					end
+				end
+			end
+			if Save then
+				WTib_Print("\t\tSave, creating ent..")
+				local e = WTib_CreateTiberiumByTrace(t,Class,self.WDSO)
+				if e and e:IsValid() then
+					WTib_Print("\t\tValid ent returned!")
+					return e
+				end
+			end
+		else
+			local ed = EffectData()
+				ed:SetOrigin(pos)
+				ed:SetStart(t.HitPos)
+				ed:SetMagnitude(10)
+				ed:SetScale(2)
+			util.Effect("WTib_DebugTrace",ed)
+		end
+	end
+end
+
+function ENT:GetReproduceLoops()
+	return 7 or (self:IsAccelerated() and 12)
+end
+
+function ENT:IsAccelerated()
+	return self.LastAccelerate > CurTime()
 end

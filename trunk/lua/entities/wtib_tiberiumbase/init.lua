@@ -194,7 +194,7 @@ function ENT:Reproduce()
 	local pos = self:GetPos()+(self:GetUp()*70)
 	for i=1,self:GetReproduceLoops() do
 		WTib_Print("\tLoop "..i)
-		local t = WTib_Trace(pos,VectorRand()*math.random(-650,650),fl)
+		local t = WTib_Trace(pos,VectorRand()*math.random(-800,800),fl)
 		WTib_Print("\tHitPos : "..tostring(t.HitPos))
 		if t.Hit then
 			local ed = EffectData()
@@ -207,11 +207,7 @@ function ENT:Reproduce()
 			for _,v in pairs(AllEnts) do
 				if !v:IsWorld() then
 					local Dist = t.HitPos:Distance(v:GetPos())
-					if t.HitPos:Distance(self:GetPos()) > 800 then
-						WTib_Print("\t\t\tFurther than 800")
-						Save = false
-						break
-					elseif v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
+					if v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
 						WTib_Print("\t\t\tSonic emitter")
 						Save = false
 						break

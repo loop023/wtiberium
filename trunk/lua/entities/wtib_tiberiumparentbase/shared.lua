@@ -13,7 +13,7 @@ ENT.NoPhysicsPickup	= true
 ENT.IsTiberiumParent= true
 
 -- Take over the following variables when making your own tiberium ent.
-ENT.ReproduceDelay				= 15 -- The delay between reproductions.
+ENT.ReproduceDelay				= 25 -- The delay between reproductions.
 ENT.TiberiumClass				= "wtib_tiberiumbase" -- The tiberium entities it should produce.
 ENT.DynLight					= true -- Should we make a dynamic light at our position?
 ENT.Class						= "wtib_tiberiumparentbase" -- What is our class?
