@@ -39,7 +39,7 @@ function ENT:Harvest()
 	local a = 0
 	local En = WTib_GetResourceAmount(self,"energy")
 	local Multipl = 1.5
-	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetForward(),100,10)) do
+	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),100,10)) do
 		if a >= 3 then break end
 		if v.IsTiberium and v.CanBeHarvested then
 			local am = math.Clamp(v:GetTiberiumAmount(),0,math.Rand(15,50))
