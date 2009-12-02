@@ -1,7 +1,0 @@
-"UnlitGeneric" 
-{ 
-	"$basetexture"		"models\VGUI\entities\wtib_greentiberium"
-	"$vertexcolor" 		1 
-	"$vertexalpha" 		1 
-	"$nolod" 			1 
-} 
