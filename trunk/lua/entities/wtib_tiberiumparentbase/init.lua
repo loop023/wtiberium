@@ -77,10 +77,6 @@ function ENT:GetTiberiumAmount()
 	return 10
 end
 
-function ENT:Die()
-	self:Remove()
-end
-
 function ENT:OnTakeDamage(di)
 end
 

@@ -82,7 +82,7 @@ function ENT:SetTiberiumAmount(am)
 	self:SetNWInt("TiberiumAmount",math.Clamp(am,-10,self.MaxTiberium))
 	self:SetTargetColor(self.r,self.g,self.b,math.Clamp(self.a,30,255))
 	if self:GetNWInt("TiberiumAmount") <= 0 then
-		self:Die()
+		self:Remove()
 	end
 end
 
@@ -109,13 +109,6 @@ function ENT:CheckColor()
 	local inc = 2
 	local Or,Og,Ob,Oa = self:GetColor()
 	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
-end
-
-function ENT:Die()
-	for i=1,3 do
-		self:EmitGas()
-	end
-	self:Remove()
 end
 
 function ENT:EmitGas(pos)
