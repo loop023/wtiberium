@@ -396,6 +396,9 @@ end
 
 function WTib_ApplyFunctionsSV(ENT)
 	function ENT:OnRemove()
+		if self.IsTiberium
+			self:SetParent() // Remove any parents just to be sure
+		end
 		WTib_RemoveRDEnt(self)
 		if (self.Outputs or self.Inputs) then
 			WTib_Remove(self)
