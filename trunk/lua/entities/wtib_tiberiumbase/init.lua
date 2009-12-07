@@ -112,7 +112,7 @@ function ENT:CheckColor()
 end
 
 function ENT:EmitGas(pos)
-	if !self.Gas or !WTib_ProduceGas then return end
+	if !self.Gas or !WTib_ProduceGas or (self.GassEntity and self.GasEntity:IsValid()) then return end
 	pos = pos or self:GetPos()+Vector(math.Rand(-30,30),math.Rand(-30,30),math.Rand(30,50))
 	local e = ents.Create("wtib_tiberiumgas")
 	e:SetPos(pos)
@@ -120,6 +120,7 @@ function ENT:EmitGas(pos)
 	e:SetTiberium(self)
 	e:Spawn()
 	e:Activate()
+	self.GasEntity = e
 	self.NextGas = CurTime()+math.Rand(5,60)
 end
 
@@ -139,9 +140,7 @@ function ENT:OnTakeDamage(di)
 end
 
 function ENT:OnRemove()
-	for i=1,3 do
-		self:EmitGas()
-	end
+	self:EmitGas()
 end
 
 function ENT:GetFieldEnts()

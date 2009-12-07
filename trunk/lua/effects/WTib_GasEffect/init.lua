@@ -8,7 +8,7 @@ function EFFECT:Init(data)
 	local Col = data:GetAngle() // Color
  	self.Emitter = ParticleEmitter(Origin)
 	self.Entity:SetRenderBounds(Origin*-60,Origin*60)
-	for i=1,3 do
+	for i=1,2 do
 		local part
 		if self.Emitter then
 			part = self.Emitter:Add("particle/SmokeStack.vtf",Origin+Vector(math.Rand(-15,15),math.Rand(-15,15),math.Rand(-15,15)))
