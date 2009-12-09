@@ -111,21 +111,16 @@ function ENT:CheckColor()
 	self:SetColor(math.Approach(Or,self.Tr,inc),math.Approach(Og,self.Tg,inc),math.Approach(Ob,self.Tb,inc),math.Approach(Oa,self.Ta,inc))
 end
 
-function ENT:EmitGas(pos)
+function ENT:EmitGas(pos,size)
 	if !self.Gas or !WTib_ProduceGas or (self.GassEntity and self.GasEntity:IsValid()) then return end
 	pos = pos or self:GetPos()+Vector(math.Rand(-30,30),math.Rand(-30,30),math.Rand(30,50))
-	local e = ents.Create("wtib_tiberiumgas")
-	e:SetPos(pos)
-	e:SetAngles(self:GetAngles())
-	e:SetTiberium(self)
-	e:Spawn()
-	e:Activate()
+	WTib_AddGas(pos,3,1,5,size or 50,self,Color(self.Tr,self.Tg,self.Tb,self.Ta))
 	self.GasEntity = e
 	self.NextGas = CurTime()+math.Rand(5,60)
 end
 
 function ENT:OnTakeDamage(di)
-	self:EmitGas(di:GetDamagePosition())
+	self:EmitGas(di:GetDamagePosition(),30)
 	if di:IsDamageType(DMG_BURN) and !self.IgnoreExpBurDamage then
 		self:AddTiberiumAmount(math.Clamp(di:GetDamage()*math.Rand(0.8,2),2,self.MaxTiberium))
 		self.NextProduce = 0

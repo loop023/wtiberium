@@ -202,12 +202,9 @@ end
 */
 
 function WTib_AddGas(pos,lt,midam,madam,size,ent,col)
-	if ent and !col then
-		col = ent:GetColor()
-	end
 	table.insert(WTib_GasObjects,{Pos = pos,Size = size,LastThink = 0,Time = CurTime()+lt,MaxDamage = madam,MinDamage = midam,Entity = ent})
 	local ed = EffectData()
-		ed:SetAngle(Angle(col)) // Color
+		ed:SetAngle(Angle(col.r,col.g,col.b)) // Color
 		ed:SetOrigin(pos)
 		ed:SetAttachment(lt) // Lifetime
 	util.Effect("WTib_GasEffect",ed)
