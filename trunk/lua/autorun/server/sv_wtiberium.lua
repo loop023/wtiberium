@@ -31,8 +31,9 @@ list.Set("WireSounds","Scrin - Tiberium weapon ready",{wire_soundemitter_sound="
 list.Set("WireSounds","Scrin - TIberium field depleted",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TibFieldDeple.wav"})
 
 WTib_InfectedLifeForms = {}
-WTib_ProduceGas = true
 WTib_MaxFieldSize = 50
+WTib_GasObjects = {}
+WTib_ProduceGas = true
 local TibFields = {}
 
 if WDS and WDS.AddProtectionFunction then -- This is for my own damage system.
@@ -192,6 +193,47 @@ function WTib_GetMaxFieldMembers(f)
 	if !TibFields[f] then return 0 end
 	return TibFields[f].MaxSize or WTib_MaxFieldSize
 end
+
+/*
+	***************************************************
+	*                         WTiberium gas management                          *
+	*                                                                                                   *
+	***************************************************
+*/
+
+function WTib_AddGas(pos,lt,midam,madam,size,ent,col)
+	if ent and !col then
+		col = ent:GetColor()
+	end
+	table.insert(WTib_GasObjects,{Pos = pos,Size = size,LastThink = 0,Time = CurTime()+lt,MaxDamage = madam,MinDamage = midam,Entity = ent})
+	local ed = EffectData()
+		ed:SetAngle(Angle(col)) // Color
+		ed:SetOrigin(pos)
+		ed:SetAttachment(lt) // Lifetime
+	util.Effect("WTib_GasEffect",ed)
+end
+
+function WTib_GasThink()
+	for k,gas in pairs(WTib_GasObjects) do
+		if gas.LastThink <= CurTime() then
+			gas.LastThink = CurTime()+1
+			if gas.Time <= CurTime() then
+				WTib_GasObjects[k] = nil
+			else
+				for _,v in pairs(ents.FindInSphere(gas.Pos,gas.Size)) do
+					if (v:IsPlayer() and v:Alive()) or v:IsNPC() and !v.IsTiberiumResistant then
+						v:TakeDamage(math.Rand(gas.MinDamage,gas.MaxDamage),gas.Entity,gas.Entity)
+						v.WTib_InfectLevel = (v.WTib_InfectLevel or 0)+1
+						if v.WTib_InfectLevel >= math.Rand(7,10) then
+							WTib_InfectLiving(v,self)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+hook.Add("Think","WTib_GasThink",WTib_GasThink)
 
 /*
 	***************************************************

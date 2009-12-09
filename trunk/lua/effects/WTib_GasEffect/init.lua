@@ -16,7 +16,7 @@ function EFFECT:Init(data)
 		if part then
 			part:SetColor(Col.p or 255,Col.y,Col.r or 0,100)
 			part:SetAirResistance(5)
-			part:SetDieTime(2)
+			part:SetDieTime(data:GetAttachment() or 2)
 			part:SetGravity(Vect)
 			part:SetVelocity(Vect)
 			part:SetLifeTime(0)
