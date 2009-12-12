@@ -28,14 +28,7 @@ end
 
 function ENT:SecInit()
 	if WTib_AIEvadeTiberium then
-		self.AI_Sound = ents.Create("ai_sound")
-		self.AI_Sound:SetPos(self:GetPos())
-		self.AI_Sound:SetParent(self)
-		self.AI_Sound:SetKeyValue("soundtype","8")
-		self.AI_Sound:SetKeyValue("volume","250")
-		self.AI_Sound:SetKeyValue("duration","1")
-		self.AI_Sound:Spawn()
-		self.AI_Sound:Activate()
+		self:WTib_CreateAISound()
 	end
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	self:SetTrigger(true)
@@ -45,6 +38,24 @@ function ENT:SecInit()
 	self:SetTiberiumAmount(math.Rand(200,500))
 	self:SetColor(self.r,self.g,self.b,10)
 	self:SetTargetColor(self.r,self.g,self.b,self:GetTiberiumAmount()/(self:GetNWInt("CDevider") or 16)+5)
+end
+
+function ENT:WTib_CreateAISound()
+	self:WTib_RemoveAISound()
+	self.AI_Sound = ents.Create("ai_sound")
+	self.AI_Sound:SetPos(self:GetPos()+(self:GetUp()*30))
+	self.AI_Sound:SetParent(self)
+	self.AI_Sound:SetKeyValue("soundtype","8")
+	self.AI_Sound:SetKeyValue("volume","100")
+	self.AI_Sound:SetKeyValue("duration","1")
+	self.AI_Sound:Spawn()
+	self.AI_Sound:Activate()
+end
+
+function ENT:WTib_RemoveAISound()
+	if self.AI_Sound and self.AI_Sound:IsValid() then
+		self.AI_Sound:Remove()
+	end
 end
 
 function ENT:CreateCDevider()

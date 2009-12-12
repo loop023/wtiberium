@@ -91,6 +91,19 @@ function WTib_AIEvadeTiberiumConsole(ply,com,args)
 	else
 		WTib_AIEvadeTiberium = tobool(args[1])
 	end
+	if WTib_AIEvadeTiberium then
+		for _,v in pairs(ents.GetAll()) do
+			if v.WTib_CreateAISound then
+				v:WTib_CreateAISound()
+			end
+		end
+	else
+		for _,v in pairs(ents.GetAll()) do
+			if v.WTib_RemoveAISound then
+				v:WTib_RemoveAISound()
+			end
+		end
+	end
 end
 concommand.Add("WTib_AIEvadeTiberium",WTib_AIEvadeTiberiumConsole)
 
