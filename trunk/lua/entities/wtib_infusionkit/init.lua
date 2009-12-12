@@ -8,6 +8,8 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetUseType(SIMPLE_USE)
+	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	self:SetTrigger(true)
 	self:SetColor(100,255,100,255)
 	local phys = self:GetPhysicsObject()
 	if phys:IsValid() then

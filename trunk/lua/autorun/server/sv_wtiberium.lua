@@ -16,7 +16,7 @@ list.Set("WireSounds","GDI - Harvester under attack",{wire_soundemitter_sound="w
 list.Set("WireSounds","GDI - Low power",{wire_soundemitter_sound="wtiberium/gdi/Geva_LowPower.wav"})
 list.Set("WireSounds","GDI - Tiberium exposure",{wire_soundemitter_sound="wtiberium/gdi/Geva_TiberExposDet.wav"})
 list.Set("WireSounds","GDI - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/gdi/Geva_TiberWeaReady.wav"})
-list.Set("WireSounds","GDI - TIberium field depleted",{wire_soundemitter_sound="wtiberium/gdi/Geva_TibFieldDeple.wav"})
+list.Set("WireSounds","GDI - Tiberium field depleted",{wire_soundemitter_sound="wtiberium/gdi/Geva_TibFieldDeple.wav"})
 list.Set("WireSounds","NOD - Harvester lost",{wire_soundemitter_sound="wtiberium/nod/Geva_HarvesterLost.wav"})
 list.Set("WireSounds","NOD - Harvester under attack",{wire_soundemitter_sound="wtiberium/nod/Neva_HarvUndAttack.wav"})
 list.Set("WireSounds","NOD - Low power",{wire_soundemitter_sound="wtiberium/nod/Neva_LowPower.wav"})
@@ -28,8 +28,9 @@ list.Set("WireSounds","Scrin - Harvester under attack",{wire_soundemitter_sound=
 list.Set("WireSounds","Scrin - Low power",{wire_soundemitter_sound="wtiberium/scrin/Aeva_LowPower.wav"})
 list.Set("WireSounds","Scrin - Tiberium exposure",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TiberExposDet.wav"})
 list.Set("WireSounds","Scrin - Tiberium weapon ready",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TiberWeaReady.wav"})
-list.Set("WireSounds","Scrin - TIberium field depleted",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TibFieldDeple.wav"})
+list.Set("WireSounds","Scrin - Tiberium field depleted",{wire_soundemitter_sound="wtiberium/scrin/Aeva_TibFieldDeple.wav"})
 
+WTib_TiberiumDamageOnTouch = true
 WTib_InfectedLifeForms = {}
 WTib_MaxFieldSize = 50
 WTib_GasObjects = {}
@@ -63,6 +64,20 @@ function WTib_MaxFieldSizeConsole(ply,com,args)
 	end
 end
 concommand.Add("WTib_MaxFieldSize",WTib_MaxFieldSizeConsole)
+
+function WTib_TiberiumDamageOnTouchConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	if !args[1] then
+		WTib_TiberiumDamageOnTouch = !WTib_TiberiumDamageOnTouch
+	else
+		WTib_TiberiumDamageOnTouch = tobool(args[1])
+	end
+end
+concommand.Add("WTib_TiberiumDamageOnTouch",WTib_TiberiumDamageOnTouchConsole)
 
 function WTib_ProduceGasConsole(ply,com,args)
 	if !args[1] then return end
@@ -120,6 +135,15 @@ function WTib_WDeathTibDoll(ent,rag)
 	end
 end
 hook.Add("WDeath_DeathdollCreated","WTib_WDeathTibDoll",WTib_WDeathTibDoll)
+
+function WTib_PlayerDeath(ply)
+	for _,v in pairs(ents.GetAll()) do
+		if type(v.WTib_PlayerDeath) == "function" then
+			v:WTib_PlayerDeath(ply)
+		end
+	end
+end
+hook.Add("PlayerDeath","WTib_PlayerDeath",WTib_PlayerDeath)
 
 timer.Create("WTib_Think",2,0,function()
 	for k,v in pairs(WTib_InfectedLifeForms) do

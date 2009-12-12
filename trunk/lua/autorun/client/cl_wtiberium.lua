@@ -50,7 +50,8 @@ function WTib_AdminPopulateMenu(Panel)
 								Type = "Integer",
 								Min = "30",
 								Max = "300"})
-	Panel:CheckBox("Emit gas","WTib_ProduceGas"):SetToolTip("If the Tiberium should emit gas.")
+	Panel:CheckBox("Emit gas","WTib_ProduceGas"):SetToolTip("If the Tiberium should emit gas")
+	Panel:CheckBox("Tiberium touch damage","WTib_TiberiumDamageOnTouch"):SetToolTip("If players and NPC's should take damage from touching tiberium")
 	Panel:AddControl("Button",{	Text = "Remove all Tiberium",
 								Command = "WTib_ClearAllTiberium"})
 end

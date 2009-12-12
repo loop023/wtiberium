@@ -2,6 +2,7 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
+ENT.TouchedEntities = {}
 ENT.NextTiberiumAdd = 0
 ENT.LastAccelerate = 0
 ENT.TiberiumAmount = 0
@@ -27,6 +28,7 @@ end
 
 function ENT:SecInit()
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	self:SetTrigger(true)
 	self.NextProduce = CurTime()+math.Rand(30,60)
 	self.NextGas = CurTime()+math.Rand(5,60)
 	self:Think()
@@ -70,6 +72,19 @@ function ENT:Think()
 			WTib_AddToField(self:GetField(),e)
 			e:SetField(self:GetField())
 			table.insert(self.Produces,e)
+		end
+	end
+	if WTib_TiberiumDamageOnTouch then
+		for k,v in pairs(self.TouchedEntities) do
+			if v and v:IsValid() and (v:IsPlayer() and v:Alive()) or v:IsNPC() then
+				v:TakeDamage(math.random(1,10),self,self)
+				v.WTib_InfectLevel = (v.WTib_InfectLevel or 0)+1
+				if v.WTib_InfectLevel >= 5 then
+					WTib_InfectLiving(v,self)
+				end
+			else
+				self.TouchedEntities[k] = nil
+			end
 		end
 	end
 	if self.SecThink then self:SecThink() end
@@ -121,16 +136,6 @@ end
 
 function ENT:OnTakeDamage(di)
 	self:EmitGas(di:GetDamagePosition(),30)
-	if di:IsDamageType(DMG_BURN) and !self.IgnoreExpBurDamage then
-		self:AddTiberiumAmount(math.Clamp(di:GetDamage()*math.Rand(0.8,2),2,self.MaxTiberium))
-		self.NextProduce = 0
-		self.NextTiberiumAdd = 0
-		return
-	end
-	if self.NextProduce-CurTime() < 60 then
-		self.NextProduce = CurTime()+(self.ReproduceDelay or 60)
-	end
-	self.NextTiberiumAdd = CurTime()+10
 	self:DrainTiberiumAmount(di:GetDamage()/1.5)
 end
 
@@ -161,6 +166,28 @@ function ENT:TakeSonicDamage(am)
 	end
 	self:DrainTiberiumAmount(am)
 	self:EmitGas()
+end
+
+function ENT:StartTouch(ent)
+	if ent and ent:IsValid() then
+		table.insert(self.TouchedEntities,ent)
+	end
+end
+
+function ENT:EndTouch(ent)
+	for k,v in pairs(self.TouchedEntities) do
+		if v == ent then
+			self.TouchedEntities[k] = nil
+		end
+	end
+end
+
+function ENT:WTib_PlayerDeath(ply)
+	for k,v in pairs(self.TouchedEntities) do
+		if v == ply then
+			self.TouchedEntities[k] = nil
+		end
+	end
 end
 
 function ENT:Reproduce()
