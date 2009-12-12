@@ -32,6 +32,7 @@ list.Set("WireSounds","Scrin - Tiberium field depleted",{wire_soundemitter_sound
 
 WTib_TiberiumDamageOnTouch = true
 WTib_InfectedLifeForms = {}
+WTib_AIEvadeTiberium = false
 WTib_MaxFieldSize = 50
 WTib_GasObjects = {}
 WTib_ProduceGas = true
@@ -78,6 +79,20 @@ function WTib_TiberiumDamageOnTouchConsole(ply,com,args)
 	end
 end
 concommand.Add("WTib_TiberiumDamageOnTouch",WTib_TiberiumDamageOnTouchConsole)
+
+function WTib_AIEvadeTiberiumConsole(ply,com,args)
+	if !args[1] then return end
+	if !ply:IsAdmin() then
+		ply:ChatPrint("This command is admin only "..ply:Nick())
+		return
+	end
+	if !args[1] then
+		WTib_AIEvadeTiberium = !WTib_AIEvadeTiberium
+	else
+		WTib_AIEvadeTiberium = tobool(args[1])
+	end
+end
+concommand.Add("WTib_AIEvadeTiberium",WTib_AIEvadeTiberiumConsole)
 
 function WTib_ProduceGasConsole(ply,com,args)
 	if !args[1] then return end

@@ -27,6 +27,16 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:SecInit()
+	if WTib_AIEvadeTiberium then
+		self.AI_Sound = ents.Create("ai_sound")
+		self.AI_Sound:SetPos(self:GetPos())
+		self.AI_Sound:SetParent(self)
+		self.AI_Sound:SetKeyValue("soundtype","8")
+		self.AI_Sound:SetKeyValue("volume","250")
+		self.AI_Sound:SetKeyValue("duration","1")
+		self.AI_Sound:Spawn()
+		self.AI_Sound:Activate()
+	end
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	self:SetTrigger(true)
 	self.NextProduce = CurTime()+math.Rand(30,60)
@@ -64,6 +74,9 @@ function ENT:Think()
 	end
 	if self.NextGas <= CurTime() then
 		self:EmitGas()
+	end
+	if self.AI_Sound then
+		self.AI_Sound:Fire("EmitAISound","","")
 	end
 	if self.NextProduce <= CurTime() and self:GetTiberiumAmount() >= (self.MinReprodutionTibRequired or self.MaxTiberium-700) then
 		local e = self:Reproduce()
