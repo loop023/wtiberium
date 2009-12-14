@@ -486,6 +486,11 @@ function WTib_TiberiumRagdollToRagdoll(rag)
 end
 
 function WTib_ApplyFunctionsSV(ENT)
+
+	ENT._OOut = {}
+	ENT.Out = {}
+	ENT.In = {}
+
 	function ENT:OnRemove()
 		if self.IsTiberium then
 			self:SetParent() // Remove any parents just to be sure
@@ -493,6 +498,22 @@ function WTib_ApplyFunctionsSV(ENT)
 		WTib_RemoveRDEnt(self)
 		if (self.Outputs or self.Inputs) then
 			WTib_Remove(self)
+		end
+	end
+
+	function ENT:UpdateWire()
+		WTib_Print("Wire update")
+		for k,v in pairs(self.Out) do
+			k = tostring(k)
+			v = tonumber(v)
+			WTib_Print("\t"..tostring(k).." - To : "..tostring(v).." From : "..tostring(self._OOut[k]))
+			if !self._OOut[k] or self._OOut[k] != v then
+				WTib_Print("\t\tUpdated")
+				self._OOut[k] = v
+				WTib_TriggerOutput(self,k,v)
+			else
+				WTib_Print("\t\tNot updated")
+			end
 		end
 	end
 

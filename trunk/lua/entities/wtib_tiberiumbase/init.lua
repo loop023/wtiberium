@@ -239,28 +239,37 @@ function ENT:Reproduce()
 			end
 			WTib_Print("\t\tHit!")
 			local Save = true
-			for _,v in pairs(AllEnts) do
-				if !v:IsWorld() then
-					local Dist = t.HitPos:Distance(v:GetPos())
-					if v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
-						WTib_Print("\t\t\tSonic emitter")
-						Save = false
-						break
-					elseif t.HitSky then
-						WTib_Print("\t\t\tWe hit the sky")
-						Save = false
-						break
-					elseif v.IsTiberium then
-						WTib_Print("\t\t\tTiberium close!")
-						if Dist <= 150 then
-							WTib_Print("\t\t\tWay to close!")
+			if t.Entity and t.Entity:IsValid() and t.Entity:GetClass() == "wtib_sonicplating" then
+				WTib_Print("\t\t\tSonic plating")
+				if t.Entity.Out and t.Entity.Out.Online != 0 then
+					WTib_Print("\t\t\t\tOnline")
+					Save = false
+				else
+					WTib_Print("\t\t\t\tOffline")
+				end
+			elseif t.HitSky then
+				WTib_Print("\t\t\tWe hit the sky")
+				Save = false
+			else
+				for _,v in pairs(AllEnts) do
+					if !v:IsWorld() then
+						local Dist = t.HitPos:Distance(v:GetPos())
+						if v:GetClass() == "wtib_sonicfieldemitter" and Dist < (v:GetNWInt("Radius") or 512) then
+							WTib_Print("\t\t\tSonic emitter")
 							Save = false
 							break
-						elseif Dist <= 500 then
-							if v:GetClass() != self:GetClass() then
-								WTib_Print("\t\t\tNot own class!")
+						elseif v.IsTiberium then
+							WTib_Print("\t\t\tTiberium close!")
+							if Dist <= 150 then
+								WTib_Print("\t\t\tWay to close!")
 								Save = false
 								break
+							elseif Dist <= 500 then
+								if v:GetClass() != self:GetClass() then
+									WTib_Print("\t\t\tNot own class!")
+									Save = false
+									break
+								end
 							end
 						end
 					end
