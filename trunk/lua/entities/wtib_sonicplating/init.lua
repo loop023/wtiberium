@@ -3,7 +3,7 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 function ENT:Initialize()
-	self:SetModel("models/props_lab/blastdoor001c.mdl")
+	//self:SetModel("models/props_lab/blastdoor001c.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -20,6 +20,7 @@ end
 function ENT:SpawnFunction(p,t)
 	if !t.Hit then return end
 	local e = ents.Create("wtib_sonicplating")
+	e:SetModel("models/props_lab/blastdoor001c.mdl")
 	e:SetPos(t.HitPos+t.HitNormal*25)
 	e.WDSO = p
 	e:Spawn()
