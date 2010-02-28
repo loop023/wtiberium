@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/tiberium_g"
+		"$bumpmap"	"models/tiberium_normal"
+   "$model" 1
+}

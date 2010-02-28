@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+   "$baseTexture" "models/Metal4"
+	"$bumpmap"				"models/metal_normal"
+   "$model" 1
+}
