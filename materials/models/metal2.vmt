@@ -1,0 +1,5 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "models/metal2"
+	"$bumpmap"	"models/metal_normal"
+}
