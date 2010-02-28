@@ -1,9 +1,0 @@
-ENT.Type			= "anim"
-ENT.PrintName		= "Tiberium Infusion Kit"
-ENT.Author			= "kevkev/Warrior xXx"
-ENT.Contact			= ""
-ENT.Purpose			= ""
-ENT.Instructions	= ""
-ENT.Spawnable		= false
-ENT.AdminSpawnable	= true
-ENT.Category		= "Tiberium"
