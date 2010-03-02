@@ -53,13 +53,12 @@ function ENT:Think()
 	return true
 end
 
-/* // Disabled because of cocks.
 function ENT:OnTakeDamage(dmginfo)
 	if self.Damage_Explosive and dmginfo:IsExplosionDamage() and dmginfo:GetDamage() > self.Damage_Explode_RequiredDamage then
 		timer.Simple(math.random(self.Damage_ExplosionDelay-0.2,self.Damage_ExplosionDelay+0.2),self.Explode,self,dmginfo)
+		self.OnTakeDamage = function() end
 	end
 end
-*/
 
 function ENT:Explode(dmginfo)
 	if ValidEntity(self) then
@@ -115,7 +114,7 @@ function ENT:AttemptReproduce()
 			ed:SetStart(t.HitPos)
 			ed:SetMagnitude(10)
 			ed:SetScale(2)
-		util.Effect("WTib_DebugTrace",ed)
+		WTib.DebugEffect("WTib_DebugTrace",ed)
 		local Save = true
 		if !t.Hit then
 			pos = t.HitPos
@@ -125,15 +124,17 @@ function ENT:AttemptReproduce()
 				ed:SetStart(t.HitPos)
 				ed:SetMagnitude(10)
 				ed:SetScale(2)
-			util.Effect("WTib_DebugTrace",ed)
+			WTib.DebugEffect("WTib_DebugTrace",ed)
 		end
 		if ValidEntity(WTib.CreateTiberium(self,self.Class,t,self.WDSO)) then
+			WTib.DebugPrint("New Tiberium grown from old")
 			self.NextReproduce = CurTime()+self.Reproduce_Delay
 			self:SetTiberiumAmount(self:GetTiberiumAmount()-self.Reproduce_TiberiumDrained)
 			break
+		else
+			self.NextReproduce = CurTime()+2
 		end
 	end
-	self.NextReproduce = CurTime()+2
 end
 
 function ENT:Die()
