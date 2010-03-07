@@ -13,7 +13,7 @@ function WTib.PhysPickup(ply,ent)
 end
 hook.Add("PhysgunPickup","WTib.PhysPickup",WTib.PhysPickup)
 
-function WTib.Trace(...)
+function WTib.Trace(...) // Make it stargate compatible later on maybe.
 	return util.QuickTrace(...)
 end
 
