@@ -137,6 +137,10 @@ function ENT:AttemptReproduce()
 	end
 end
 
+function ENT:TakeSonicDamage(am)
+	self:SetTiberiumAmount(self:GetTiberiumAmount()-am)
+end
+
 function ENT:Die()
 	self:Remove()
 end
