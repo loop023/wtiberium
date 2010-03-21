@@ -1,15 +1,20 @@
 include('shared.lua')
 
+ENT.GrowingSinceSpawn = true
 ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.LightSize = 0
 ENT.LastSize = 0
 
 function ENT:Draw()
+	local Target = 0.5+(self:GetCrystalSize()/2)
+	if Target == self.LastSize then
+		self.GrowingSinceSpawn = false
+	end
 	local Speed = 0.0001
-	if self.LastSize <= 0.2 then
+	if self.GrowingSinceSpawn then
 		Speed = 0.0004
 	end
-	local Size = math.Approach(self.LastSize,0.5+(self:GetCrystalSize()/2),Speed)
+	local Size = math.Approach(self.LastSize,Target,Speed)
 	if Size < self.LastSize then
 		Size = self.LastSize
 	else
