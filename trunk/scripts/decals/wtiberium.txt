@@ -1,0 +1,4 @@
+"WTib.TiberiumDecal"
+{
+	"decals/eye"    "1"
+}

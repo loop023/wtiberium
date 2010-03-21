@@ -4,6 +4,42 @@ WTib.Config						= {}
 WTib.Config.MaximumFieldSize	= 50
 WTib.Debug = false
 
+/*
+	Console Commands
+*/
+
+concommand.Add("wtib_removealltiberium",function(ply,com,args)
+	if ply:IsAdmin() then
+		for _,v in pairs(WTib.GetAllTiberium()) do
+			v:Remove()
+		end
+		for _,v in pairs(player.GetAll()) do
+			if v:IsAdmin() then
+				v:ChatPrint("All Tiberium has been removed by \""..ply:Nick().."\".")
+			else
+				v:ChatPrint("All Tiberium has been removed.")
+			end
+		end
+	else
+		ply:ChatPrint("This command is admin only.")
+	end
+end)
+
+/*
+	Misc stuff
+*/
+
+function WTib.GetAllTiberium(tFilter)
+	tFilter = tFilter or {}
+	local tData = {}
+	for _,v in pairs(ents.GetAll()) do
+		if !table.HasValue(tFilter,v) and v.IsTiberium then
+			table.insert(tData,v)
+		end
+	end
+	return tData
+end
+
 function WTib.DebugEffect(...)
 	if WTib.Debug then
 		util.Effect(...)
@@ -37,11 +73,19 @@ function WTib.CreateTiberium(creator,class,t,ply)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
+	util.Decal("WTib.TiberiumDecal",t.HitPos-(t.HitNormal*(e.DecalSize or 1)),t.HitPos+(t.HitNormal*(e.DecalSize or 1))
 	if ValidEntity(t.Entity) and !t.Entity:IsWorld() then
 		e:SetMoveType(MOVETYPE_VPHYSICS)
 		e:SetParent(t.Entity)
 	end
 	return e
+end
+
+local Tags = GetConVarString("sv_tags") //Thanks PHX!
+if Tags == nil then
+	RunConsoleCommand("sv_tags","WTiberium")
+elseif !string.find(Tags,"WTiberium") then
+	RunConsoleCommand("sv_tags","WTiberium,"..Tags)
 end
 
 /*
@@ -128,10 +172,3 @@ timer.Create("WTib.FieldTimer",5,0,function()
 		end
 	end
 end)
-
-local Tags = GetConVarString("sv_tags") //Thanks PHX!
-if Tags == nil then
-	RunConsoleCommand("sv_tags","WTiberium")
-elseif !string.find(Tags,"WTiberium") then
-	RunConsoleCommand("sv_tags","WTiberium,"..Tags)
-end
