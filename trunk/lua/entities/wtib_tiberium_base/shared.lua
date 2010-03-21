@@ -28,6 +28,9 @@ ENT.Reproduce_Delay = 30
 ENT.Growth_Addition = 30
 ENT.Growth_Delay = 10
 
+ENT.Decal = "WTib.TiberiumDecal"
+ENT.DecalSize = 1
+
 function ENT:SetupDataTables()
 	self:DTVar("Int",0,"TiberiumAmount")
 	self:DTVar("Int",1,"TiberiumType")

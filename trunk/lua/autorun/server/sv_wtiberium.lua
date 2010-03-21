@@ -73,7 +73,7 @@ function WTib.CreateTiberium(creator,class,t,ply)
 	e.WDSO = p
 	e:Spawn()
 	e:Activate()
-	util.Decal("WTib.TiberiumDecal",t.HitPos-(t.HitNormal*(e.DecalSize or 1)),t.HitPos+(t.HitNormal*(e.DecalSize or 1))
+	util.Decal(e.Decal,t.HitPos-(t.HitNormal*(e.DecalSize or 1)),t.HitPos+(t.HitNormal*(e.DecalSize or 1)))
 	if ValidEntity(t.Entity) and !t.Entity:IsWorld() then
 		e:SetMoveType(MOVETYPE_VPHYSICS)
 		e:SetParent(t.Entity)
