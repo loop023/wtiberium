@@ -2,7 +2,6 @@
 WTib = WTib or {}
 WTib.Config						= {}
 WTib.Config.MaximumFieldSize	= 50
-WTib.Debug = false
 
 /*
 	Console Commands
@@ -38,24 +37,6 @@ function WTib.GetAllTiberium(tFilter)
 		end
 	end
 	return tData
-end
-
-function WTib.DebugEffect(...)
-	if WTib.Debug then
-		util.Effect(...)
-	end
-end
-
-function WTib.DebugPrint(...)
-	if WTib.Debug then
-		print(...)
-	end
-end
-
-function WTib.DebugPrintTable(...)
-	if WTib.Debug then
-		PrintTable(...)
-	end
 end
 
 function WTib.CreateTiberium(creator,class,t,ply)

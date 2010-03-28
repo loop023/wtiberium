@@ -3,6 +3,7 @@ AddCSLuaFile("shared.lua")
 include('shared.lua')
 
 ENT.NextReproduce = 0
+ENT.Produces = {}
 ENT.NextGrow = 0
 
 function ENT:Initialize()
@@ -99,6 +100,15 @@ function ENT:DamageTouchingEntities()
 end
 
 function ENT:AttemptReproduce()
+	local Amount = 0
+	for k,v in pairs(self.Produces) do
+		if v and v:IsValid() then
+			Amount = Amount+1
+		else
+			self.Produces[k] = nil
+		end
+	end
+	if Amount >= self.Reproduce_MaxProduces then WTib.DebugPrint("To much!") return end
 	local AllEntities = ents.GetAll()
 	local Filter = {}
 	for _,v in pairs(AllEntities) do
@@ -108,6 +118,7 @@ function ENT:AttemptReproduce()
 	end
 	for i=1,5 do
 		local pos = self:LocalToWorld(self:OBBCenter())
+		math.randomseed(CurTime())
 		local t = WTib.Trace(pos,VectorRand()*math.random(-500,500),Filter)
 		local ed = EffectData()
 			ed:SetOrigin(pos)
@@ -126,7 +137,9 @@ function ENT:AttemptReproduce()
 				ed:SetScale(2)
 			WTib.DebugEffect("WTib_DebugTrace",ed)
 		end
-		if ValidEntity(WTib.CreateTiberium(self,self.Class,t,self.WDSO)) then
+		local ent = WTib.CreateTiberium(self,self.Class,t,self.WDSO)
+		if ValidEntity(ent) then
+			table.insert(self.Produces,ent)
 			WTib.DebugPrint("New Tiberium grown from old")
 			self.NextReproduce = CurTime()+self.Reproduce_Delay
 			self:SetTiberiumAmount(self:GetTiberiumAmount()-self.Reproduce_TiberiumDrained)

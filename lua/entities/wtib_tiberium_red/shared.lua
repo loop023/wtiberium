@@ -12,9 +12,11 @@ ENT.IsTiberium		= true
 
 ENT.Reproduce_TiberiumRequired = 1400
 ENT.Reproduce_TiberiumDrained = 500
+ENT.Reproduce_MaxProduces = 5
+ENT.Reproduce_Delay = 30
 
 ENT.TiberiumStartAmount = 400
-ENT.MaxTiberiumAmount = 4000
+ENT.MaxTiberiumAmount = 5000
 ENT.TiberiumColor = Color(255,0,0,0)
 ENT.Class = "wtib_tiberium_red"
 
@@ -24,7 +26,8 @@ ENT.Damage_Explode_Damage = 120
 ENT.Damage_Explode_Size = 250
 ENT.Damage_Explosive = true
 
-ENT.Reproduce_Delay = 30
-
-ENT.Growth_Addition = 20
+ENT.Growth_Addition = 25
 ENT.Growth_Delay = 12.5
+
+ENT.Decal = "WTib.TiberiumDecal"
+ENT.DecalSize = 1

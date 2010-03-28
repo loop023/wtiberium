@@ -12,6 +12,8 @@ ENT.IsTiberium		= true
 
 ENT.Reproduce_TiberiumRequired = 1000
 ENT.Reproduce_TiberiumDrained = 300
+ENT.Reproduce_MaxProduces = 5
+ENT.Reproduce_Delay = 30
 
 ENT.TiberiumStartAmount = 400
 ENT.MaxTiberiumAmount = 2000
@@ -24,7 +26,8 @@ ENT.Damage_Explode_Damage = 0
 ENT.Damage_Explode_Size = 0
 ENT.Damage_Explosive = false
 
-ENT.Reproduce_Delay = 30
-
 ENT.Growth_Addition = 30
 ENT.Growth_Delay = 7.5
+
+ENT.Decal = "WTib.TiberiumDecal"
+ENT.DecalSize = 1

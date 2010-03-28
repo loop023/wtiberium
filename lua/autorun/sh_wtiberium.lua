@@ -5,6 +5,33 @@ if SERVER then
 end
 
 WTib = WTib or {}
+WTib.Debug = false
+
+/*
+	Debug things
+*/
+
+function WTib.DebugEffect(...)
+	if WTib.Debug then
+		util.Effect(...)
+	end
+end
+
+function WTib.DebugPrint(...)
+	if WTib.Debug then
+		print(...)
+	end
+end
+
+function WTib.DebugPrintTable(...)
+	if WTib.Debug then
+		PrintTable(...)
+	end
+end
+
+/*
+	Hooks
+*/
 
 function WTib.PhysPickup(ply,ent)
 	if ent.IsTiberium then
@@ -13,9 +40,9 @@ function WTib.PhysPickup(ply,ent)
 end
 hook.Add("PhysgunPickup","WTib.PhysPickup",WTib.PhysPickup)
 
-function WTib.Trace(...) // Make it stargate compatible later on maybe.
-	return util.QuickTrace(...)
-end
+/*
+	RD and Wire functions
+*/
 
 function WTib.HasRD2()
 	return RD2Version != nil
@@ -37,4 +64,12 @@ function WTib.HasRD3()
 		end
 	end
 	return false
+end
+
+/*
+	Misc things
+*/
+
+function WTib.Trace(...) // Make it stargate compatible later on maybe.
+	return util.QuickTrace(...)
 end
