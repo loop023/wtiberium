@@ -25,6 +25,9 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:InitTiberium()
+	self.NextReproduce = 0
+	self.Produces = {}
+	self.NextGrow = 0
 	if self:GetField() <= 0 then
 		self:SetField(WTib.CreateField(self))
 	end
