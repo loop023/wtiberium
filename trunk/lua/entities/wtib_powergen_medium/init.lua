@@ -50,8 +50,7 @@ function ENT:Think()
 		self.NextSupply = CurTime()+1
 	end
 	self.dt.Resource = WTib.GetResourceAmount(self,self:GetTypeString())
-	WTib.TriggerOutput(self,"Resource",Resource)
-	self.dt.Resource = Resource
+	WTib.TriggerOutput(self,"Resource",self.dt.Resource)
 	WTib.TriggerOutput(self,"Type",self:GetType())
 	self.dt.Type = self:GetType()
 end
