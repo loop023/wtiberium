@@ -25,31 +25,23 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_chemicalplant_medium")
-	e:SetPos(t.HitPos+t.HitNormal*23)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
+	return WTib.SpawnFunction(p,t,23,self)
 end
 
 function ENT:Think()
 	local Energy = WTib.GetResourceAmount(self,"energy")
 	local RefinedTiberium = WTib.GetResourceAmount(self,"RefinedTiberium")
-	if self.NextChemical <= CurTime() then
-		if self.dt.Online then
-			local Supply = math.Clamp(RefinedTiberium,0,10)
-			local EDrain = math.ceil(Supply/2)
-			if Supply > 0 and RefinedTiberium > Supply*1.5 and Energy >= EDrain then
-				WTib.ConsumeResource(self,"energy",EDrain)
-				WTib.ConsumeResource(self,"RefinedTiberium",Supply*1.5)
-				WTib.SupplyResource(self,"ChemicalTiberium",Supply)
-			else
-				self:TurnOff()
-			end
-			self.NextChemical = CurTime()+1
+	if self.NextChemical <= CurTime() and self.dt.Online then
+		local Supply = math.Clamp(RefinedTiberium,0,100)
+		local EDrain = math.ceil(Supply/2)
+		if Supply > 0 and RefinedTiberium >= Supply*1.5 and Energy >= EDrain then
+			WTib.ConsumeResource(self,"energy",EDrain)
+			WTib.ConsumeResource(self,"RefinedTiberium",Supply*1.5)
+			WTib.SupplyResource(self,"ChemicalTiberium",Supply)
+		else
+			self:TurnOff()
 		end
+		self.NextChemical = CurTime()+1
 	end
 	Energy = WTib.GetResourceAmount(self,"energy")
 	RefinedTiberium = WTib.GetResourceAmount(self,"RefinedTiberium")

@@ -4,13 +4,10 @@ include('shared.lua')
 
 WTib.ApplyDupeFunctions(ENT)
 
-util.PrecacheSound("apc_engine_start")
-util.PrecacheSound("apc_engine_stop")
-
-ENT.NextHarvest = 0
+ENT.NextLiquid = 0
 
 function ENT:Initialize()
-	self:SetModel("models/Tiberium/medium_harvester.mdl")
+	self:SetModel("models/Tiberium/chemical_plant.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -20,7 +17,8 @@ function ENT:Initialize()
 		phys:Wake()
 	end
 	self.Inputs = WTib.CreateInputs(self,{"On"})
-	self.Outputs = WTib.CreateOutputs(self,{"Online","Energy","RawTiberium"})
+	self.Outputs = WTib.CreateOutputs(self,{"Online","Energy","RawTiberium","LiquidTiberium"})
+	WTib.AddResource(self,"LiquidTiberium",0)
 	WTib.AddResource(self,"RawTiberium",0)
 	WTib.AddResource(self,"energy",0)
 	WTib.RegisterEnt(self,"Generator")
@@ -30,40 +28,28 @@ function ENT:SpawnFunction(p,t)
 	return WTib.SpawnFunction(p,t,23,self)
 end
 
-function ENT:Harvest()
-	local Energy = WTib.GetResourceAmount(self,"energy")
-	local SPos = self:GetPos()
-	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),250,10)) do
-		if v.IsTiberium then
-			local Drain = math.Clamp(v:GetTiberiumAmount(),math.Clamp(v:GetTiberiumAmount(),1,20),math.Clamp(SPos:Distance(v:GetPos())/2,40,200))
-			if Energy > Drain then
-				WTib.ConsumeResource(self,"energy",Drain)
-				WTib.SupplyResource(self,"RawTiberium",Drain)
-				Energy = WTib.GetResourceAmount(self,"energy")
-				v:SetTiberiumAmount(v:GetTiberiumAmount()-Drain)
-			else
-				self:TurnOff()
-				break
-			end
-		end
-	end
-end
-
 function ENT:Think()
-	if self.NextHarvest <= CurTime() then
-		if WTib.GetResourceAmount(self,"energy") < 10 then
+	local Energy = WTib.GetResourceAmount(self,"energy")
+	local RawTiberium = WTib.GetResourceAmount(self,"RawTiberium")
+	if self.NextLiquid <= CurTime() and self.dt.Online then
+		local Drain = math.Clamp(RawTiberium,0,150)
+		local EDrain = math.ceil(Drain*3)
+		if Drain > 0 and RawTiberium >= Drain and Energy >= EDrain then
+			WTib.ConsumeResource(self,"energy",EDrain)
+			WTib.ConsumeResource(self,"RawTiberium",Drain)
+			WTib.SupplyResource(self,"LiquidTiberium",Drain/15)
+		else
 			self:TurnOff()
 		end
-		if self.dt.Online then
-			WTib.ConsumeResource(self,"energy",10)
-			self:Harvest()
-			self.NextHarvest = CurTime()+1
-		end
+		self.NextLiquid = CurTime()+1
 	end
-	local Energy = WTib.GetResourceAmount(self,"energy")
+	Energy = WTib.GetResourceAmount(self,"energy")
+	RawTiberium = WTib.GetResourceAmount(self,"RawTiberium")
 	WTib.TriggerOutput(self,"Energy",Energy)
-	WTib.TriggerOutput(self,"RawTiberium",WTib.GetResourceAmount(self,"RawTiberium"))
+	WTib.TriggerOutput(self,"LiquidTiberium",WTib.GetResourceAmount(self,"LiquidTiberium"))
+	WTib.TriggerOutput(self,"RawTiberium",RawTiberium)
 	self.dt.Energy = Energy
+	self.dt.Raw = RawTiberium
 end
 
 function ENT:OnRestore()
@@ -79,7 +65,7 @@ function ENT:Use(ply)
 end
 
 function ENT:TurnOn()
-	if WTib.GetResourceAmount(self,"energy") <= 10 then return end
+	if WTib.GetResourceAmount(self,"energy") <= 1 then return end
 	if !self.dt.Online then
 		self:EmitSound("apc_engine_start")
 	end

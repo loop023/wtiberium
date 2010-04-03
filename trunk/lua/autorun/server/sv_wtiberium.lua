@@ -69,6 +69,17 @@ elseif !string.find(Tags,"WTiberium") then
 	RunConsoleCommand("sv_tags","WTiberium,"..Tags)
 end
 
+function WTib.SpawnFunction(p,t,offset,ent)
+	if !t.Hit then return end
+	offset = offset or 1
+	local e = ents.Create(WTib.GetClass(ent))
+	e:SetPos(t.HitPos+t.HitNormal*offset)
+	e.WDSO = p
+	e:Spawn()
+	e:Activate()
+	return e
+end
+
 /*
 	Misc hooks
 */

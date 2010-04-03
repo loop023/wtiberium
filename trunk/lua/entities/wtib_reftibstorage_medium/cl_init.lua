@@ -17,4 +17,4 @@ function ENT:Think()
 	self:NextThink(CurTime()+1)
 	return true
 end
-language.Add(string.Replace(ENT.Folder,"entities/",""),ENT.PrintName)
+language.Add(WTib.GetClass(ENT),ENT.PrintName)

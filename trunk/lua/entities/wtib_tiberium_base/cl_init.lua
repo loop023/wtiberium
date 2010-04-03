@@ -46,4 +46,4 @@ function ENT:CreateDLight()
 		dlight.DieTime = CurTime()+1
 	end
 end
-language.Add(string.Replace(ENT.Folder,"entities/",""),ENT.PrintName)
+language.Add(WTib.GetClass(ENT),ENT.PrintName)

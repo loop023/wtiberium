@@ -73,3 +73,7 @@ end
 function WTib.Trace(...) // Make it stargate compatible later on maybe.
 	return util.QuickTrace(...)
 end
+
+function WTib.GetClass(ent)
+	return string.Replace(ent.Folder,"entities/","")
+end
