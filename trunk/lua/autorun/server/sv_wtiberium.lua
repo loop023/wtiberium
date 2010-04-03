@@ -90,13 +90,6 @@ function WTib.TiberiumCanGrow(class,t,ent)
 end
 hook.Add("WTib_TiberiumCanGrow","WTib.TiberiumCanGrow",WTib.TiberiumCanGrow)
 
-function WTib.WDSDamagePrevention(ent,dmg)
-	if ent.IsTiberium then
-		return false
-	end
-end
-hook.Add("WDS_EntityTakeDamage","WTib.WDSDamagePrevention",WTib.WDSDamagePrevention)
-
 /*
 	Field management
 */
