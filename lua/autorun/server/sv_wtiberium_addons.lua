@@ -74,6 +74,11 @@ function WTib.RegisterEnt(a,b)
 	end
 end
 
+
+/*
+	Wiremod
+*/
+
 function WTib.CreateInputs(a,b,c)
 	if WireAddon then
 		return Wire_CreateInputs(a,b,c)
@@ -122,3 +127,14 @@ function WTib.ApplyDupeFunctions(ENT)
 		end
 	end
 end
+
+/*
+	WDS
+*/
+
+function WTib.WDSDamagePrevention(ent,dmg)
+	if ent.IsTiberium then
+		return false
+	end
+end
+hook.Add("WDS_EntityTakeDamage","WTib.WDSDamagePrevention",WTib.WDSDamagePrevention)
