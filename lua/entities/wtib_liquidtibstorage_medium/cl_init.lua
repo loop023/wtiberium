@@ -10,7 +10,7 @@ function ENT:WTib_GetTooltip()
 	if self.dt.Online then
 		on = "On"
 	end
-	return self.PrintName.." ("..on..")\nEnergy : "..math.Round(tostring(self.dt.Energy))
+	return self.PrintName.."\nLiquid Tiberium : "..math.Round(tostring(self.dt.LiquidTiberium))
 end
 
 function ENT:Think()

@@ -20,13 +20,7 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_tripmodule_medium")
-	e:SetPos(t.HitPos+t.HitNormal*16)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
+	return WTib.SpawnFunction(p,t,16,self)
 end
 
 function ENT:Think()

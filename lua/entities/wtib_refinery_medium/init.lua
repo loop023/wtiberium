@@ -25,13 +25,7 @@ function ENT:Initialize()
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_refinery_medium")
-	e:SetPos(t.HitPos+t.HitNormal*23)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
+	return WTib.SpawnFunction(p,t,23,self)
 end
 
 function ENT:Think()
