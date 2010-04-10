@@ -15,10 +15,20 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
+	self.dt.Warhead = 1
 end
 
 function ENT:SpawnFunction(p,t)
 	return WTib.SpawnFunction(p,t,9,self)
+end
+
+function ENT:Think()
+	self:GetWarheadTable().Think(self)
+end
+
+function ENT:SetWarhead(int)
+	self:GetWarheadTable(int).OnApply(self)
+	self.dt.Warhead = int
 end
 
 function ENT:Launch()
@@ -82,12 +92,5 @@ function ENT:PhysicsUpdate(phys)
 end
 
 function ENT:Explode(data)
-	data = data or {}
-	util.BlastDamage(self,self.WDSO,self:GetPos(),math.Rand(200,300),math.Rand(300,400))
-	local ed = EffectData()
-	ed:SetOrigin(data.HitPos or self:GetPos())
-	ed:SetStart(data.HitPos or self:GetPos())
-	ed:SetScale(3)
-	util.Effect("Explosion",ed)
-	self:Remove()
+	self:GetWarheadTable().Explode(self,data)
 end
