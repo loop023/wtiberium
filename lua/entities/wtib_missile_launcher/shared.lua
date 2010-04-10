@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Power Generator Medium"
+ENT.PrintName		= "Missile Launcher"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
@@ -9,7 +9,5 @@ ENT.AdminSpawnable	= true
 ENT.Category		= "Tiberium"
 
 function ENT:SetupDataTables()
-	self:DTVar("Int",0,"Boosting")
-	self:DTVar("Int",1,"Chemicals")
-	self:DTVar("Bool",0,"Online")
+	self:DTVar("Bool",0,"Loaded")
 end
