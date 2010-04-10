@@ -19,44 +19,38 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Inputs = WTib.CreateInputs(self,{"On","Type"})
-	self.Outputs = WTib.CreateOutputs(self,{"Online","Type","Resource"})
-	for _,v in pairs(self.Resources) do
-		WTib.AddResource(self,v.Resource,0)
-	end
+	self.Inputs = WTib.CreateInputs(self,{"On","Boost"})
+	self.Outputs = WTib.CreateOutputs(self,{"Online","Chemicals","Boosting"})
+	WTib.AddResource(self,"ChemicalTiberium",0)
+	WTib.AddResource(self,"LiquidTiberium",0)
 	WTib.AddResource(self,"energy",0)
 	WTib.RegisterEnt(self,"Generator")
 end
 
 function ENT:SpawnFunction(p,t)
-	if !t.Hit then return end
-	local e = ents.Create("wtib_powergen_medium")
-	e:SetPos(t.HitPos+t.HitNormal*143)
-	e.WDSO = p
-	e:Spawn()
-	e:Activate()
-	return e
+	return WTib.SpawnFunction(p,t,143,self)
 end
 
 function ENT:Think()
-	self.dt.Resource = WTib.GetResourceAmount(self,self:GetTypeString())
+	self.dt.Chemicals = WTib.GetResourceAmount(self,"TiberiumChemicals")
+	local Boosting = false
 	if self.dt.Online and self.NextSupply <= CurTime() then
-		if self.dt.Resource >= self:GetTypeTable().Drain then
-			WTib.ConsumeResource(self,self:GetTypeString(),self:GetTypeTable().Drain)
-			WTib.SupplyResource(self,"energy",self:GetTypeTable().Supply)
+		if self.dt.Chemicals >= 50 then
+			WTib.ConsumeResource("TiberiumChemicals",50)
+			WTib.SupplyResource(self,"energy",250)
+			if self.dt.Boosting and WTib.GetResourceAmount(self,"LiquidTiberium") >= 10 then
+				WTib.SupplyResource(self,"energy",300)
+				Boosting = true
+			end
 		else
 			self:TurnOff()
 		end
 		self.NextSupply = CurTime()+1
 	end
-	self.dt.Resource = WTib.GetResourceAmount(self,self:GetTypeString())
-	WTib.TriggerOutput(self,"Resource",self.dt.Resource)
-	WTib.TriggerOutput(self,"Type",self:GetType())
-	self.dt.Type = self:GetType()
-end
-
-function ENT:SetType(int)
-	self.dt.Type = int
+	self.dt.Chemicals = WTib.GetResourceAmount(self,"TiberiumChemicals")
+	self.dt.Boosting = Boosting
+	WTib.TriggerOutput(self,"Chemicals",self.dt.Chemicals)
+	WTib.TriggerOutput(self,"Boosting",tonumber(Boosting))
 end
 
 function ENT:OnRestore()

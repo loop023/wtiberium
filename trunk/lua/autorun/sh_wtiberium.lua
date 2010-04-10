@@ -5,7 +5,16 @@ if SERVER then
 end
 
 WTib = WTib or {}
+WTib.Warheads = {}
 WTib.Debug = false
+
+/*
+	Warhead functions
+*/
+
+function WTib.Warheads.GetWarhead(int)
+	return ""
+end
 
 /*
 	Debug things
