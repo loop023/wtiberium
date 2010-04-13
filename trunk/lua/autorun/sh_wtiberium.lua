@@ -34,7 +34,7 @@ end
 */
 
 function WTib.PhysPickup(ply,ent)
-	if ent.IsTiberium then
+	if ent.IsTiberium or ent.NoPhysicsPickup then
 		return false
 	end
 end
