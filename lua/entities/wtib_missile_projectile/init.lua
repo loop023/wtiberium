@@ -50,6 +50,7 @@ function ENT:Launch()
 	e:Activate()
 	self:DeleteOnRemove(e)
 	self.Launched = true
+	self:GetWarheadTable().Launch(self)
 end
 
 function ENT:CanBeMounted()

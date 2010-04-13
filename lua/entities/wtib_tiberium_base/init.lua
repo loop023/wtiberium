@@ -111,7 +111,16 @@ function ENT:AttemptReproduce()
 			self.Produces[k] = nil
 		end
 	end
-	if Amount >= self.Reproduce_MaxProduces then WTib.DebugPrint("To much!") return end
+	if Amount >= self.Reproduce_MaxProduces then
+		self.NextReproduce = CurTime()+self.Reproduce_Delay
+		WTib.DebugPrint("To much!")
+		return
+	end
+	if WTib.IsFieldFull(self:GetField()) then
+		self.NextReproduce = CurTime()+self.Reproduce_Delay
+		WTib.DebugPrint("Field is full")
+		return
+	end
 	local AllEntities = ents.GetAll()
 	local Filter = {}
 	for _,v in pairs(AllEntities) do
@@ -146,6 +155,7 @@ function ENT:AttemptReproduce()
 			WTib.DebugPrint("New Tiberium grown from old")
 			self.NextReproduce = CurTime()+self.Reproduce_Delay
 			self:SetTiberiumAmount(self:GetTiberiumAmount()-self.Reproduce_TiberiumDrained)
+			WTib.AddFieldMember(self:GetField(),ent)
 			break
 		else
 			self.NextReproduce = CurTime()+2

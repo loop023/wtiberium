@@ -1,7 +1,7 @@
 
 WTib = WTib or {}
 WTib.Config						= {}
-WTib.Config.MaximumFieldSize	= 50
+WTib.Config.MaximumFieldSize	= 70
 
 /*
 	Console Commands
@@ -128,8 +128,22 @@ function WTib.KillField(num)
 	WTib.Fields[num] = nil
 end
 
+function WTib.AddFieldMember(num,ent)
+	if WTib.IsValidField(num) then
+		table.insert(WTib.Fields[num].Entities,ent)
+	end
+end
+
 function WTib.GetFieldCount(num)
 	return table.Count(WTib.Fields[num].Entities)
+end
+
+function WTib.IsFieldFull(num)
+	return WTib.GetFieldCount(num) >= WTib.GetFieldMax(num)
+end
+
+function WTib.GetFieldMaster(num)
+	return WTib.Fields[num].Master
 end
 
 function WTib.GetFieldMax(num)

@@ -34,7 +34,10 @@ ENT.Warheads[1] =	{
 							util.Effect("Explosion",ed)
 							self:Remove()
 						end,
+						Launch = function(self)
+							// Default launch is just fine.
+						end,
 						Think = function(self)
-							// Do nothing
+							// Do nothing.
 						end
 					}
