@@ -111,7 +111,8 @@ function WTib.CreateField(master,fmax)
 	local Field = {
 		Master = master,
 		MaximumEntities = fmax or WTib.Config.MaximumFieldSize,
-		Entities = {master}
+		Entities = {master},
+		MostDistant = master
 	}
 	for k,v in pairs(WTib.Fields) do
 		if !WTib.Fields[k] then
@@ -128,9 +129,23 @@ function WTib.KillField(num)
 	WTib.Fields[num] = nil
 end
 
+function WTib.GetFurthestCrystalFromField(num)
+	return WTib.Fields[num].MostDistant
+end
+
 function WTib.AddFieldMember(num,ent)
 	if WTib.IsValidField(num) then
 		table.insert(WTib.Fields[num].Entities,ent)
+		local Ent
+		local Dis = 0
+		for _,v in pairs(WTib.Fields[num].Entities) do
+			local a = v:GetPos():Distance(WTib.GetFieldMaster(num):GetPos())
+			if a > Dis then
+				Ent = v
+				Dis = a
+			end
+		end
+		WTib.Fields[num].MostDistant = Ent
 	end
 end
 
@@ -143,6 +158,9 @@ function WTib.IsFieldFull(num)
 end
 
 function WTib.GetFieldMaster(num)
+	if !ValidEntity(WTib.Fields[num].Master) then
+		WTib.SelectNewFieldMaster(num)
+	end
 	return WTib.Fields[num].Master
 end
 
@@ -154,19 +172,25 @@ function WTib.IsValidField(num)
 	return WTib.Fields[num] != nil and type(WTib.Fields[num]) == "table"
 end
 
+function WTib.SelectNewFieldMaster(num)
+	local Ent
+	local LIndex = 10000
+	for _,e in pairs(WTib.Fields[num].Entities) do
+		if e:EntIndex() <= LIndex then
+			Ent = e
+		end
+	end
+	WTib.Fields[num].Master = Ent
+	if !ValidEntity(Ent) then
+		WTib.KillField(num)
+	end
+end
+
 timer.Create("WTib.FieldTimer",5,0,function()
-	for k,v in pairs(WTib.Fields) do
-		if !ValidEntity(v.Master) then
-			local Ent
-			local LIndex = 10000
-			for _,e in pairs(v.Entities) do
-				if e:EntIndex() <= LIndex then
-					Ent = e
-				end
-			end
-			v.Master = Ent
-			if !ValidEntity(Ent) then
-				WTib.KillField(k)
+	for num,field in pairs(WTib.Fields) do
+		for k,v in pairs(field.Entities) do
+			if !ValidEntity(v) then
+				WTib.Fields[num].Entities[k] = nil
 			end
 		end
 	end

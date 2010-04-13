@@ -2,6 +2,7 @@
 if SERVER then
 	AddCSLuaFile("sh_wtiberium.lua")
 	AddCSLuaFile("client/cl_wtiberium.lua")
+	AddCSLuaFile("client/cl_wtiberium_addons.lua")
 end
 
 WTib = WTib or {}
