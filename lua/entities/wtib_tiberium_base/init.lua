@@ -143,7 +143,7 @@ function ENT:AttemptReproduce()
 		local Save = true
 		if !t.Hit then
 			pos = t.HitPos
-			t = WTib.Trace(t.HitPos,Vector(0,0,-1)*300,Filter)
+			t = WTib.Trace(t.HitPos,(self:GetUp()*-1)*300,Filter)
 			local ed = EffectData()
 				ed:SetOrigin(pos)
 				ed:SetStart(t.HitPos)
