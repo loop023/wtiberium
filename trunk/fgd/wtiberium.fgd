@@ -1,0 +1,17 @@
+@include "base.fgd"
+@include "halflife2.fgd"
+
+@PointClass base(Angles, Studiomodel, Origin) studio( "models/Tiberium/tiberium_crystal1.mdl" ) = wtib_tiberium_green : "Tiberium Green"
+[
+	model(studio) : "Model" : "models/Tiberium/tiberium_crystal1.mdl" : "The Tiberium model."
+]
+
+@PointClass base(Angles, Studiomodel, Origin) studio( "models/Tiberium/tiberium_crystal1.mdl" ) = wtib_tiberium_blue : "Tiberium Blue"
+[
+	model(studio) : "Model" : "models/Tiberium/tiberium_crystal1.mdl" : "The Tiberium model."
+]
+
+@PointClass base(Angles, Studiomodel, Origin) studio( "models/Tiberium/tiberium_crystal1.mdl" ) = wtib_tiberium_red : "Tiberium Red"
+[
+	model(studio) : "Model" : "models/Tiberium/tiberium_crystal1.mdl" : "The Tiberium model."
+]
