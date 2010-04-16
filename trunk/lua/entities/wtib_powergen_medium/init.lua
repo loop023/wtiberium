@@ -33,14 +33,13 @@ end
 
 function ENT:Think()
 	self.dt.Chemicals = WTib.GetResourceAmount(self,"TiberiumChemicals")
-	local Boosting = false
 	if self.dt.Online and self.NextSupply <= CurTime() then
 		if self.dt.Chemicals >= 50 then
 			WTib.ConsumeResource("TiberiumChemicals",50)
-			WTib.SupplyResource(self,"energy",250)
+			WTib.SupplyResource(self,"energy",300)
 			if self.dt.Boosting and WTib.GetResourceAmount(self,"LiquidTiberium") >= 10 then
-				WTib.SupplyResource(self,"energy",300)
-				Boosting = true
+				WTib.SupplyResource(self,"energy",500)
+				WTib.ConsumeResource("LiquidTiberium",10)
 			end
 		else
 			self:TurnOff()
@@ -48,9 +47,8 @@ function ENT:Think()
 		self.NextSupply = CurTime()+1
 	end
 	self.dt.Chemicals = WTib.GetResourceAmount(self,"TiberiumChemicals")
-	self.dt.Boosting = Boosting
 	WTib.TriggerOutput(self,"Chemicals",self.dt.Chemicals)
-	WTib.TriggerOutput(self,"Boosting",tonumber(Boosting))
+	WTib.TriggerOutput(self,"Boosting",tonumber(self.dt.Boosting))
 end
 
 function ENT:OnRestore()
@@ -94,7 +92,7 @@ function ENT:TriggerInput(name,val)
 		else
 			self:TurnOn()
 		end
-	elseif name == "Type" then
-		self.dt.Type = math.Clamp(val,0,table.Count(self.Resources))
+	elseif name == "Boost" then
+		self.dt.Boosting = tobool(val)
 	end
 end
