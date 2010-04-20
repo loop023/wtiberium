@@ -8,7 +8,7 @@ ENT.NextGrow = 0
 
 function ENT:Initialize()
 	self:SetModel("models/Tiberium/tiberium_crystal1.mdl")
-	self:PhysicsInit(SOLID_VPHYSICS)
+	self:PhysicsInit(SOLID_BBOX)
 	self:SetMoveType(MOVETYPE_NONE)
 	self:SetSolid(SOLID_BBOX)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
@@ -96,7 +96,7 @@ function ENT:DamageTouchingEntities()
 	dmginfo:SetInflictor(self)
 	dmginfo:SetDamageType(DMG_ACID)
 	dmginfo:SetDamage((self:GetCrystalSize()*10)+(self:GetTiberiumAmount()/100))
-	local Range = 60*self:GetCrystalSize()
+	local Range = 55*self:GetCrystalSize()
 	for k,v in pairs(ents.FindInSphere(self:GetPos(),Range)) do
 		if (v:IsPlayer() and v:Alive()) or v:IsNPC() then
 			v:TakeDamageInfo(dmginfo)

@@ -6,25 +6,25 @@ ENT.LightSize = 0
 ENT.LastSize = 0
 
 function ENT:Draw()
-	local Target = 0.5+(self:GetCrystalSize()/2)
-	if Target == self.LastSize then
-		self.GrowingSinceSpawn = false
-	end
-	local Speed = 0.0001
-	if self.GrowingSinceSpawn then
-		Speed = 0.0004
-	end
-	local Size = math.Approach(self.LastSize,Target,Speed)
-	if Size < self.LastSize then
-		Size = self.LastSize
-	else
-		self.LastSize = Size
-	end
-	self:SetModelScale(Vector(Size,Size,Size))
+	self:SetModelScale(Vector(self.Size,self.Size,self.Size))
 	self:DrawModel()
 end
 
+function ENT:ThinkSize()
+	local Target = 0.5+(self:GetCrystalSize()/2)
+	if Target == self.LastSize then self.GrowingSinceSpawn = false end
+	local Speed = 0.0001
+	if self.GrowingSinceSpawn then Speed = 0.0004 end
+	self.Size = math.Approach(self.LastSize,Target,Speed)
+	if self.Size < self.LastSize then
+		self.Size = self.LastSize
+	else
+		self.LastSize = self.Size
+	end
+end
+
 function ENT:Think()
+	self:ThinkSize()
 	self:CreateDLight()
 	self:NextThink(CurTime()+1)
 	return true
