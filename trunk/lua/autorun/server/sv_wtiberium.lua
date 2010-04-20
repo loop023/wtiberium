@@ -130,23 +130,30 @@ function WTib.KillField(num)
 end
 
 function WTib.GetFurthestCrystalFromField(num)
+	if !ValidEntity(WTib.Fields[num].MostDistant) then
+		WTib.SelectMostDistant(num)
+	end
 	return WTib.Fields[num].MostDistant
 end
 
 function WTib.AddFieldMember(num,ent)
 	if WTib.IsValidField(num) then
 		table.insert(WTib.Fields[num].Entities,ent)
-		local Ent
-		local Dis = 0
-		for _,v in pairs(WTib.Fields[num].Entities) do
-			local a = v:GetPos():Distance(WTib.GetFieldMaster(num):GetPos())
-			if a > Dis then
-				Ent = v
-				Dis = a
-			end
-		end
-		WTib.Fields[num].MostDistant = Ent
+		WTib.SelectMostDistant(num)
 	end
+end
+
+function WTib.SelectMostDistant(num)
+	local Ent
+	local Dis = 0
+	for _,v in pairs(WTib.Fields[num].Entities) do
+		local a = v:GetPos():Distance(WTib.GetFieldMaster(num):GetPos())
+		if a > Dis then
+			Ent = v
+			Dis = a
+		end
+	end
+	WTib.Fields[num].MostDistant = Ent
 end
 
 function WTib.GetFieldCount(num)
