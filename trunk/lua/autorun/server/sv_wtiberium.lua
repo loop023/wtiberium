@@ -24,6 +24,22 @@ concommand.Add("WTib_RemoveAllTiberium",function(ply,com,args)
 	end
 end)
 
+concommand.Add("WTib_DefaultMaxFieldSize",function(ply,com,args)
+	if ply:IsAdmin() then
+		local val = math.Clamp(tonumber(args[1]),10,300)
+		WTib.Config.MaximumFieldSize = val
+		for _,v in pairs(player.GetAll()) do
+			if v:IsAdmin() then
+				v:ChatPrint("Max Tiberium per field has been set to "..val.." by \""..ply:Nick().."\".")
+			else
+				v:ChatPrint("Max Tiberium per field has been set to "..val)
+			end
+		end
+	else
+		ply:ChatPrint("This command is admin only.")
+	end
+end)
+
 /*
 	Misc stuff
 */
