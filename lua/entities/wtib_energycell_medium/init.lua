@@ -5,7 +5,7 @@ include('shared.lua')
 WTib.ApplyDupeFunctions(ENT)
 
 function ENT:Initialize()
-	self:SetModel("models/Tiberium/medium_chemical_storage.mdl")
+	self:SetModel("models/Tiberium/medium_energy_cell.mdl")
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)
 	self:SetSolid(SOLID_VPHYSICS)
@@ -13,8 +13,8 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
-	self.Outputs = WTib.CreateOutputs(self,{"ChemicalTiberium","MaxChemicalTiberium"})
-	WTib.AddResource(self,"ChemicalTiberium",3000)
+	self.Outputs = WTib.CreateOutputs(self,{"Energy","MaxEnergy"})
+	WTib.AddResource(self,"energy",3000)
 	WTib.RegisterEnt(self,"Storage")
 end
 
@@ -23,9 +23,9 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self.dt.ChemicalTiberium = WTib.GetResourceAmount(self,"ChemicalTiberium")
-	WTib.TriggerOutput(self,"ChemicalTiberium",self.dt.ChemicalTiberium)
-	WTib.TriggerOutput(self,"MaxChemicalTiberium",WTib.GetNetworkCapacity(self,"ChemicalTiberium"))
+	self.dt.Energy = WTib.GetResourceAmount(self,"Energy")
+	WTib.TriggerOutput(self,"Energy",self.dt.Energy)
+	WTib.TriggerOutput(self,"MaxEnergy",WTib.GetNetworkCapacity(self,"Energy"))
 end
 
 function ENT:OnRestore()

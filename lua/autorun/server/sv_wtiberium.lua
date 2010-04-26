@@ -1,5 +1,6 @@
 
 WTib = WTib or {}
+WTib.InfectedEntities			= {}
 WTib.Config						= {}
 WTib.Config.MaximumFieldSize	= 70
 
@@ -78,13 +79,6 @@ function WTib.CreateTiberium(creator,class,t,ply)
 	return e
 end
 
-local Tags = GetConVarString("sv_tags") //Thanks PHX!
-if Tags == nil then
-	RunConsoleCommand("sv_tags","WTiberium")
-elseif !string.find(Tags,"WTiberium") then
-	RunConsoleCommand("sv_tags","WTiberium,"..Tags)
-end
-
 function WTib.SpawnFunction(p,t,offset,ent)
 	if !t.Hit then return end
 	offset = offset or 1
@@ -96,9 +90,41 @@ function WTib.SpawnFunction(p,t,offset,ent)
 	return e
 end
 
+function WTib.Infect(ent)
+	if !WTib.IsInfected(ent) then
+		table.insert(WTib.InfectedEntities,ent)
+	end
+end
+
+function WTib.IsInfected(ent)
+	return table.HasValue(WTib.InfectedEntities,ent)
+end
+
 /*
 	Misc hooks
 */
+
+function WTib.Disenfect(ent)
+	for k,v in pairs(WTib.InfectedEntities) do
+		if v == ent then
+			WTib.InfectedEntities[k] = nil
+		end
+	end
+end
+hook.Add("PlayerSpawn","WTib.Disenfect",WTib.Disenfect)
+
+timer.Create("WTib.InfectedTimer",1,0,function()
+	local dmginfo = DamageInfo()
+	dmginfo:SetDamageType(DMG_ACID)
+	for _,v in pairs(WTib.InfectedEntities) do
+		if ValidEntity(v) and (v:IsPlayer() and v:Alive() or true) then
+			dmginfo:SetAttacker(v)
+			dmginfo:SetInflictor(v)
+			dmginfo:SetDamage(math.random(1,3))
+			v:TakeDamageInfo(dmginfo)
+		end
+	end
+end)
 
 function WTib.TiberiumCanGrow(class,t,ent)
 	// TODO: Prevent fields from extending from their max size here.
@@ -218,3 +244,10 @@ timer.Create("WTib.FieldTimer",5,0,function()
 		end
 	end
 end)
+
+local Tags = GetConVarString("sv_tags") //Thanks PHX!
+if Tags == nil then
+	RunConsoleCommand("sv_tags","WTiberium")
+elseif !string.find(Tags,"WTiberium") then
+	RunConsoleCommand("sv_tags","WTiberium,"..Tags)
+end

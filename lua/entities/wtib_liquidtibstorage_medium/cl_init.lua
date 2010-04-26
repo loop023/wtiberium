@@ -6,10 +6,6 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	local on = "Off"
-	if self.dt.Online then
-		on = "On"
-	end
 	return self.PrintName.."\nLiquid Tiberium : "..math.Round(tostring(self.dt.LiquidTiberium))
 end
 

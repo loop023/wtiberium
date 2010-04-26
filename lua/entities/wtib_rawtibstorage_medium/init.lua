@@ -23,9 +23,8 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	local RawTib = WTib.GetResourceAmount(self,"RawTiberium")
-	self.dt.RawTiberium = RawTib
-	WTib.TriggerOutput(self,"RawTiberium",RawTib)
+	self.dt.RawTiberium = WTib.GetResourceAmount(self,"RawTiberium")
+	WTib.TriggerOutput(self,"RawTiberium",self.dt.RawTiberium)
 	WTib.TriggerOutput(self,"MaxRawTiberium",WTib.GetNetworkCapacity(self,"RawTiberium"))
 end
 
