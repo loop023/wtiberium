@@ -6,7 +6,7 @@ function ENT:Draw()
 end
 
 function ENT:WTib_GetTooltip()
-	return self.PrintName.."\nTiberium Chemicals : "..math.Round(tostring(self.dt.ChemicalTiberium))
+	return self.PrintName.."\nEnergy : "..math.Round(tostring(self.dt.Energy))
 end
 
 function ENT:Think()

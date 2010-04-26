@@ -95,11 +95,16 @@ function ENT:DamageTouchingEntities()
 	dmginfo:SetAttacker(self)
 	dmginfo:SetInflictor(self)
 	dmginfo:SetDamageType(DMG_ACID)
-	dmginfo:SetDamage((self:GetCrystalSize()*10)+(self:GetTiberiumAmount()/100))
-	local Range = 55*self:GetCrystalSize()
+	dmginfo:SetDamage((self:GetCrystalSize()*8)+(self:GetTiberiumAmount()/100))
+	local Range = 50*self:GetCrystalSize()
 	for k,v in pairs(ents.FindInSphere(self:GetPos(),Range)) do
 		if (v:IsPlayer() and v:Alive()) or v:IsNPC() then
 			v:TakeDamageInfo(dmginfo)
+			if !WTib.IsInfected(v) then
+				if math.random(0,1) == 1 then
+					WTib.Infect(v)
+				end
+			end
 		end
 	end
 end
