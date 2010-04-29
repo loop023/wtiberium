@@ -42,13 +42,6 @@ function ENT:Launch()
 		phys:SetMass(30)
 		phys:Wake()
 	end
-	local e = ents.Create("env_fire_trail")
-	e:SetAngles(self:GetAngles())
-	e:SetPos(self:LocalToWorld(Vector(-70,0,7)))
-	e:SetParent(self)
-	e:Spawn()
-	e:Activate()
-	self:DeleteOnRemove(e)
 	self.Launched = true
 	self:GetWarheadTable().Launch(self)
 end
