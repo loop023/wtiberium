@@ -19,11 +19,11 @@ end
 
 ENT.Objects = {}
 ENT.Objects[1] =	{
-						Name = "Test Object",
-						Model = "models/Tiberium/tiberium_refinery.mdl",
-						PercentDelay = 0.05,
+						Name = "Tiberium harvester medium",
+						Model = "models/Tiberium/medium_harvester.mdl",
+						PercentDelay = 0.04,
 						CreateEnt = function(factory,angles,pos,id)
-							local ent = ents.Create("prop_physics")
+							local ent = ents.Create("wtib_harvester_medium")
 							ent:SetPos(pos)
 							ent:SetAngles(angles)
 							ent:SetModel(factory.Objects[id].Model)
