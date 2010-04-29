@@ -31,22 +31,6 @@ usermessage.Hook("wtib_factory_openmenu",function(um)
 	MainBox:ShowCloseButton(false)
 	MainBox:MakePopup()
 	
-	local BuildList = vgui.Create("DListView")
-	BuildList:SetParent(MainBox)
-	BuildList:SetPos(25,50)
-	BuildList:SetSize(350,250)
-	BuildList:SetMultiSelect(false)
-	BuildList:AddColumn("ID")
-	BuildList:AddColumn("Entity")
-	BuildList:AddColumn("Build Time")
-	BuildList.OnRowSelected = function(panel , line)
-		Selected = BuildList:GetLine(line):GetValue(1)
-	end
-	
-	for k,v in pairs(scripted_ents.Get("wtib_factory").Objects) do
-		BuildList:AddLine(k,v.Name,tostring(100*v.PercentDelay).." seconds")
-	end
-	
 	local ExitButton = vgui.Create("DButton")
 	ExitButton:SetParent(MainBox)
 	ExitButton:SetPos(40,310)
@@ -62,8 +46,9 @@ usermessage.Hook("wtib_factory_openmenu",function(um)
 	InfoButton:SetPos(150,310)
 	InfoButton:SetSize(100,30)
 	InfoButton:SetText("Info")
+	InfoButton:SetDisabled(true)
 	InfoButton.DoClick = function(self)
-		// Open info panel
+		WTib_Factory_InfoMenu(Selected)
 	end
 	
 	local BuildButton = vgui.Create("DButton")
@@ -71,9 +56,58 @@ usermessage.Hook("wtib_factory_openmenu",function(um)
 	BuildButton:SetPos(260,310)
 	BuildButton:SetSize(100,30)
 	BuildButton:SetText("Build")
+	BuildButton:SetDisabled(true)
 	BuildButton.DoClick = function(self)
 		RunConsoleCommand("wtib_factory_buildobject",Factory:EntIndex(),Selected)
 		RunConsoleCommand("wtib_factory_closemenu",Factory:EntIndex())
 		MainBox:Remove()
 	end
+	
+	local BuildList = vgui.Create("DListView")
+	BuildList:SetParent(MainBox)
+	BuildList:SetPos(25,50)
+	BuildList:SetSize(350,250)
+	BuildList:SetMultiSelect(false)
+	local IDColum = BuildList:AddColumn("ID")
+	IDColum:SetMinWidth(20)
+	IDColum:SetMaxWidth(20)
+	BuildList:AddColumn("Entity")
+	local BColum = BuildList:AddColumn("Build Time")
+	BColum:SetMinWidth(60)
+	BColum:SetMaxWidth(60)
+	BuildList.OnRowSelected = function(panel,line)
+		Selected = BuildList:GetLine(line):GetValue(1)
+		InfoButton:SetDisabled(false)
+		BuildButton:SetDisabled(false)
+	end
+	BuildList.DoDoubleClick = function(panel,line,list)
+		Selected = BuildList:GetLine(line):GetValue(1)
+		BuildButton.DoClick(BuildButton)
+	end
+	
+	for k,v in pairs(scripted_ents.Get("wtib_factory").Objects) do
+		BuildList:AddLine(k,v.Name,tostring(math.ceil(100*v.PercentDelay)).." Sec.")
+	end
+	
 end)
+
+function WTib_Factory_InfoMenu(id)
+	local Object = scripted_ents.Get("wtib_factory").Objects[id]
+	local InfoBox = vgui.Create("DFrame")
+	InfoBox:SetSize(410,360)
+	InfoBox:SetPos((ScrW()/2)-200,(ScrH()/2)-175)
+	InfoBox:SetTitle("Info "..Object.Name)
+	InfoBox:SetVisible(true)
+	InfoBox:SetDraggable(false)
+	InfoBox:ShowCloseButton(false)
+	InfoBox:MakePopup()
+	
+	local ExitButton = vgui.Create("DButton")
+	ExitButton:SetParent(InfoBox)
+	ExitButton:SetPos(205,315)
+	ExitButton:SetSize(100,30)
+	ExitButton:SetText("Close")
+	ExitButton.DoClick = function(self)
+		InfoBox:Remove()
+	end
+end
