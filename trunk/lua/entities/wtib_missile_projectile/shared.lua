@@ -35,7 +35,13 @@ ENT.Warheads[1] =	{
 							self:Remove()
 						end,
 						Launch = function(self)
-							// Default launch is just fine.
+							local e = ents.Create("env_fire_trail")
+							e:SetAngles(self:GetAngles())
+							e:SetPos(self:LocalToWorld(Vector(-70,0,7)))
+							e:SetParent(self)
+							e:Spawn()
+							e:Activate()
+							self:DeleteOnRemove(e)
 						end,
 						Think = function(self)
 							// Do nothing.
