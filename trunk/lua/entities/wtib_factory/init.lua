@@ -17,6 +17,7 @@ function ENT:Initialize()
 	if phys:IsValid() then
 		phys:Wake()
 	end
+	self.Inputs = WTib.CreateInputs(self,{"BuildID"})
 	self.Outputs = WTib.CreateOutputs(self,{"IsBuilding","PercentageComplete"})
 end
 
@@ -26,10 +27,10 @@ end
 
 function ENT:Think()
 	if self.dt.IsBuilding then
-		if self.LastBuild+self.Objects[self.dt.BuildingID].PercentDelay <= CurTime() then
+		if self.LastBuild+WTib.Factory.GetObjectByID(self.dt.BuildingID).PercentDelay <= CurTime() then
 			self.dt.PercentageComplete = self.dt.PercentageComplete+1
 			if self.dt.PercentageComplete >= 100 then
-				self.Objects[self.dt.BuildingID].CreateEnt(self,self.dt.CurObject:GetAngles(),self.dt.CurObject:GetPos(),self.dt.BuildingID)
+				WTib.Factory.GetObjectByID(self.dt.BuildingID).CreateEnt(self,self.dt.CurObject:GetAngles(),self.dt.CurObject:GetPos(),self.dt.BuildingID)
 				self.dt.CurObject:Remove()
 				self.dt.IsBuilding = false
 				WTib.TriggerOutput(self,"IsBuilding",0)
@@ -73,13 +74,13 @@ function ENT:Use(ply)
 end
 
 function ENT:BuildObject(id)
-	if !self.dt.IsBuilding and self.Objects[id] then
+	if !self.dt.IsBuilding and WTib.Factory.GetObjectByID(id) then
 		self.dt.BuildingID = id
 		self.dt.PercentageComplete = 0
 		self.dt.IsBuilding = true
 		self.dt.CurObject = ents.Create("wtib_factory_object")
 		self.dt.CurObject:SetAngles(self:GetAngles())
-		self.dt.CurObject:SetModel(self.Objects[id].Model)
+		self.dt.CurObject:SetModel(WTib.Factory.GetObjectByID(id).Model)
 		self.dt.CurObject:Spawn()
 		self.dt.CurObject:Activate()
 		self.dt.CurObject:SetPos(self:LocalToWorld(Vector(0,0,Vector(0,0,self.dt.CurObject:OBBMins().z):Distance(Vector(0,0,self.dt.CurObject:GetPos().z))+39)))
@@ -91,6 +92,12 @@ end
 
 function ENT:OnRestore()
 	WTib.Restored(self)
+end
+
+function ENT:TriggerInput(name,val)
+	if name == "BuildID" then
+		self:BuildObject(math.Round(val))
+	end
 end
 
 concommand.Add("wtib_factory_closemenu",function(ply,com,args)

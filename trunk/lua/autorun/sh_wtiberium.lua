@@ -6,11 +6,37 @@ if SERVER then
 end
 
 WTib = WTib or {}
-WTib.Debug = false
+
+/*
+	Factory functions
+*/
+
+WTib.Factory = {}
+WTib.Factory.Objects = {}
+
+function WTib.Factory.AddObject(tab)
+	local id = table.Count(WTib.Factory.Objects)+1
+	WTib.Factory.Objects[id] = tab
+	return id
+end
+
+function WTib.Factory.RemoveObject(id)
+	WTib.Factory.Objects[id] = nil
+end
+
+function WTib.Factory.GetObjects()
+	return WTib.Factory.Objects
+end
+
+function WTib.Factory.GetObjectByID(id)
+	return WTib.Factory.Objects[id]
+end
 
 /*
 	Debug things
 */
+
+WTib.Debug = false
 
 function WTib.DebugEffect(...)
 	if WTib.Debug then

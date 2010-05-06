@@ -85,14 +85,14 @@ usermessage.Hook("wtib_factory_openmenu",function(um)
 		BuildButton.DoClick(BuildButton)
 	end
 	
-	for k,v in pairs(scripted_ents.Get("wtib_factory").Objects) do
+	for k,v in pairs(WTib.Factory.GetObjects()) do
 		BuildList:AddLine(k,v.Name,tostring(math.ceil(100*v.PercentDelay)).." Sec.")
 	end
 	
 end)
 
 function WTib_Factory_InfoMenu(id)
-	local Object = scripted_ents.Get("wtib_factory").Objects[id]
+	local Object = WTib.Factory.GetObjectByID(id)
 	local InfoBox = vgui.Create("DFrame")
 	InfoBox:SetSize(400,350)
 	InfoBox:SetPos((ScrW()/2)-200,(ScrH()/2)-175)
