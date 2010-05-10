@@ -26,10 +26,11 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
+	self.dt.Energy = WTib.GetResourceAmount(self,"energy")
 	local Target
 	if self.dt.Online then
 		local Amount = math.ceil(self.Range/50)
-		if WTib.GetResourceAmount(self,"energy") >= Amount then
+		if self.dt.Energy >= Amount then
 			WTib.ConsumeResource("energy",Amount)
 			if !ValidEntity(self.Target) then
 				local Range = math.huge

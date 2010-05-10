@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Tiberium Chemicals Storage Medium"
+ENT.PrintName		= "Medium Chemical Storage "
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
@@ -19,7 +19,7 @@ WTib.Factory.AddObject({
 	PercentDelay = 0.04,
 	Information =	{
 						ENT.PrintName,
-						"\nStores 3000 units of Tiberium chemicals."
+						"\nStores up to 3000 units of Tiberium chemicals."
 					},
 	CreateEnt = function(factory,angles,pos,id)
 		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)

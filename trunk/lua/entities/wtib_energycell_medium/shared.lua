@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Energy Cell Medium"
+ENT.PrintName		= "Medium Energy Cell"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
@@ -19,7 +19,7 @@ WTib.Factory.AddObject({
 	PercentDelay = 0.03,
 	Information =	{
 						ENT.PrintName,
-						"\nDesigned for medium energy storage."
+						"\nStores up to 3000 units of Energy."
 					},
 	CreateEnt = function(factory,angles,pos,id)
 		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)

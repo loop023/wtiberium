@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Harvester Medium"
+ENT.PrintName		= "Medium Harvester"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
@@ -21,7 +21,7 @@ WTib.Factory.AddObject({
 	PercentDelay = 0.05,
 	Information =	{
 						ENT.PrintName,
-						"\nThis medium harvester harvests Tiberium in a moderate sized cone infront of it."
+						"\nUsed to harvest raw Tiberium from Tiberium crystals."
 					},
 	CreateEnt = function(factory,angles,pos,id)
 		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)

@@ -1,5 +1,5 @@
 ENT.Type			= "anim"
-ENT.PrintName		= "Power Generator Medium"
+ENT.PrintName		= "Medium Powerplant"
 ENT.Author			= "kevkev/Warrior xXx"
 ENT.Contact			= ""
 ENT.Purpose			= ""
@@ -21,7 +21,7 @@ WTib.Factory.AddObject({
 	PercentDelay = 0.70,
 	Information =	{
 						ENT.PrintName,
-						"\nGenerates enegery lololasdoslad."
+						"\nUses Tiberium chemicals to generate Energy. Can be fueled with Liquid Tiberium for an increased output."
 					},
 	CreateEnt = function(factory,angles,pos,id)
 		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)
