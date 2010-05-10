@@ -13,3 +13,23 @@ function ENT:SetupDataTables()
 	self:DTVar("Int",1,"RawTiberium")
 	self:DTVar("Bool",0,"Online")
 end
+
+WTib.Factory.AddObject({
+	Name = ENT.PrintName,
+	Class = WTib.GetClass(ENT),
+	Model = "models/Tiberium/tiberium_refinery.mdl",
+	PercentDelay = 0.8,
+	Information =	{
+						ENT.PrintName,
+						"\nThis factory converts refined Tiberium into Tiberium chemicals."
+					},
+	CreateEnt = function(factory,angles,pos,id)
+		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)
+		ent:SetPos(pos)
+		ent:SetAngles(angles)
+		ent:Spawn()
+		ent:Activate()
+		ent:SetModel(WTib.Factory.GetObjectByID(id).Model)
+		return ent
+	end
+})

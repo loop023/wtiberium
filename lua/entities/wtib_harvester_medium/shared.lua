@@ -16,18 +16,20 @@ end
 
 WTib.Factory.AddObject({
 	Name = ENT.PrintName,
+	Class = WTib.GetClass(ENT),
 	Model = "models/Tiberium/medium_harvester.mdl",
 	PercentDelay = 0.05,
 	Information =	{
-						"Medium harvester",
+						ENT.PrintName,
 						"\nThis medium harvester harvests Tiberium in a moderate sized cone infront of it."
 					},
 	CreateEnt = function(factory,angles,pos,id)
-		local ent = ents.Create("wtib_harvester_medium")
+		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)
 		ent:SetPos(pos)
 		ent:SetAngles(angles)
 		ent:Spawn()
 		ent:Activate()
 		ent:SetModel(WTib.Factory.GetObjectByID(id).Model)
+		return ent
 	end
 })

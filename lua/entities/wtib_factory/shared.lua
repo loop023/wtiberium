@@ -14,9 +14,3 @@ function ENT:SetupDataTables()
 	self:DTVar("Bool",0,"IsBuilding")
 	self:DTVar("Entity",0,"CurObject")
 end
-
-hook.Add("PhysgunPickup","WTib_Factory_CanPickupEnt",function(ply,ent)
-	if ent:GetClass() == "wtib_factory_object" then
-		return false
-	end
-end)

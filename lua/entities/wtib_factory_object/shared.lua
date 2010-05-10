@@ -8,7 +8,12 @@ ENT.Spawnable		= false
 ENT.AdminSpawnable	= false
 ENT.Category		= "Tiberium"
 
-
 function ENT:SetupDataTables()
 	self:DTVar("Entity",0,"Factory")
 end
+
+hook.Add("PhysgunPickup","WTib_Factory_CanPickupEnt_object",function(ply,ent)
+	if ent:GetClass() == "wtib_factory_object" then
+		return false
+	end
+end)

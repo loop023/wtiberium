@@ -31,7 +31,8 @@ function ENT:SetWarhead(int)
 	self.dt.Warhead = int
 end
 
-function ENT:Launch()
+function ENT:Launch(ply)
+	self.WDSO = ply
 	self.NoPhysicsPickup = true
 	constraint.RemoveAll(self)
 	self:SetParent(nil)

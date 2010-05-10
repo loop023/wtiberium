@@ -16,18 +16,20 @@ end
 
 WTib.Factory.AddObject({
 	Name = ENT.PrintName,
+	Class = WTib.GetClass(ENT),
 	Model = "models/Tiberium/chemical_plant.mdl",
 	PercentDelay = 0.15,
 	Information =	{
-						"Medium liquids plant",
+						ENT.PrintName,
 						"\nThis factory converts raw Tiberium into Tiberium liquids."
 					},
 	CreateEnt = function(factory,angles,pos,id)
-		local ent = ents.Create("wtib_liquidplant_medium")
+		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)
 		ent:SetPos(pos)
 		ent:SetAngles(angles)
 		ent:Spawn()
 		ent:Activate()
 		ent:SetModel(WTib.Factory.GetObjectByID(id).Model)
+		return ent
 	end
 })
