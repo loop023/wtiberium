@@ -52,7 +52,7 @@ end
 
 function ENT:LaunchMissile()
 	if ValidEntity(self.Missile) then
-		self.Missile:Launch()
+		self.Missile:Launch(self.WDSO)
 		self.Missile = nil
 	end
 end

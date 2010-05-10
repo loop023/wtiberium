@@ -13,3 +13,23 @@ function ENT:SetupDataTables()
 	self:DTVar("Bool",1,"HasTarget")
 	self:DTVar("Int",0,"Energy")
 end
+
+WTib.Factory.AddObject({
+	Name = ENT.PrintName,
+	Class = WTib.GetClass(ENT),
+	Model = "models/Tiberium/medium_tiberium_radar.mdl",
+	PercentDelay = 0.03,
+	Information =	{
+						ENT.PrintName,
+						"\nRadar."
+					},
+	CreateEnt = function(factory,angles,pos,id)
+		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)
+		ent:SetPos(pos)
+		ent:SetAngles(angles)
+		ent:Spawn()
+		ent:Activate()
+		ent:SetModel(WTib.Factory.GetObjectByID(id).Model)
+		return ent
+	end
+})

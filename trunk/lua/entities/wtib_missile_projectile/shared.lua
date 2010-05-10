@@ -47,3 +47,23 @@ ENT.Warheads[1] =	{
 							// Do nothing.
 						end
 					}
+
+WTib.Factory.AddObject({
+	Name = ENT.PrintName,
+	Class = WTib.GetClass(ENT),
+	Model = "models/Tiberium/tiberium_missile.mdl",
+	PercentDelay = 0.02,
+	Information =	{
+						ENT.PrintName,
+						"\nThis factory converts refined Tiberium into Tiberium chemicals."
+					},
+	CreateEnt = function(factory,angles,pos,id)
+		local ent = ents.Create(WTib.Factory.GetObjectByID(id).Class)
+		ent:SetPos(pos)
+		ent:SetAngles(angles)
+		ent:Spawn()
+		ent:Activate()
+		ent:SetModel(WTib.Factory.GetObjectByID(id).Model)
+		return ent
+	end
+})
