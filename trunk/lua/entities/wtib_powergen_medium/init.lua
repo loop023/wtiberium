@@ -32,21 +32,21 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Think()
-	self.dt.Chemicals = WTib.GetResourceAmount(self,"TiberiumChemicals")
+	self.dt.Chemicals = WTib.GetResourceAmount(self,"ChemicalTiberium")
 	if self.dt.Online and self.NextSupply <= CurTime() then
 		if self.dt.Chemicals >= 50 then
-			WTib.ConsumeResource("TiberiumChemicals",50)
+			WTib.ConsumeResource(self,"ChemicalTiberium",50)
 			WTib.SupplyResource(self,"energy",300)
 			if self.dt.Boosting and WTib.GetResourceAmount(self,"LiquidTiberium") >= 10 then
 				WTib.SupplyResource(self,"energy",500)
-				WTib.ConsumeResource("LiquidTiberium",10)
+				WTib.ConsumeResource(self,"LiquidTiberium",10)
 			end
 		else
 			self:TurnOff()
 		end
 		self.NextSupply = CurTime()+1
 	end
-	self.dt.Chemicals = WTib.GetResourceAmount(self,"TiberiumChemicals")
+	self.dt.Chemicals = WTib.GetResourceAmount(self,"ChemicalTiberium")
 	WTib.TriggerOutput(self,"Chemicals",self.dt.Chemicals)
 	WTib.TriggerOutput(self,"Boosting",tonumber(self.dt.Boosting))
 end
@@ -64,7 +64,6 @@ function ENT:Use(ply)
 end
 
 function ENT:TurnOn()
-	if WTib.GetResourceAmount(self,self:GetTypeString()) <= 1 then return end
 	if !self.dt.Online then
 		self:EmitSound("apc_engine_start")
 	end
