@@ -97,6 +97,7 @@ function ENT:DamageTouchingEntities()
 	dmginfo:SetDamageType(DMG_ACID)
 	dmginfo:SetDamage((self:GetCrystalSize()*8)+(self:GetTiberiumAmount()/100))
 	local Range = 50*self:GetCrystalSize()
+	if Range < 5 then Range = 5 end
 	for k,v in pairs(ents.FindInSphere(self:GetPos(),Range)) do
 		if (v:IsPlayer() and v:Alive()) or v:IsNPC() then
 			v:TakeDamageInfo(dmginfo)
