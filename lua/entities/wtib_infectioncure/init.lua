@@ -23,14 +23,10 @@ function ENT:SpawnFunction(p,t)
 end
 
 function ENT:Touch(ply)
-	self:Heal(ply)
+	self:Use(ply)
 end
 
 function ENT:Use(ply)
-	self:Heal(ply)
-end
-
-function ENT:Heal(ply)
 	if ply:IsPlayer() and (ply:Health() < ply:GetMaxHealth() or WTib.IsInfected(ply)) then
 		ply:SetHealth(math.Clamp(ply:Health()+20,1,ply:GetMaxHealth()))
 		WTib.Disenfect(ply)
