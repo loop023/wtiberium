@@ -2,6 +2,27 @@ include('shared.lua')
 
 function ENT:Draw()
 	self:DrawModel()
+	cam.Start3D2D(self:LocalToWorld(Vector(-8,-17,73.6)),self:LocalToWorldAngles(Angle(0,90,90)),0.25)
+		self:Draw3D2D()
+	cam.End3D2D()
+end
+
+function ENT:Draw3D2D()
+	// Black background
+	surface.SetDrawColor(0,0,0,255)
+	surface.DrawRect(0,0,136,100)
+
+	// The percentage completed
+	local Text = "Idle"
+	local Percent = 0
+	if ValidEntity(self.dt.Factory) then
+		Percent = self.dt.Factory.dt.PercentageComplete
+		if self.dt.Factory.dt.IsBuilding then
+			Text = "Working..."
+		end
+	end
+	draw.DrawText(Text,"Trebuchet18",1,4,Color(255,255,255,255),ALIGN_LEFT)
+	draw.DrawText("Completed : "..Percent.."%","Trebuchet18",1,20,Color(255,255,255,255),ALIGN_LEFT)
 end
 
 function ENT:Think()

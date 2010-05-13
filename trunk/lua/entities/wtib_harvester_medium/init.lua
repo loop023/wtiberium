@@ -7,6 +7,7 @@ WTib.ApplyDupeFunctions(ENT)
 util.PrecacheSound("apc_engine_start")
 util.PrecacheSound("apc_engine_stop")
 
+ENT.EffectEntities = {}
 ENT.NextHarvest = 0
 
 function ENT:Initialize()
@@ -33,10 +34,19 @@ end
 function ENT:Harvest()
 	local Energy = WTib.GetResourceAmount(self,"energy")
 	local SPos = self:GetPos()
-	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),250,10)) do
+	local Range = 250
+	for _,v in pairs(ents.FindInCone(self:GetPos(),self:GetUp(),Range,10)) do
 		if v.IsTiberium then
 			local Drain = math.Clamp(v:GetTiberiumAmount(),math.Clamp(v:GetTiberiumAmount(),1,20),math.Clamp(SPos:Distance(v:GetPos())/2,40,200))
 			if Energy > Drain then
+				if !table.HasValue(self.EffectEntities,v) then
+					local ed = EffectData()
+						ed:SetEntity(self)
+						ed:SetScale(v:EntIndex())
+						ed:SetMagnitude(Range)
+					util.Effect("wtib_harvestbeam",ed)
+					table.insert(self.EffectEntities,v)
+				end
 				WTib.ConsumeResource(self,"energy",Drain)
 				WTib.SupplyResource(self,"RawTiberium",Drain)
 				Energy = WTib.GetResourceAmount(self,"energy")
@@ -96,6 +106,7 @@ function ENT:TurnOff()
 	if self.dt.Online then
 		self:EmitSound("apc_engine_stop")
 	end
+	self.EffectEntities = {}
 	self.dt.Online = false
 	WTib.TriggerOutput(self,"Online",0)
 end
